@@ -6,11 +6,11 @@
 		The base functionality for a customer is:
 
 		- Create account		[*]
-		- Signin				[ ]
+		- Signin				[*]
 		- forgot password		[ ]
 		- Order					[ ]
 		- Add to favorites		[ ]
-		- Logout				[ ]
+		- Signout				[ ]
 		
 		Other functionality that the customer
 		does not have access to but the app needs
@@ -104,4 +104,10 @@ def signIn_account(request):
 		ret = json.dumps(request.session["account"]).replace("'", '"')
 
 		return HttpResponse(ret, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def signOut_account(request):
+	if(request.method == "GET"):
+		request.session["account"] = None
+		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)

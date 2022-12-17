@@ -20,10 +20,12 @@ from django.http import HttpResponse
 # Customer
 from customer.views import create_account
 from customer.views import signIn_account
+from customer.views import signOut_account
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path("customer/create/", create_account),
-    path("customer/signin/", signIn_account)
+    path("customer/signin/", signIn_account),
+    path("customer/signout", signOut_account),
 ]
