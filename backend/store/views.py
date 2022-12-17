@@ -68,3 +68,23 @@ def set_store_details(request):
 
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
+
+def create_product_category(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+		
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Add category
+		_store = query[0].store
+		_categories = _store.categories
+		_categories[len(_categories) - 1] = req["name"]
+
+		_store.categories = _categories
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)

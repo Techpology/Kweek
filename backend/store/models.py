@@ -8,5 +8,6 @@ class Store(models.Model):
 	phoneNumber = models.TextField(default="", null=False)
 
 	# Products relation
+	categories = {0: "Frozen", 1: "Canned", 2: "Vegetables"}
 	# Orders relation
 	# Forum relation
