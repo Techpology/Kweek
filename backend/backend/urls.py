@@ -17,10 +17,15 @@ from django.contrib import admin
 from django.urls import path
 from django.http import HttpResponse
 
-def t(request):
-    return HttpResponse("404. you're lost")
+# Customer
+from customer.views import create_account
+from customer.views import signIn_account
+from customer.views import signOut_account
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', t)
+
+    path("customer/create/", create_account),
+    path("customer/signin/", signIn_account),
+    path("customer/signout", signOut_account),
 ]
