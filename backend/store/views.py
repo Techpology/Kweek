@@ -28,3 +28,20 @@ import json
 
 # Models
 from store.models import Store
+from customer.models import Customer
+
+def get_store_details(request):
+	if(request.method == "GET"):
+		_email = request.session["account"]["email"]
+		_store = Customer.objects.filter(email=_email)[0].store
+
+		_details = {
+			"name": _store.name,
+			"email": _store.email,
+			"Address": _store.Address,
+			"phoneNumber": _store.phoneNumber
+		}
+		ret = json.dumps(_details).replace("'",'"')
+
+		return HttpResponse(ret, status=200)
+	return HttpResponse("Invalid request", status=409)

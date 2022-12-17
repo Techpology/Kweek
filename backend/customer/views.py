@@ -53,7 +53,8 @@ def create_account(request):
 			email = _email,
 			password = _enc_password,
 			city = _city,
-			region = _region
+			region = _region,
+			isStore = 0
 		).save()
 
 		# Session

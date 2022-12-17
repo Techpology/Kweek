@@ -1,6 +1,6 @@
 from django.db import models
 
-class Store(models.model):
+class Store(models.Model):
 	name = models.TextField(default="", null=False)
 	email = models.TextField(default="", null=False)
 

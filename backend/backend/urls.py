@@ -22,10 +22,15 @@ from customer.views import create_account
 from customer.views import signIn_account
 from customer.views import signOut_account
 
+# Store
+from store.views import get_store_details
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path("customer/create/", create_account),
     path("customer/signin/", signIn_account),
     path("customer/signout", signOut_account),
+
+    path("store/details", get_store_details),
 ]
