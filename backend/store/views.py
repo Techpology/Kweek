@@ -12,6 +12,8 @@
 		- Upload and manage forum posts			[ ]
 		- Create categories						[*]
 		- Get categories						[*]
+		- Delete categories						[*]
+		- Edit categories						[*]
 		- Create products						[ ]
 		- Get active orders						[ ]
 		- Get order history						[ ]
@@ -102,6 +104,53 @@ def create_product_category(request):
 		_categories = _store.categories
 		_categories[len(_categories) - 1] = req["name"]
 
-		_store.categories = _categories
+		_store.categories = json.dumps(_categories).replace("'",'"')
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def delete_product_category(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+		
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Update data
+		_store = query[0].store
+		_categories = _store.categories
+		del _categories[req["ind"]]
+		
+		temp = {}
+		for i in range(len(_categories)):
+			temp[i] = list(_categories.values())[i]
+		
+		print(temp)
+		_store.categories = json.dumps(temp).replace("'",'"')
+		_store.save()
+		
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def edit_product_category(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+		
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		_store = query[0].store
+		_categories = _store.categories
+		_categories[req["ind"]] = req["val"]
+
+		_store.categories = json.dumps(_categories).replace("'", '"')
+
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)

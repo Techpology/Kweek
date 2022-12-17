@@ -25,16 +25,25 @@ from customer.views import signOut_account
 # Store
 from store.views import get_store_details
 from store.views import set_store_details
+from store.views import get_store_categories
 from store.views import create_product_category
+from store.views import delete_product_category
+from store.views import edit_product_category
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
+    # Customer
     path("customer/create/", create_account),
     path("customer/signin/", signIn_account),
     path("customer/signout", signOut_account),
 
+    # Store
     path("store/details", get_store_details),
     path("store/set/details", set_store_details),
+
+    path("store/get/categories", get_store_categories),
     path("store/add/category", create_product_category),
+    path("store/delete/category", delete_product_category),
+    path("store/edit/category", edit_product_category),
 ]
