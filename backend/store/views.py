@@ -11,7 +11,7 @@
 		- Get store details						[*]
 		- Upload and manage forum posts			[ ]
 		- Create categories						[*]
-		- Get categories						[ ]
+		- Get categories						[*]
 		- Create products						[ ]
 		- Get active orders						[ ]
 		- Get order history						[ ]
