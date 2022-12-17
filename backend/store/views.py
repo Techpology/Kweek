@@ -7,8 +7,8 @@
 		The base functionality for a store is:
 
 		- Upload images for pfp and banner		[ ]
-		- Manage store details					[ ]
-		- Get store details						[ ]
+		- Manage store details					[*]
+		- Get store details						[*]
 		- Upload and manage forum posts			[ ]
 		- Create categories						[ ]
 		- Create products						[ ]
@@ -44,4 +44,27 @@ def get_store_details(request):
 		ret = json.dumps(_details).replace("'",'"')
 
 		return HttpResponse(ret, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def set_store_details(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+		
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+		
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Update data
+		_store = query[0].store
+
+		_store.name = str(req["name"])
+		_store.email = str(req["email"])
+		_store.Address = str(req["Address"])
+		_store.phoneNumber = str(req["phoneNumber"])
+		_store.save()
+
+		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
