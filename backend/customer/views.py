@@ -10,7 +10,7 @@
 		- forgot password		[ ]
 		- Order					[ ]
 		- Add to favorites		[ ]
-		- Signout				[ ]
+		- Signout				[*]
 		
 		Other functionality that the customer
 		does not have access to but the app needs

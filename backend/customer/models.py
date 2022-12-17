@@ -7,3 +7,6 @@ class Customer(models.Model):
 
 	city = models.TextField(default="", null=False)
 	region = models.TextField(default="", null=False)
+
+	# Store relation
+	isStore  = models.IntegerField(default=0, null=False)
