@@ -10,7 +10,8 @@
 		- Manage store details					[*]
 		- Get store details						[*]
 		- Upload and manage forum posts			[ ]
-		- Create categories						[ ]
+		- Create categories						[*]
+		- Get categories						[ ]
 		- Create products						[ ]
 		- Get active orders						[ ]
 		- Get order history						[ ]
@@ -67,6 +68,22 @@ def set_store_details(request):
 		_store.save()
 
 		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_store_categories(request):
+	if(request.method == "GET"):
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+		
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Get data
+		_store = query[0].store
+		ret = json.dumps(_store.categories).replace("'", '"')
+
+		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
 
 def create_product_category(request):
