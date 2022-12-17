@@ -94,11 +94,12 @@ def signIn_account(request):
 		
 		# Session
 		_session = {
-			"name": query[0].name,
-			"email": _email,
-			"city": query[0].city,
-			"region": query[0].region
-		}
+				"name": query[0].name,
+				"email": _email,
+				"city": query[0].city,
+				"region": query[0].region,
+				"store": query[0].isStore
+			}
 
 		request.session["account"] = _session
 		ret = json.dumps(request.session["account"]).replace("'", '"')
