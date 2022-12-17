@@ -1,4 +1,5 @@
 from django.db import models
+from store.models import Store
 
 class Customer(models.Model):
 	name = models.TextField(default="", null=False)
@@ -10,3 +11,4 @@ class Customer(models.Model):
 
 	# Store relation
 	isStore  = models.IntegerField(default=0, null=False)
+	store = models.ForeignKey(Store, on_delete=models.SET_NULL, blank=True, null=True)
