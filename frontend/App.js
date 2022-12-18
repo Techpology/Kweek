@@ -4,7 +4,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios, { Axios } from "axios"
 
-import Login from "./Src/Screens/Login";
+import Signin from "./Src/Screens/Signin";
+import Signup from "./Src/Screens/Signup";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,8 +14,9 @@ export default function App() {
 
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-				<Stack.Screen name="Login"	component={Login}/>
+			<Stack.Navigator initialRouteName="Signin" screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="Signin"	component={Signin}/>
+				<Stack.Screen name="Signup"	component={Signup}/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
