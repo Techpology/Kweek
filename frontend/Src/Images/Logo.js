@@ -7,8 +7,8 @@ const SvgComponent = (props) => (
   <Svg
     id="Layer_2"
     data-name="Layer 2"
-    width={200}
-    height={200}
+    width={props.width}
+    height={props.height}
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 281.04 119.98"
     {...props}

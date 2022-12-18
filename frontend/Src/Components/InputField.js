@@ -8,11 +8,11 @@ export default function InputField(props) {
 	return (
 		<View style={[t.flex, t.flexCol, t.wFull, t.pX16, props.style]}>
 			<Text style={[t.fontNormal, t.textXl]}>{props.title}</Text>
-			<TextInput 
+			<TextInput secureTextEntry={props.secure}
 				style={[t.wFull, t.bgWhite,
 				{
-					borderRadius: 8, 
-					height: 50, 
+					borderRadius: 8,
+					height: 50,
 					shadowColor: 'rgba(0, 0, 0, 0.1)',
 					shadowOffset: {width: 0, height: 2},
 					shadowRadius: 8,
