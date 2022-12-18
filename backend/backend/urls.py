@@ -21,6 +21,7 @@ from django.http import HttpResponse
 from customer.views import create_account
 from customer.views import signIn_account
 from customer.views import signOut_account
+from customer.views import getSession
 
 # Store
 from store.views import get_store_details
@@ -37,6 +38,7 @@ urlpatterns = [
     path("customer/create/", create_account),
     path("customer/signin/", signIn_account),
     path("customer/signout", signOut_account),
+    path("customer/get/session", getSession),
 
     # Store
     path("store/details", get_store_details),

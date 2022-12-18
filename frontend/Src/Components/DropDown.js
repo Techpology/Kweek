@@ -25,8 +25,8 @@ export default function DropDown(props) {
 				<TouchableOpacity onPress={()=>{setIsPopup(true); props.close(()=>{setIsPopup(false)}); props.index((e)=>{setIndex(e)}) }}
 					style={[t.wFull, t.bgWhite, t.itemsCenter, t.flex, t.flexRow, t.justifyBetween,
 					{
-						borderRadius: 8, 
-						height: 50, 
+						borderRadius: 8,
+						height: 50,
 						shadowColor: 'rgba(0, 0, 0, 0.1)',
 						shadowOffset: {width: 0, height: 2},
 						shadowRadius: 8,

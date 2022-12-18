@@ -6,18 +6,49 @@ import axios, { Axios } from "axios"
 
 import Signin from "./Src/Screens/Signin";
 import Signup from "./Src/Screens/Signup";
+import Home from "./Src/Screens/Home";
+import Account from "./Src/Screens/Account";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  axios.defaults.baseURL = 'http://192.168.1.190:8000/';
+	axios.defaults.baseURL = 'http://192.168.1.190:8000/';
+
+	const [session, setSession] = useState({})
+	const [issession, setIsSession] = useState(false)
+	const GetSession = () => {
+		axios.get("customer/get/session")
+		.then(resp=>{
+			console.log(resp.data)
+			setSession(resp.data)
+			setIsSession(true)
+		}).catch(err=>{
+			alert(err.message)
+		})
+	}
+
+	useEffect(()=>{
+		GetSession()
+	},[])
 
 	return (
 		<NavigationContainer>
-			<Stack.Navigator initialRouteName="Signin" screenOptions={{ headerShown: false }}>
-				<Stack.Screen name="Signin"	component={Signin}/>
-				<Stack.Screen name="Signup"	component={Signup}/>
-			</Stack.Navigator>
+			{(issession) ?
+				<Stack.Navigator initialRouteName={(issession) ? "Home" : "Signin"} screenOptions={{ headerShown: false }}>
+					<Stack.Screen  name="Home">
+						{(props) => <Home {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
+					<Stack.Screen  name="Signin">
+						{(props)=> <Signin {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
+					<Stack.Screen  name="Signup">
+						{(props)=> <Signup {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
+					<Stack.Screen  name="Account">
+						{(props)=> <Account {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
+				</Stack.Navigator> : <></>
+			}
 		</NavigationContainer>
 	);
 }
