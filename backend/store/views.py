@@ -31,6 +31,7 @@ import json
 
 # Models
 from store.models import Store
+from store.models import Product
 from customer.models import Customer
 
 def get_store_details(request):
@@ -152,5 +153,49 @@ def edit_product_category(request):
 
 		_store.categories = json.dumps(_categories).replace("'", '"')
 
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def create_product(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+		
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		_store = query[0].store
+
+		# Create product
+		_newProd = Product(
+			visible = req["visible"],
+			name = req["name"],
+			description = req["description"],
+			ean = req["ean"],
+			unit = req["unit"],
+			price = float(req["price"]),
+			store = _store
+		)
+		_newProd.save()
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_products(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+		
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		_store = query[0].store
+		_prods = Product.objects.filter(store=_store).all().values()
+		print(_prods)
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
