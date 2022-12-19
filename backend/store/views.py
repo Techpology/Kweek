@@ -14,7 +14,8 @@
 		- Get categories						[*]
 		- Delete categories						[*]
 		- Edit categories						[*]
-		- Create products						[ ]
+		- Create products						[*]
+		- Get products							[*]
 		- Get active orders						[ ]
 		- Get order history						[ ]
 		
@@ -196,6 +197,6 @@ def get_products(request):
 		
 		_store = query[0].store
 		_prods = Product.objects.filter(store=_store).all().values()
-		print(list(_prods))
-		return HttpResponse(status=200)
+		ret = json.dumps(list(_prods)).replace("'",'"')
+		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
