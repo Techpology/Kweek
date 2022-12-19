@@ -14,7 +14,8 @@
 		- Get categories						[*]
 		- Delete categories						[*]
 		- Edit categories						[*]
-		- Create products						[ ]
+		- Create products						[*]
+		- Get products							[*]
 		- Get active orders						[ ]
 		- Get order history						[ ]
 		
@@ -184,11 +185,11 @@ def create_product(request):
 	return HttpResponse("Invalid request", status=409)
 
 def get_products(request):
-	if(request.method == "POST"):
+	if(request.method == "GET"):
 		req = requestHandler.extractRequest(request)
 
 		# Verification
-		_email = request.session["account"]["email"]
+		_email = "test@test.test"
 		query = Customer.objects.filter(email=_email, isStore=1)
 		
 		if(len(query) == 0):
@@ -196,6 +197,6 @@ def get_products(request):
 		
 		_store = query[0].store
 		_prods = Product.objects.filter(store=_store).all().values()
-		print(_prods)
-		return HttpResponse(status=200)
+		ret = json.dumps(list(_prods)).replace("'",'"')
+		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
