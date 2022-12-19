@@ -184,11 +184,11 @@ def create_product(request):
 	return HttpResponse("Invalid request", status=409)
 
 def get_products(request):
-	if(request.method == "POST"):
+	if(request.method == "GET"):
 		req = requestHandler.extractRequest(request)
 
 		# Verification
-		_email = request.session["account"]["email"]
+		_email = "test@test.test"
 		query = Customer.objects.filter(email=_email, isStore=1)
 		
 		if(len(query) == 0):
@@ -196,6 +196,6 @@ def get_products(request):
 		
 		_store = query[0].store
 		_prods = Product.objects.filter(store=_store).all().values()
-		print(_prods)
+		print(list(_prods))
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
