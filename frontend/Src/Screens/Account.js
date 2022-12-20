@@ -50,7 +50,7 @@ export default function Account(props) {
 			</View>
 			{(props.session["store"] == 1) ? 
 				<View style={[t.flex, t.flexCol, t.itemsCenter, t.wFull, t.pX12, t.pT16]}>
-					<WideBtn inner="Manage Products" />
+					<WideBtn trigger={()=>{props.navigation.navigate("ManageProducts")}} inner="Manage Products" />
 					<WideBtn inner="Manage Page" />
 					<WideBtn inner="Orders" />
 				</View>

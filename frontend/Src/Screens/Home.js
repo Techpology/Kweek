@@ -3,6 +3,8 @@ import React, {useEffect, useState} from 'react'
 import { t } from "react-native-tailwindcss"
 import axios from 'axios'
 
+import WideImgBtn from '../Components/WideImgBtn'
+
 import Master from './Master'
 
 export default function Home(props) {
@@ -27,7 +29,11 @@ export default function Home(props) {
 		if(activeScreen == 0)
 		{
 			return(
-				<Text style={[t.text4xl]}>0</Text>
+				<View style={[t.pX8, {height: "75%"}]}>
+					<ScrollView>
+						<WideImgBtn img={"https://punjabgrossen.se/storage/90056518-xl1-20210120-540x600.jpg"} inner={"Can"}/>
+					</ScrollView>
+				</View>
 			)
 		}else if(activeScreen == 1)
 		{

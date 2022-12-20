@@ -11,7 +11,19 @@ import SqBtn from '../Components/SqBtn'
 export default function Master(props) {
   return (
 	<View style={[{backgroundColor: "#F8F8F8"}, t.wFull, t.hFull]}>
-		<View style={[t.absolute, t.wFull, t.hFull, t.z10]}>
+		
+		<View style={[t.flex, t.flexRow, t.justifyBetween, t.itemsCenter, t.wFull, t.mT8, t.pX8]}>
+			{(props.top) ?
+				<View style={[t.flex, t.flexRow, t.justifyBetween, t.itemsCenter, t.wFull]}>
+					<Logo width={100} height={100} />
+					<SqBtn trigger={()=>{props.sqTrigger()}} inner="A" />
+				</View>
+				:
+				props.topInner()
+			}
+		</View>
+
+		<View style={[t.absolute, t.bottom0, t.wFull, t.z10]}>
 			<TouchableOpacity style={[t.absolute, t.flex, t.itemsCenter, t.justifyCenter, t.bgWhite, t.p3, t.roundedFull, {bottom: 100}, t.z20, t.right0, t.mR4,
 			{
 				shadowColor: 'rgba(0, 0, 0, 0.4)',
@@ -21,16 +33,6 @@ export default function Master(props) {
 			}]}>
 				<Ionicons name="md-cart-outline" size={32} color="black" />
 			</TouchableOpacity>
-			<View style={[t.flex, t.flexRow, t.justifyBetween, t.itemsCenter, t.wFull, t.top0, t.mT8, t.pX8, t.absolute]}>
-				{(props.top) ?
-					<View style={[t.flex, t.flexRow, t.justifyBetween, t.itemsCenter, t.wFull]}>
-						<Logo width={100} height={100} />
-						<SqBtn trigger={()=>{props.sqTrigger()}} inner="A" />
-					</View>
-					:
-					props.topInner()
-				}
-			</View>
 			<View style={[t.itemsCenter, t.flex, t.flexRow, t.justifyCenter, t.wFull, t.bottom0, t.absolute, t.pX8, t.bgWhite,
 			{
 				shadowColor: 'rgba(0, 0, 0, 0.4)',
@@ -59,7 +61,7 @@ export default function Master(props) {
 				</View>
 			</View>
 		</View>
-		<View style={[t.wFull, t.hFull, t.pT32, t.z0]}>
+		<View style={[t.wFull, t.hFull, t.pT18, t.z0]}>
 			{props.children}
 		</View>
 	</View>

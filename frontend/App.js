@@ -9,6 +9,8 @@ import Signup from "./Src/Screens/Signup";
 import Home from "./Src/Screens/Home";
 import Account from "./Src/Screens/Account";
 
+import ManageProducts from "./Src/Screens/Store/ManageProducts";
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -16,6 +18,7 @@ export default function App() {
 
 	const [session, setSession] = useState({})
 	const [issession, setIsSession] = useState(false)
+
 	const GetSession = () => {
 		axios.get("customer/get/session")
 		.then(resp=>{
@@ -46,6 +49,10 @@ export default function App() {
 					</Stack.Screen>
 					<Stack.Screen  name="Account">
 						{(props)=> <Account {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
+					
+					<Stack.Screen  name="ManageProducts">
+						{(props)=> <ManageProducts {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 				</Stack.Navigator> : <></>
 			}
