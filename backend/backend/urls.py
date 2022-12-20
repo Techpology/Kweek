@@ -30,7 +30,9 @@ from store.views import get_store_categories
 from store.views import create_product_category
 from store.views import delete_product_category
 from store.views import edit_product_category
+
 from store.views import create_product
+from store.views import get_products
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -51,4 +53,5 @@ urlpatterns = [
     path("store/edit/category/", edit_product_category),
 
     path("store/set/product/", create_product),
+    path("store/get/products", get_products),
 ]
