@@ -19,8 +19,10 @@ export default function InputField(props) {
 					elevation: 4,
 					paddingHorizontal: 12,
 					fontSize: 16
-				}]} placeholder={props.placeholder} text={text}
-				onChangeText={(e)=>{setText(e); props.val(e)}} />
+				}, props._style]} placeholder={props.placeholder} text={text}
+				onChangeText={(e)=>{setText(e); props.val(e)}} 
+				multiline={props.multi} lines={(props.multi) ? props.lines : 0}
+				/>
 		</View>
 	)
 }

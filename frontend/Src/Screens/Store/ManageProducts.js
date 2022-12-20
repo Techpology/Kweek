@@ -32,7 +32,7 @@ export default function ManageProducts(props) {
 	const renderProds = () =>
 	{
 		const ret = products.map((i,key) => 
-			<WideImgBtn img={i["img"]} inner={i["name"]} />
+			<WideImgBtn key={key} img={i["img"]} inner={i["name"]} />
 		)
 		return (
 			<View>
@@ -50,7 +50,7 @@ export default function ManageProducts(props) {
 				<Text style={[t.text2xl, t.selfCenter]}>Add product</Text>
 				<View style={[t.flex, t.flexCol, t.itemsCenter, t.pT16]}>
 					<Btn trigger={()=>{}} inner="Scan EAN" style={[t.mB8]} />
-					<Btn trigger={()=>{}} inner="Manual" />
+					<Btn trigger={()=>{props.navigation.navigate("AddProduct")}} inner="Manual" />
 				</View>
 			</Popup> : <></>
 			}

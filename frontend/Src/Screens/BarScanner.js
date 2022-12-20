@@ -34,7 +34,7 @@ export default function BarScanner(props) {
 						if(!isScanned)
 						{
 							setIsScanned(true)
-							props.navigation.navigate("AddProduct", {_ean: e.data});
+							props.navigation.replace("AddProduct", {_ean: e.data});
 						}
 					}} />
 			</View>
