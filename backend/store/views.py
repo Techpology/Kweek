@@ -186,8 +186,6 @@ def create_product(request):
 
 def get_products(request):
 	if(request.method == "GET"):
-		req = requestHandler.extractRequest(request)
-
 		# Verification
 		_email = "test@test.test"
 		query = Customer.objects.filter(email=_email, isStore=1)

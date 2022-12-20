@@ -23,4 +23,5 @@ class Product(models.Model):
 	ean = models.TextField(default="", null=True)
 	unit = models.TextField(default="", null=False)
 	price = models.FloatField(default=0.0, null=False)
+	img = models.TextField(default="", null=False)
 	store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
