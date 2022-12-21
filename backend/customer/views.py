@@ -116,6 +116,7 @@ def signOut_account(request):
 
 def getSession(request):
 	if(request.method == "GET"):
+		if("account" not in request.session): return HttpResponse("0", status=200)
 		ret = json.dumps(request.session["account"]).replace("'",'"')
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)

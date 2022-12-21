@@ -19,12 +19,17 @@ export default function App() {
 	axios.defaults.baseURL = 'http://192.168.1.190:8000/';
 
 	const [session, setSession] = useState({})
+	const [showsession, setShowSession] = useState(false)
 	const [issession, setIsSession] = useState(false)
 
 	const GetSession = () => {
 		axios.get("customer/get/session")
 		.then(resp=>{
 			console.log(resp.data)
+			if(resp.data != "0")
+			{
+				setShowSession(true)
+			}
 			setSession(resp.data)
 			setIsSession(true)
 		}).catch(err=>{
@@ -34,33 +39,35 @@ export default function App() {
 
 	useEffect(()=>{
 		GetSession()
+		if (Text.defaultProps == null) Text.defaultProps = {};
+       	Text.defaultProps.allowFontScaling = false;
 	},[])
 
 	return (
 		<NavigationContainer>
 			{(issession) ?
-				<Stack.Navigator initialRouteName={(issession) ? "Home" : "Signin"} screenOptions={{ headerShown: false }}>
+				<Stack.Navigator initialRouteName={(showsession) ? "Home" : "Signin"} screenOptions={{ headerShown: false }}>
 					<Stack.Screen  name="Home">
-						{(props) => <Home {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props) => <Home {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="Signin">
-						{(props)=> <Signin {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props)=> <Signin {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="Signup">
-						{(props)=> <Signup {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props)=> <Signup {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="Account">
-						{(props)=> <Account {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props)=> <Account {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="BarScanner">
-						{(props)=> <BarScanner {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props)=> <BarScanner {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					
 					<Stack.Screen  name="ManageProducts">
-						{(props)=> <ManageProducts {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props)=> <ManageProducts {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="AddProduct">
-						{(props)=> <AddProduct {...props} isSession={issession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props)=> <AddProduct {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 				</Stack.Navigator> : <></>
 			}

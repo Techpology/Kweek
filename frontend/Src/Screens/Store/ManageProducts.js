@@ -12,14 +12,16 @@ import Btn from '../../Components/Btn';
 
 export default function ManageProducts(props) {
 
-	const [products, setProducts] = useState(null)
+	const [products, setProducts] = useState([])
+	const [showProducts, setShowProducts] = useState(false)
 
 	const getProducts = () =>
 	{
 		axios.get("store/get/products")
 		.then(resp=>{
-			console.log(resp.data)
 			setProducts(resp.data);
+			console.log(axios.defaults.baseURL + resp.data[0].img)
+			setShowProducts(true)
 		}).catch(err=>{
 			alert(err.message)
 		})
@@ -32,7 +34,9 @@ export default function ManageProducts(props) {
 	const renderProds = () =>
 	{
 		const ret = products.map((i,key) => 
-			<WideImgBtn key={key} img={i["img"]} inner={i["name"]} />
+			<View>
+				<WideImgBtn key={key} img={axios.defaults.baseURL + i["img"]} inner={i["name"]} />
+			</View>
 		)
 		return (
 			<View>
@@ -71,7 +75,7 @@ export default function ManageProducts(props) {
 				<Search placeholder="search" />
 			</View>
 			<ScrollView style={[t.pX4, t.pT4]}>
-				{(products != null) ? renderProds() : <></>}
+				{(showProducts) && renderProds()}
 			</ScrollView>
 
 			<View style={[t.absolute, t.flex, t.flexRowReverse, t.wFull, t.itemsCenter, t.mB12, t.bottom0]}>

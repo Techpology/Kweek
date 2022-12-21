@@ -40,16 +40,16 @@ export default function Account(props) {
 					<FontAwesome name="angle-left" size={32} color="black" />
 				</TouchableOpacity>
 			</View>
-			<View style={[t.mT32, t.itemsCenter, t.flexCol, t.flex]}>
-				<SqBtn inner={"A"} style={[{width:180, height: 180}]} textStyle={[t.text5xl]} trigger={()=>{}} />
+			<View style={[t.mT24, t.itemsCenter, t.flexCol, t.flex]}>
+				<SqBtn inner={"A"} style={[{width:120, height: 120}]} textStyle={[t.text5xl]} trigger={()=>{}} />
 				{(props.session["store"] == 1) ?
 					<TouchableOpacity onPress={()=>{}}>
-						<Text style={[t.textLg, {color: "#0088B2"}, t.mT2]}>Go to store</Text>
+						<Text style={[{color: "#0088B2"}, t.mT2]}>Go to store</Text>
 					</TouchableOpacity> : <></>
 				}
 			</View>
 			{(props.session["store"] == 1) ? 
-				<View style={[t.flex, t.flexCol, t.itemsCenter, t.wFull, t.pX12, t.pT16]}>
+				<View style={[t.flex, t.flexCol, t.itemsCenter, t.wFull, t.pX8, t.pT8]}>
 					<WideBtn trigger={()=>{props.navigation.navigate("ManageProducts")}} inner="Manage Products" />
 					<WideBtn inner="Manage Page" />
 					<WideBtn inner="Orders" />

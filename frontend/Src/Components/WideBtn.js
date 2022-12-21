@@ -5,7 +5,7 @@ import axios from 'axios'
 
 export default function WideBtn(props) {
   return (
-	<TouchableOpacity onPress={()=>{props.trigger()}} style={[t.wFull, {height: 60}, t.bgWhite, 
+	<TouchableOpacity onPress={()=>{props.trigger()}} style={[t.wFull, {height: 50}, t.bgWhite, 
 	{
 		shadowColor: 'rgba(0, 0, 0, 0.1)',
 		shadowOffset: {width: 0, height: 2},
