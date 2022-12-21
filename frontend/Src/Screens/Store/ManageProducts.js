@@ -12,7 +12,7 @@ import Btn from '../../Components/Btn';
 
 export default function ManageProducts(props) {
 
-	const [products, setProducts] = useState([])
+	const [products, setProducts] = useState(null)
 
 	const getProducts = () =>
 	{
@@ -71,7 +71,7 @@ export default function ManageProducts(props) {
 				<Search placeholder="search" />
 			</View>
 			<ScrollView style={[t.pX4, t.pT4]}>
-				{renderProds()}
+				{(products != null) ? renderProds() : <></>}
 			</ScrollView>
 
 			<View style={[t.absolute, t.flex, t.flexRowReverse, t.wFull, t.itemsCenter, t.mB12, t.bottom0]}>

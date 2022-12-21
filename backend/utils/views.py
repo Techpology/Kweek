@@ -22,6 +22,6 @@ class imageHandler:
             os.makedirs(f"media/{path}")
         
         with open(f"media/{path}/{file}", "wb") as f:
-            f.write(data)
+            f.write(base64.b64decode(data))
         
         return f"media/{path}/{file}"

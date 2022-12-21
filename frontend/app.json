@@ -1,6 +1,14 @@
 {
   "expo": {
     "name": "frontend",
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ],
     "slug": "frontend",
     "version": "1.0.0",
     "orientation": "portrait",

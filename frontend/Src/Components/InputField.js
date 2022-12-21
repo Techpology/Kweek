@@ -9,6 +9,7 @@ export default function InputField(props) {
 		<View style={[t.flex, t.flexCol, t.wFull, t.pX16, props.style]}>
 			<Text style={[t.fontNormal, t.textXl]}>{props.title}</Text>
 			<TextInput secureTextEntry={props.secure}
+				keyboardType={props.type}
 				style={[t.wFull, t.bgWhite,
 				{
 					borderRadius: 8,
@@ -21,7 +22,7 @@ export default function InputField(props) {
 					fontSize: 16
 				}, props._style]} placeholder={props.placeholder} text={text}
 				onChangeText={(e)=>{setText(e); props.val(e)}} 
-				multiline={props.multi} lines={(props.multi) ? props.lines : 0}
+				multiline={true} numberOfLines={(props.multi) ? props.lines : 0}
 				/>
 		</View>
 	)

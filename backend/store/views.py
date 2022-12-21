@@ -28,6 +28,7 @@
 # Functions/Classes
 from django.http import HttpResponse
 from utils.views import requestHandler
+from utils.views import imageHandler
 import json
 
 # Models
@@ -180,6 +181,11 @@ def create_product(request):
 			price = float(req["price"]),
 			store = _store
 		)
+		
+		print(str(Product.objects.last().id + 1) + '.' + req["ext"])
+		imageHandler.storeImage(req["img"], str(_store.id), str(Product.objects.last().id + 1) + '.' + req["ext"])
+		_newProd.img = f"media/{str(_store.id)}/{str(Product.objects.last().id + 1) + '.' + req['ext']}"
+
 		_newProd.save()
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
@@ -196,5 +202,6 @@ def get_products(request):
 		_store = query[0].store
 		_prods = Product.objects.filter(store=_store).all().values()
 		ret = json.dumps(list(_prods)).replace("'",'"')
+		print(ret)
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
