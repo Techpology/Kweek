@@ -14,13 +14,13 @@ import Popup from '../../Components/Popup';
 import DropDown from '../../Components/DropDown';
 import Btn from '../../Components/Btn';
 
-export default function AddProduct(props) {
+export default function EditProduct(props) {
 
-	const { _ean } = props.route.params;
+	const { _prod } = props.route.params;
 
 	const [isPopup, setIsPopup] = useState(false)
 	const [categories, setCategories] = useState([])
-	const [selectedCategories, setSelectedCategories] = useState(0)
+	const [selectedCategories, setSelectedCategories] = useState(parseInt(_prod["category"]))
 
 	const getCategories = () =>
 	{
@@ -38,7 +38,7 @@ export default function AddProduct(props) {
 		console.log(categories)
 		console.log(categories.length)
 		const ret = categories.map((i, key)=>
-			<TouchableOpacity style={[t.wFull, t.pY2, t.pX4, t.mT4]} onPress={()=>{setSelectedCategories(key); setIsPopup(false)}}>
+			<TouchableOpacity style={[t.wFull, t.pY2, t.pX4, t.mT4]} onPress={()=>{setSelectedCategories(key); console.log(key); setIsPopup(false)}}>
 				<Text style={[t.textXl]}>{i}</Text>
 			</TouchableOpacity>
 		)
@@ -50,21 +50,20 @@ export default function AddProduct(props) {
 	}
 
 	useEffect(()=>{
-		setEAN(_ean)
 		getCategories();
-		alert(ean)
+		console.log(_prod)
 	},[])
 
-	const [vis, setVis] = useState(1)
+	const [vis, setVis] = useState(_prod["visible"])
+	const [imgPath, setImgPath] = useState(_prod["img"])
 	const [img, setImg] = useState(null)
-	const [imgPath, setImgPath] = useState(null)
 	const [imgExt, setImgExt] = useState(null)
-	const [name, setName] = useState("")
-	const [category, setCategory] = useState(0)
-	const [ean, setEAN] = useState(_ean)
-	const [description, setDescription] = useState("")
-	const [unit, setUnit] = useState(0)
-	const [price, setPrice] = useState(0)
+	const [name, setName] = useState(_prod["name"])
+	const [category, setCategory] = useState(_prod["category"])
+	const [ean, setEAN] = useState(_prod["ean"])
+	const [description, setDescription] = useState(_prod["description"])
+	const [unit, setUnit] = useState(_prod["unit"])
+	const [price, setPrice] = useState(_prod["price"])
 
 	const pickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
@@ -84,9 +83,10 @@ export default function AddProduct(props) {
 		}
 	};
 
-	const createProduct = () =>
+	const editProduct = () =>
 	{
-		axios.post("store/set/product/",{
+		axios.post("store/edit/product/",{
+			"id": _prod["id"],
 			"visible": vis,
 			"name": name,
 			"category": selectedCategories,
@@ -131,7 +131,7 @@ export default function AddProduct(props) {
 				<ScrollView>
 					<View style={[t.flex, t.flexCol, t.itemsCenter, t.pT32]}>
 						<TouchableOpacity onPress={()=>{pickImage()}} style={[{backgroundColor: "#D9D9D980", height: 180, width: "85%"}, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
-							<ImageBackground source={{uri: imgPath}} style={[t.wFull, t.hFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
+							<ImageBackground source={{uri: axios.defaults.baseURL + imgPath}} style={[t.wFull, t.hFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
 								<Text style={[t.textXl, {color: "#00000080"}]}>Select image</Text>
 							</ImageBackground>
 						</TouchableOpacity>
@@ -177,9 +177,9 @@ export default function AddProduct(props) {
 							</View>
 						</View>
 
-						<InputField val={(e)=>{setName(e)}} title="Name" placeholder="name" style={[t.mT8]} lines={1}/>
+						<InputField _text={name} val={(e)=>{setName(e)}} title="Name" placeholder="name" style={[t.mT8]} lines={1}/>
 						<InputField _text={ean} val={(e)=>{setEAN(e)}} title="EAN" placeholder="0000000000000" style={[t.mT8]} lines={1}/>
-						<InputField val={(e)=>{setDescription(e)}} title="Description" placeholder="description" style={[t.mT8]} _style={[t.h32]} lines={8}/>
+						<InputField _text={description} val={(e)=>{setDescription(e)}} title="Description" placeholder="description" style={[t.mT8]} _style={[t.h32]} lines={8}/>
 						<Text style={[t.fontNormal, t.textXl, t.mT4, t.mB2]}>Unit</Text>
 						
 						<View style={[t.w4_5, t.h12, t.flex, t.flexRow, t.itemsCenter]}>
@@ -203,8 +203,8 @@ export default function AddProduct(props) {
 							</TouchableOpacity>
 						</View>
 
-						<InputField type="numeric" title="Price" placeholder="0.00" style={[t.mT8]} val={(e)=>{setPrice(e)}} lines={1}/>
-						<Btn inner="Done" style={[t.mY12]} trigger={()=>{createProduct()}} />
+						<InputField _text={price.toString()} type="numeric" title="Price" placeholder="0.00" style={[t.mT8]} val={(e)=>{setPrice(e)}} lines={1}/>
+						<Btn inner="Done" style={[t.mY12]} trigger={()=>{editProduct()}} />
 					</View>
 				</ScrollView>
 			</View>

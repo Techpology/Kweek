@@ -1,9 +1,11 @@
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import React, {useEffect, useState} from 'react'
+import { useFocusEffect } from '@react-navigation/native' 
 import { t } from "react-native-tailwindcss"
 import axios from 'axios'
 import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
+import { Feather } from '@expo/vector-icons'; 
 
 import WideImgBtn from '../../Components/WideImgBtn'
 import Search from '../../Components/Search';
@@ -19,12 +21,42 @@ export default function ManageProducts(props) {
 	{
 		axios.get("store/get/products")
 		.then(resp=>{
-			setProducts(resp.data);
-			console.log(axios.defaults.baseURL + resp.data[0].img)
-			setShowProducts(true)
+			if(resp.data.length != 0)
+			{
+				setProducts(resp.data);
+				setShowProducts(true)
+			}
 		}).catch(err=>{
 			alert(err.message)
 		})
+	}
+
+	const delProduct = () =>
+	{
+		axios.post("store/del/product/",{"id": delKey})
+		.then(resp=>{
+			console.log(resp.data);
+			setIsDelPopup(false)
+		}).catch(err=>{
+			alert(err.message);
+		})
+		getProducts()
+	}
+
+	const [isDelPopup, setIsDelPopup] = useState(false)
+	const [delKey, setDelKey] = useState(-1)
+	const delPopup = () =>
+	{
+		return(
+			<Popup pressOut={()=>{setIsDelPopup(false);}}>
+				<Text style={[t.text2xl, t.selfCenter, t.textCenter]}>Are you sure you want to delete this product?</Text>
+				<Text style={[t.selfCenter, t.textCenter, t.mT2]}>You will not be able to retrieve this product.</Text>
+				<View style={[t.flex, t.flexRow, t.itemsCenter, t.pT16, t.justifyBetween, t.pX8]}>
+					<Btn trigger={()=>{delProduct()}} inner="Yes" style={[t.mB8]} />
+					<Btn trigger={()=>{setIsDelPopup(false)}} inner="No" style={[t.mB8]} />
+				</View>
+			</Popup>
+		)
 	}
 
 	useEffect(()=>{
@@ -33,28 +65,37 @@ export default function ManageProducts(props) {
 
 	const renderProds = () =>
 	{
-		const ret = products.map((i,key) => 
-			<View>
-				<WideImgBtn key={key} img={axios.defaults.baseURL + i["img"]} inner={i["name"]} />
-			</View>
-		)
-		return (
-			<View>
-				{ret}
-			</View>
-		)
+		if(products.length != 0)
+		{
+			const ret = products.map((i,key) => 
+				<View key={key}>
+					<WideImgBtn trigger={()=>{props.navigation.navigate("EditProduct", {_prod: i})}}
+					controls={true} img={axios.defaults.baseURL + i["img"]} inner={i["name"]} closePress={()=>{setDelKey(i["id"]); setIsDelPopup(true)}} />
+				</View>
+			)
+			return (
+				<View>
+					{ret}
+				</View>
+			)
+		}
 	}
 
 	const [isPop, setIsPop] = useState(false)
 
 	return (
 		<View style={[t.wFull, t.hFull]}>
+			{(isDelPopup) ?
+				delPopup()
+				:
+				<></>
+			}
 			{(isPop) ?
 			<Popup pressOut={()=>{setIsPop(false)}} >
 				<Text style={[t.text2xl, t.selfCenter]}>Add product</Text>
 				<View style={[t.flex, t.flexCol, t.itemsCenter, t.pT16]}>
-					<Btn trigger={()=>{}} inner="Scan EAN" style={[t.mB8]} />
-					<Btn trigger={()=>{props.navigation.navigate("AddProduct")}} inner="Manual" />
+					<Btn trigger={()=>{props.navigation.navigate("BarScanner")}} inner="Scan EAN" style={[t.mB8]} />
+					<Btn trigger={()=>{props.navigation.navigate("AddProduct", {_ean: ""})}} inner="Manual" />
 				</View>
 			</Popup> : <></>
 			}
@@ -65,8 +106,8 @@ export default function ManageProducts(props) {
 					shadowOffset: {width: 0, height: 2},
 					shadowRadius: 8,
 					elevation: 5,
-					height: 50,
-					width: 50
+					height: 40,
+					width: 40
 				}]}>
 					<FontAwesome name="angle-left" size={32} color="black" />
 				</TouchableOpacity>
@@ -78,6 +119,19 @@ export default function ManageProducts(props) {
 				{(showProducts) && renderProds()}
 			</ScrollView>
 
+			<View style={[t.absolute, t.flex, t.flexRowReverse, t.wFull, t.itemsCenter, t.mB32, t.bottom0]}>
+				<TouchableOpacity onPress={()=>{getProducts()}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter, t.mR8,
+				{
+					shadowColor: 'rgba(0, 0, 0, 0.4)',
+					shadowOffset: {width: 0, height: 2},
+					shadowRadius: 8,
+					elevation: 5,
+					height: 50,
+					width: 50
+				}]}>
+					<Feather name="refresh-cw" size={28} color="black" />
+				</TouchableOpacity>
+			</View>
 			<View style={[t.absolute, t.flex, t.flexRowReverse, t.wFull, t.itemsCenter, t.mB12, t.bottom0]}>
 				<TouchableOpacity onPress={()=>{setIsPop(true)}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter, t.mR8,
 				{
@@ -85,8 +139,8 @@ export default function ManageProducts(props) {
 					shadowOffset: {width: 0, height: 2},
 					shadowRadius: 8,
 					elevation: 5,
-					height: 60,
-					width: 60
+					height: 50,
+					width: 50
 				}]}>
 					<AntDesign name="plus" size={32} color="black" />
 				</TouchableOpacity>

@@ -86,7 +86,8 @@ def get_store_categories(request):
 		
 		# Get data
 		_store = query[0].store
-		ret = json.dumps(_store.categories).replace("'", '"')
+		ret = json.dumps(list(json.loads(_store.categories).values()))
+		print(ret)
 
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
@@ -178,13 +179,20 @@ def create_product(request):
 			description = req["description"],
 			ean = req["ean"],
 			unit = req["unit"],
+			category = req["category"],
 			price = float(req["price"]),
 			store = _store
 		)
 		
-		print(str(Product.objects.last().id + 1) + '.' + req["ext"])
-		imageHandler.storeImage(req["img"], str(_store.id), str(Product.objects.last().id + 1) + '.' + req["ext"])
-		_newProd.img = f"media/{str(_store.id)}/{str(Product.objects.last().id + 1) + '.' + req['ext']}"
+		if(req["img"] != None):
+			if(len(Product.objects.values_list()) != 0):
+				_n = str(Product.objects.last().id + 1)
+				print(_n + '.' + req["ext"])
+			else:
+				_n = "0"
+				print(_n + '.' + req["ext"])
+			imageHandler.storeImage(req["img"], str(_store.id), _n + '.' + req["ext"])
+			_newProd.img = f"media/{str(_store.id)}/{_n + '.' + req['ext']}"
 
 		_newProd.save()
 		return HttpResponse(status=200)
@@ -193,7 +201,7 @@ def create_product(request):
 def get_products(request):
 	if(request.method == "GET"):
 		# Verification
-		_email = "test@test.test"
+		_email = request.session["account"]["email"]
 		query = Customer.objects.filter(email=_email, isStore=1)
 		
 		if(len(query) == 0):
@@ -204,4 +212,53 @@ def get_products(request):
 		ret = json.dumps(list(_prods))
 		print(ret)
 		return HttpResponse(ret, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def del_product(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+		
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		_store = query[0].store
+		Product.objects.filter(store=_store, id=req["id"]).delete()
+
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def edit_product(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+
+		_store = query[0].store
+		_id = req["id"]
+		
+		_prod = Product.objects.filter(id=_id, store=_store)[0]
+		_prod.visible = req["visible"]
+		_prod.name = req["name"]
+		_prod.description = req["description"]
+		_prod.ean = req["ean"]
+		_prod.unit = req["unit"]
+		_prod.price = float(req["price"])
+		_prod.category = int(req["category"])
+
+		if(req["img"] != None):
+			imageHandler.storeImage(req["img"], str(_store.id), str(_id) + '.' + req["ext"])
+			_prod.img = "media/" + str(_store.id) + '/' + str(_id) + '.' + req["ext"]
+
+		_prod.save()
+
+		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)

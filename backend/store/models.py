@@ -19,6 +19,7 @@ class Store(models.Model):
 class Product(models.Model):
 	visible = models.IntegerField(default=0, null=False)
 	name = models.TextField(default="", null=False)
+	category = models.IntegerField(default=0, null=False)
 	description = models.TextField(default="", null=False)
 	ean = models.TextField(default="", null=True)
 	unit = models.TextField(default="", null=False)

@@ -8,10 +8,11 @@ import Signin from "./Src/Screens/Signin";
 import Signup from "./Src/Screens/Signup";
 import Home from "./Src/Screens/Home";
 import Account from "./Src/Screens/Account";
-import BarScanner from "./Src/Screens/BarScanner";
 
 import ManageProducts from "./Src/Screens/Store/ManageProducts";
+import BarScanner from "./Src/Screens/BarScanner";
 import AddProduct from "./Src/Screens/Store/AddProduct";
+import EditProduct from "./Src/Screens/Store/EditProduct";
 
 const Stack = createNativeStackNavigator();
 
@@ -40,7 +41,7 @@ export default function App() {
 	useEffect(()=>{
 		GetSession()
 		if (Text.defaultProps == null) Text.defaultProps = {};
-       	Text.defaultProps.allowFontScaling = false;
+		Text.defaultProps.allowFontScaling = false;
 	},[])
 
 	return (
@@ -59,15 +60,18 @@ export default function App() {
 					<Stack.Screen  name="Account">
 						{(props)=> <Account {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
-					<Stack.Screen  name="BarScanner">
-						{(props)=> <BarScanner {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
-					</Stack.Screen>
 					
 					<Stack.Screen  name="ManageProducts">
 						{(props)=> <ManageProducts {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
+					<Stack.Screen  name="BarScanner">
+						{(props)=> <BarScanner {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
 					<Stack.Screen  name="AddProduct">
 						{(props)=> <AddProduct {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
+					<Stack.Screen  name="EditProduct">
+						{(props)=> <EditProduct {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 				</Stack.Navigator> : <></>
 			}

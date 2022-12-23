@@ -35,6 +35,8 @@ from store.views import edit_product_category
 
 from store.views import create_product
 from store.views import get_products
+from store.views import del_product
+from store.views import edit_product
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -56,4 +58,6 @@ urlpatterns = [
 
     path("store/set/product/", create_product),
     path("store/get/products", get_products),
+    path("store/del/product/", del_product),
+    path("store/edit/product/", edit_product),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,7 +4,7 @@ import { t } from "react-native-tailwindcss"
 
 export default function InputField(props) {
 
-	const [text, setText] = useState("")
+	const [text, setText] = useState(props._text)
 	return (
 		<View style={[t.flex, t.flexCol, t.wFull, t.pX16, props.style]}>
 			<Text style={[t.fontNormal, t.textXl]}>{props.title}</Text>
@@ -20,10 +20,10 @@ export default function InputField(props) {
 					elevation: 4,
 					paddingHorizontal: 12,
 					fontSize: 16
-				}, props._style]} placeholder={props.placeholder} text={text}
+				}, props._style]} placeholder={props.placeholder} value={text}
 				onChangeText={(e)=>{setText(e); props.val(e)}} 
 				multiline={true} numberOfLines={(props.multi) ? props.lines : 0}
-				/>
+			/>
 		</View>
 	)
 }
