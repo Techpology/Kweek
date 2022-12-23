@@ -130,13 +130,13 @@ export default function EditProduct(props) {
 				</View>
 				<ScrollView>
 					<View style={[t.flex, t.flexCol, t.itemsCenter, t.pT32]}>
-						<TouchableOpacity onPress={()=>{pickImage()}} style={[{backgroundColor: "#D9D9D980", height: 180, width: "85%"}, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
+						<TouchableOpacity onPress={()=>{pickImage()}} style={[{backgroundColor: "#D9D9D980", width: "85%"}, t.h40, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
 							<ImageBackground source={{uri: axios.defaults.baseURL + imgPath}} style={[t.wFull, t.hFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
 								<Text style={[t.textXl, {color: "#00000080"}]}>Select image</Text>
 							</ImageBackground>
 						</TouchableOpacity>
 
-						<View style={[t.w4_5, t.h12, t.flex, t.flexRow, t.itemsCenter, t.mT4]}>
+						<View style={[t.w4_5, t.h10, t.flex, t.flexRow, t.itemsCenter, t.mT4]}>
 							<TouchableOpacity style={[t.w1_2, (vis == 1) ? {backgroundColor: "#55D967"} : t.bgWhite, t.roundedLFull, t.hFull,
 							{
 								shadowColor: 'rgba(0, 0, 0, 0.1)',
@@ -144,7 +144,7 @@ export default function EditProduct(props) {
 								shadowRadius: 8,
 								elevation: 5,
 							}, t.itemsCenter, t.justifyCenter]} onPress={()=>{setVis(1)}}>
-								<Text style={[(vis == 1) ? t.textWhite: t.textBlack, t.textXl]}>Show in store</Text>
+								<Text style={[(vis == 1) ? t.textWhite: t.textBlack]}>Show in store</Text>
 							</TouchableOpacity>
 							<TouchableOpacity style={[t.w1_2, (vis == 0) ? {backgroundColor: "#55D967"} : t.bgWhite, t.roundedRFull, t.hFull,
 							{
@@ -153,13 +153,13 @@ export default function EditProduct(props) {
 								shadowRadius: 8,
 								elevation: 5,
 							}, t.itemsCenter, t.justifyCenter]} onPress={()=>{setVis(0)}}>
-								<Text style={[(vis == 0) ? t.textWhite: t.textBlack, t.textXl]}>Hide in store</Text>
+								<Text style={[(vis == 0) ? t.textWhite: t.textBlack]}>Hide in store</Text>
 							</TouchableOpacity>
 						</View>
 
 						<View style={[t.wFull]}>
-							<View style={[t.flex, t.flexCol, t.wFull, t.pX16, t.mT6]}>
-								<Text style={[t.fontNormal, t.textXl]}>Category</Text>
+							<View style={[t.flex, t.flexCol, t.wFull, t.pX10, t.mT6]}>
+								<Text style={[t.fontNormal]}>Category</Text>
 								<TouchableOpacity onPress={()=>{setIsPopup(true);}}
 									style={[t.wFull, t.bgWhite, t.itemsCenter, t.flex, t.flexRow, t.justifyBetween,
 									{
@@ -171,7 +171,7 @@ export default function EditProduct(props) {
 										elevation: 4,
 										paddingHorizontal: 12,
 									}, t.pX4]}>
-										{(categories.length != 0) ? <Text style={[{fontSize: 16}]}>{categories[selectedCategories]}</Text> : <></>}
+										{(categories.length != 0) ? <Text style={[{fontSize: 14}]}>{categories[selectedCategories]}</Text> : <></>}
 										<Entypo name="chevron-thin-down" size={24} color="black" />
 								</TouchableOpacity>
 							</View>
@@ -182,7 +182,7 @@ export default function EditProduct(props) {
 						<InputField _text={description} val={(e)=>{setDescription(e)}} title="Description" placeholder="description" style={[t.mT8]} _style={[t.h32]} lines={8}/>
 						<Text style={[t.fontNormal, t.textXl, t.mT4, t.mB2]}>Unit</Text>
 						
-						<View style={[t.w4_5, t.h12, t.flex, t.flexRow, t.itemsCenter]}>
+						<View style={[t.w4_5, t.h10, t.flex, t.flexRow, t.itemsCenter, t.mT4]}>
 							<TouchableOpacity style={[t.w1_2, (unit == 0) ? {backgroundColor: "#55D967"} : t.bgWhite, t.roundedLFull, t.hFull,
 							{
 								shadowColor: 'rgba(0, 0, 0, 0.1)',
@@ -190,7 +190,7 @@ export default function EditProduct(props) {
 								shadowRadius: 8,
 								elevation: 5,
 							}, t.itemsCenter, t.justifyCenter]} onPress={()=>{setUnit(0)}}>
-								<Text style={[(unit == 0) ? t.textWhite: t.textBlack, t.textXl]}>St</Text>
+								<Text style={[(unit == 0) ? t.textWhite: t.textBlack]}>St</Text>
 							</TouchableOpacity>
 							<TouchableOpacity style={[t.w1_2, (unit == 1) ? {backgroundColor: "#55D967"} : t.bgWhite, t.roundedRFull, t.hFull,
 							{
@@ -199,7 +199,7 @@ export default function EditProduct(props) {
 								shadowRadius: 8,
 								elevation: 5,
 							}, t.itemsCenter, t.justifyCenter]} onPress={()=>{setUnit(1)}}>
-								<Text style={[(unit == 1) ? t.textWhite: t.textBlack, t.textXl]}>Kg</Text>
+								<Text style={[(unit == 1) ? t.textWhite: t.textBlack]}>Kg</Text>
 							</TouchableOpacity>
 						</View>
 

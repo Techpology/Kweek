@@ -4,6 +4,8 @@ import json
 class Store(models.Model):
 	name = models.TextField(default="", null=False)
 	email = models.TextField(default="", null=False)
+	pfp = models.TextField(default="", null=False)
+	banner = models.TextField(default="", null=False)
 
 	Address = models.TextField(default="", null=False)
 	phoneNumber = models.TextField(default="", null=False)

@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 export default function Search(props) {
 	const [text, setText] = useState("")
 	return (
-		<View style={[t.flex, t.flexCol, t.wFull, t.pX16, props.style]}>
+		<View style={[t.flex, t.flexCol, t.wFull, t.pX8, props.style]}>
 			<Text style={[t.fontNormal, t.textXl]}>{props.title}</Text>
 			<View style={[t.flex, t.flexRow]}>
 				<TextInput secureTextEntry={props.secure}
