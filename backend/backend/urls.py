@@ -38,6 +38,9 @@ from store.views import get_products
 from store.views import del_product
 from store.views import edit_product
 
+from store.views import set_pfp
+from store.views import set_banner
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -53,11 +56,14 @@ urlpatterns = [
 
     path("store/get/categories", get_store_categories),
     path("store/add/category/", create_product_category),
-    path("store/delete/category", delete_product_category),
+    path("store/del/category/", delete_product_category),
     path("store/edit/category/", edit_product_category),
 
     path("store/set/product/", create_product),
     path("store/get/products", get_products),
     path("store/del/product/", del_product),
     path("store/edit/product/", edit_product),
+    
+    path("store/set/pfp/", set_pfp),
+    path("store/set/banner/", set_banner),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

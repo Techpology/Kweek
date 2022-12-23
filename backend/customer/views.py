@@ -95,6 +95,11 @@ def signIn_account(request):
 		
 		# Session
 		_session = {
+				"store_id": query[0].store.id,
+				"store_name": query[0].store.name,
+				"store_address": query[0].store.Address,
+				"store_pfp": query[0].store.pfp,
+				"store_banner": query[0].store.banner,
 				"name": query[0].name,
 				"email": _email,
 				"city": query[0].city,
@@ -110,13 +115,25 @@ def signIn_account(request):
 
 def signOut_account(request):
 	if(request.method == "GET"):
-		request.session["account"] = None
+		del request.session["account"]
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
 
 def getSession(request):
 	if(request.method == "GET"):
 		if("account" not in request.session): return HttpResponse("0", status=200)
+		
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+
+		_store = query[0].store
+		request.session["account"]["store_pfp"] = _store.pfp
+		request.session["account"]["store_banner"] = _store.banner
+
 		ret = json.dumps(request.session["account"]).replace("'",'"')
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)

@@ -12,7 +12,7 @@ export default function Btn(props) {
 			borderRadius: 8
 		}, t.itemsCenter, t.justifyCenter, props.style
 		]}>
-	  <Text style={[t.textWhite, {fontSize: 20}]}>{props.inner}</Text>
+	  <Text style={[t.textWhite, {fontSize: 20}, props._style]}>{props.inner}</Text>
 	</TouchableOpacity>
   )
 }

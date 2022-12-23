@@ -6,10 +6,11 @@ export default function InputField(props) {
 
 	const [text, setText] = useState(props._text)
 	return (
-		<View style={[t.flex, t.flexCol, t.wFull, t.pX16, props.style]}>
-			<Text style={[t.fontNormal, t.textXl]}>{props.title}</Text>
+		<View style={[t.flex, t.flexCol, t.wFull, t.pX10, props.style]}>
+			<Text style={[t.fontNormal]}>{props.title}</Text>
 			<TextInput secureTextEntry={props.secure}
 				keyboardType={props.type}
+				autoCapitalize={'none'}
 				style={[t.wFull, t.bgWhite,
 				{
 					borderRadius: 8,

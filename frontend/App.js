@@ -13,6 +13,7 @@ import ManageProducts from "./Src/Screens/Store/ManageProducts";
 import BarScanner from "./Src/Screens/BarScanner";
 import AddProduct from "./Src/Screens/Store/AddProduct";
 import EditProduct from "./Src/Screens/Store/EditProduct";
+import ManageStore from "./Src/Screens/Store/ManageStore";
 
 const Stack = createNativeStackNavigator();
 
@@ -72,6 +73,9 @@ export default function App() {
 					</Stack.Screen>
 					<Stack.Screen  name="EditProduct">
 						{(props)=> <EditProduct {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
+					<Stack.Screen  name="ManageStore">
+						{(props)=> <ManageStore {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 				</Stack.Navigator> : <></>
 			}

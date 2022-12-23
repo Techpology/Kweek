@@ -6,7 +6,7 @@
 		uploading images, and recieving orders amongst other features.
 		The base functionality for a store is:
 
-		- Upload images for pfp and banner		[ ]
+		- Upload images for pfp and banner		[*]
 		- Manage store details					[*]
 		- Get store details						[*]
 		- Upload and manage forum posts			[ ]
@@ -105,10 +105,16 @@ def create_product_category(request):
 		
 		# Add category
 		_store = query[0].store
-		_categories = _store.categories
-		_categories[len(_categories) - 1] = req["name"]
+		_categ = json.loads(_store.categories)
+		_categories = list(json.loads(_store.categories))
+		print(len(_categories))
+		print(type(_categories))
+		print(type(_categ))
+		_categ[len(_categories)] = req["name"]
+		print(_categ)
 
-		_store.categories = json.dumps(_categories).replace("'",'"')
+		_store.categories = json.dumps(_categ).replace("'",'"')
+		_store.save()
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
 
@@ -125,12 +131,14 @@ def delete_product_category(request):
 		
 		# Update data
 		_store = query[0].store
-		_categories = _store.categories
-		del _categories[req["ind"]]
+		_categories = list(json.loads(_store.categories).values())
+		print(_categories)
+		print(type(_categories))
+		del _categories[int(req["ind"])]
 		
 		temp = {}
 		for i in range(len(_categories)):
-			temp[i] = list(_categories.values())[i]
+			temp[i] = _categories[i]
 		
 		print(temp)
 		_store.categories = json.dumps(temp).replace("'",'"')
@@ -151,10 +159,12 @@ def edit_product_category(request):
 			return HttpResponse("Unauthorized", status=403)
 		
 		_store = query[0].store
-		_categories = _store.categories
+		_categories = json.loads(_store.categories)
 		_categories[req["ind"]] = req["val"]
+		print(req["val"])
 
 		_store.categories = json.dumps(_categories).replace("'", '"')
+		_store.save()
 
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
@@ -260,5 +270,45 @@ def edit_product(request):
 
 		_prod.save()
 
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def set_pfp(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+
+		_store = query[0].store
+
+		# Image processing
+		imageHandler.storeImage(req["img"], str(_store.id), f"pfp.{req['ext']}")
+		_store.pfp = f"media/{str(_store.id)}/pfp.{req['ext']}"
+		_store.save()
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def set_banner(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+
+		_store = query[0].store
+
+		# Image processing
+		imageHandler.storeImage(req["img"], str(_store.id), f"banner.{req['ext']}")
+		_store.banner = f"media/{str(_store.id)}/banner.{req['ext']}"
+		_store.save()
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)

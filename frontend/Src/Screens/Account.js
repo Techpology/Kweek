@@ -1,11 +1,11 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
-import React, {useEffect, useState} from 'react'
-import { t } from "react-native-tailwindcss"
-import axios from 'axios'
-import Logo from "../Images/Logo"
-import { Ionicons } from '@expo/vector-icons'; 
-import { Entypo } from '@expo/vector-icons'; 
-import { FontAwesome } from '@expo/vector-icons'; 
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { t } from "react-native-tailwindcss";
+import axios from 'axios';
+import Logo from "../Images/Logo";
+import { Ionicons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 import SqBtn from '../Components/SqBtn'
 import Master from './Master'
@@ -51,8 +51,9 @@ export default function Account(props) {
 			{(props.session["store"] == 1) ? 
 				<View style={[t.flex, t.flexCol, t.itemsCenter, t.wFull, t.pX8, t.pT8]}>
 					<WideBtn trigger={()=>{props.navigation.navigate("ManageProducts")}} inner="Manage Products" />
-					<WideBtn inner="Manage Page" />
+					<WideBtn trigger={()=>{props.navigation.navigate("ManageStore")}} inner="Manage Page" />
 					<WideBtn inner="Orders" />
+					<WideBtn inner="Sign out" style={[t.textRed600]} trigger={()=>{signOut()}} /> 
 				</View>
 				:
 				<View style={[t.flex, t.flexCol, t.itemsCenter, t.wFull, t.pX12, t.pT16]}>
