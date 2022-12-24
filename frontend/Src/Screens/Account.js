@@ -43,7 +43,7 @@ export default function Account(props) {
 			<View style={[t.mT24, t.itemsCenter, t.flexCol, t.flex]}>
 				<SqBtn inner={"A"} style={[{width:120, height: 120}]} textStyle={[t.text5xl]} trigger={()=>{}} />
 				{(props.session["store"] == 1) ?
-					<TouchableOpacity onPress={()=>{}}>
+					<TouchableOpacity onPress={()=>{props.navigation.navigate("StorePage", {id: props.session["store"]})}}>
 						<Text style={[{color: "#0088B2"}, t.mT2]}>Go to store</Text>
 					</TouchableOpacity> : <></>
 				}

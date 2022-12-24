@@ -25,6 +25,8 @@ from customer.views import signIn_account
 from customer.views import signOut_account
 from customer.views import getSession
 
+from customer.views import get_store
+
 # Store
 from store.views import get_store_details
 from store.views import set_store_details
@@ -49,6 +51,8 @@ urlpatterns = [
     path("customer/signin/", signIn_account),
     path("customer/signout", signOut_account),
     path("customer/get/session", getSession),
+    
+    path("customer/get/store/", get_store),
 
     # Store
     path("store/details", get_store_details),

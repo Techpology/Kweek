@@ -25,6 +25,7 @@ import json
 
 # Models
 from customer.models import Customer
+from store.models import Store
 
 def create_account(request):
 	if(request.method == "POST"):
@@ -136,4 +137,24 @@ def getSession(request):
 
 		ret = json.dumps(request.session["account"]).replace("'",'"')
 		return HttpResponse(ret, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_store(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		_store = Store.objects.filter(id=req["id"])[0]
+		_s = _store.__dict__
+		
+		print(_store.categories.replace('"', "'"))
+		_ret = {
+			"name": _store.name,
+			"address": _store.Address,
+			"banner": _store.banner,
+			"pfp": _store.pfp,
+			"phone": _store.phoneNumber,
+			"categories": json.dumps(list(json.loads(_store.categories).values()))
+		}
+
+		return HttpResponse(json.dumps(_ret), status=200)
 	return HttpResponse("Invalid request", status=409)
