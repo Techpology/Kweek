@@ -4,6 +4,7 @@ import { t } from "react-native-tailwindcss"
 import axios from 'axios'
 
 import WideImgBtn from '../Components/WideImgBtn'
+import Search from "../Components/Search"
 
 import Master from './Master'
 
@@ -19,8 +20,21 @@ export default function Home(props) {
 		})
 	}
 
+	const [stores, setStores] = useState([])
+	const getStores = () =>
+	{
+		axios.get("customer/get/stores/at/location")
+		.then(resp=>{
+			console.log(resp.data);
+			setStores(resp.data);
+		}).catch(err=>{
+			console.log(err.message);
+		})
+	}
+
 	useEffect(()=>{
 		GetSession()
+		getStores()
 	},[])
 
 	const [activeScreen, setActiveScreen] = useState(0)
@@ -42,8 +56,17 @@ export default function Home(props) {
 			)
 		}else if(activeScreen == 2)
 		{
+			console.log(stores)
+			const ret = stores.map((i, key) =>
+				<WideImgBtn img={axios.defaults.baseURL + i["pfp"]} inner={i["name"] +"\n" + i["Address"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} />
+			)
 			return(
-				<Text style={[t.text4xl]}>2</Text>
+				<View style={[t.wFull, t.hFull]}>
+					<Search placeholder="Search" title="Where would you like to shop?" style={[t.mT4]} />
+					<ScrollView style={[t.wFull, t.hFull, t.pX5]}>
+						{ret}
+					</ScrollView>
+				</View>
 			)
 		}
 	}

@@ -186,6 +186,5 @@ def get_stores_at_location(request):
 		_city = request.session["account"]["city"]
 		_stores = Store.objects.filter(city=_city).all().values()
 		ret = json.dumps(list(_stores))
-		print(ret)
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)

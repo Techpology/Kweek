@@ -8,7 +8,7 @@ export default function Search(props) {
 	return (
 		<View style={[t.flex, t.flexCol, t.wFull, t.pX8, props.style]}>
 			<Text style={[t.fontNormal, t.textXl]}>{props.title}</Text>
-			<View style={[t.flex, t.flexRow]}>
+			<View style={[t.flex, t.flexRow, t.mT4]}>
 				<TextInput secureTextEntry={props.secure}
 					style={[t.wFull, t.bgWhite,
 					{
