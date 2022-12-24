@@ -26,6 +26,7 @@ import json
 # Models
 from customer.models import Customer
 from store.models import Store
+from store.models import Product
 
 def create_account(request):
 	if(request.method == "POST"):
@@ -157,4 +158,25 @@ def get_store(request):
 		}
 
 		return HttpResponse(json.dumps(_ret), status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_store_category_products(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		_store = Store.objects.filter(id=req["id"])[0]
+
+		# Processing
+		categs = list(json.loads(_store.categories).values())
+		index = -1
+		for i in range(len(categs)):
+			if(req["ind"] == categs[i]):
+				index = i
+				break
+		if(index == -1): return HttpResponse("Invalid category", status= 500)
+
+		prods = Product.objects.filter(store=_store, category=index).all().values()
+		ret = json.dumps(list(prods))
+
+		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)

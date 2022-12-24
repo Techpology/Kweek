@@ -12,7 +12,7 @@ class Store(models.Model):
 
 	# Products relation
 	categories = models.TextField(default=json.dumps(
-		{0: "Frozen", 1: "Canned", 2: "Vegetables"}
+		{0: "Frozen food", 1: "Canned food", 2: "Vegetables", 3: "other"}
 	).replace("'",'"'), null=False)
 
 	# Orders relation

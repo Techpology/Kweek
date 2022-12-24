@@ -35,7 +35,7 @@ export default function StorePage(props) {
 		console.log(JSON.parse(categ))
 
 		const ret = JSON.parse(categ).map((i, key)=>
-			<TouchableOpacity style={[t.bgWhite, t.wFull, {height: 100}, t.roundedLg, t.itemsCenter, t.justifyCenter, t.mY2]} onPress={()=>{}}>
+			<TouchableOpacity key={key} style={[t.bgWhite, t.wFull, {height: 100}, t.roundedLg, t.itemsCenter, t.justifyCenter, t.mY2]} onPress={()=>{setSelectedCateg(i); getProds(i); setIsPopup(true)}}>
 				<Text style={[{color: "#00000080"}]}>{i}</Text>
 			</TouchableOpacity>
 		)
@@ -48,6 +48,32 @@ export default function StorePage(props) {
 	}
 
 	const [isPopup, setIsPopup] = useState(false)
+	const [prods, setProds] = useState([])
+	const [selectedCateg, setSelectedCateg] = useState("")
+
+	const getProds = (x) =>
+	{
+		axios.post("customer/get/store/category/products/", {id: id, ind: x})
+		.then(resp=>{
+			console.log(resp.data);
+			setProds(resp.data);
+		}).catch(err=>{
+			alert(err.message);
+		})
+	}
+
+	const listProds = () =>
+	{
+		const ret = prods.map((i, key)=>
+			<ProductCard name={i["name"]} price={i["price"]} img={i["img"]} />
+		)
+
+		return(
+			<ScrollView style={[t.wFull, t.hFull]}>
+				{ret}
+			</ScrollView>
+		)
+	}
 
 	return (
 		<SafeAreaView>
@@ -67,7 +93,9 @@ export default function StorePage(props) {
 
 			{
 				(isPopup) ?
-				<Popup>
+				<Popup pressOut={()=>{setIsPopup(false)}} _style={[{height: "70%"}, t.pT0]}>
+					<Text style={[t.textLg, t.mB4]}>{selectedCateg}</Text>
+					{(prods.length != 0) ? listProds() : <></>}
 				</Popup>
 				:
 				<></>
