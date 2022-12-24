@@ -6,6 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 
 import Popup from '../../Components/Popup';
 import ProductCard from '../../Components/ProductCard';
+import Btn from "../../Components/Btn";
 
 export default function StorePage(props) {
 	const { id } = props.route.params
@@ -62,10 +63,13 @@ export default function StorePage(props) {
 		})
 	}
 
+	const [isProdPopup, setIsProdPopup] = useState(false)
+	const [selectedProd, setSelectedProd] = useState({})
+
 	const listProds = () =>
 	{
 		const ret = prods.map((i, key)=>
-			<ProductCard name={i["name"]} price={i["price"]} img={i["img"]} />
+			<ProductCard name={i["name"]} price={i["price"]} img={i["img"]} trigger={()=>{setSelectedProd(i); setIsProdPopup(true);}} />
 		)
 
 		return(
@@ -93,9 +97,44 @@ export default function StorePage(props) {
 
 			{
 				(isPopup) ?
-				<Popup pressOut={()=>{setIsPopup(false)}} _style={[{height: "70%"}, t.pT0]}>
+				<Popup pressOut={()=>{setIsPopup(false)}} _style={[{height: "70%"}, t.pT0]} title={""}>
 					<Text style={[t.textLg, t.mB4]}>{selectedCateg}</Text>
 					{(prods.length != 0) ? listProds() : <></>}
+				</Popup>
+				:
+				<></>
+			}
+
+			{
+				(isProdPopup) ?
+				<Popup pressOut={()=>{setIsProdPopup(false); setIsPopup(false)}} _style={[{height: "70%"}, t.pX0, t.pY0]}>
+					
+					<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT4, t.mX2, t.z10]}>
+						<TouchableOpacity onPress={()=>{setIsProdPopup(false)}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter,
+						{
+							shadowColor: 'rgba(0, 0, 0, 0.4)',
+							shadowOffset: {width: 0, height: 2},
+							shadowRadius: 8,
+							elevation: 5,
+							height: 40,
+							width: 40
+						}]}>
+							<FontAwesome name="angle-left" size={32} color="black" />
+						</TouchableOpacity>
+					</View>
+
+					<Image style={[t.wFull, t.bgGray300, {height: "35%", borderTopLeftRadius: 20, borderTopRightRadius: 20}, t.objectContain, t.roundedBLg]} 
+							source={{uri: axios.defaults.baseURL + selectedProd["img"]}} />
+					<View style={[t.flex, t.flexRow, t.justifyBetween, t.mT6, t.pX6]}>
+						<Text style={[t.text2xl]}>{selectedProd["name"]}</Text>
+						<Text style={[t.text2xl]}>{selectedProd["price"]}kr</Text>
+					</View>
+					<View style={[t.pX8, t.mT4]}>
+						<Text style={[t.textGray600]}>{selectedProd["description"]}</Text>
+					</View>
+					<View style={[t.absolute, t.bottom0, t.wFull, t.pY2, t.itemsCenter, t.justifyCenter]}>
+						<Btn inner="Add to cart" />
+					</View>
 				</Popup>
 				:
 				<></>
