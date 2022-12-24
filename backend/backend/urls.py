@@ -27,6 +27,7 @@ from customer.views import getSession
 
 from customer.views import get_store
 from customer.views import get_store_category_products
+from customer.views import get_stores_at_location
 
 # Store
 from store.views import get_store_details
@@ -55,6 +56,7 @@ urlpatterns = [
     
     path("customer/get/store/", get_store),
     path("customer/get/store/category/products/", get_store_category_products),
+    path("customer/get/stores/at/location", get_stores_at_location),
 
     # Store
     path("store/details", get_store_details),

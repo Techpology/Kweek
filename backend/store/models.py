@@ -9,6 +9,7 @@ class Store(models.Model):
 
 	Address = models.TextField(default="", null=False)
 	phoneNumber = models.TextField(default="", null=False)
+	city = models.TextField(default="", null=False)
 
 	# Products relation
 	categories = models.TextField(default=json.dumps(
