@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-na
 import { t } from "react-native-tailwindcss";
 import axios from "axios";
 import React, {useState, useEffect} from 'react';
-import { QRCode } from 'react-native-custom-qr-codes-expo';
+import QRCode from 'react-native-qrcode-svg';
 
 import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
@@ -27,10 +27,12 @@ export default function Cart(props) {
 		})
 	}
 
+	const [qrPop, setQrPop] = useState(false)
+	const [qrData, setQrData] = useState("")
 	const listActiveOrders = () =>
 	{
 		const ret = activeOrders.map((i,key)=>
-			<WideImgBtn key={key} inner={i["store"]} under={i["order"]}/>
+			<WideImgBtn key={key} inner={i["store"]} under={i["order"]} trigger={()=>{setSelectedStore(i["store"]); setQrData(i["order"]); setQrPop(true)}}/>
 		)
 
 		return(
@@ -175,6 +177,25 @@ export default function Cart(props) {
 						<Btn inner="Remove" _style={[t.textSm]} style={[t.mT6, t.h10, t.w24, t.bgRed400]} trigger={()=>{removeCartProd();}} />
 						<Btn inner="Done" _style={[t.textSm]} style={[t.mT6, t.h10, t.w24]} trigger={()=>{let x = selectedProd; x["amt"] = amt; setSelectedProd(x); editCartProd(); setProdPop(false);}} />
 					</View>
+				</Popup>
+				:
+				<></>
+			}
+			{
+				(qrPop)?
+				<Popup pressOut={()=>{setQrPop(false)}} textStyle={[t.textCenter]} _style={[{height: "60%"}]}>
+					<View style={[t.wFull, t.flex, t.flexRow, t.justifyBetween, t.mT2, t.pX2]}>
+						<Text style={[t.textLg]}>{selectedStore}</Text>
+						<TouchableOpacity onPress={()=>{setStorePopup(false)}} style={[t.p1]}>
+							<Feather name="x" size={24} color="black" />
+						</TouchableOpacity>
+					</View>
+					<View style={[t.flex, t.flexCol, t.itemsCenter, t.justifyCenter, t.wFull, t.mT20]}>
+						<QRCode value={qrData} size={150} />
+						<Text style={[t.fontMedium, t.textXl]}>ORDER ID</Text>
+						<Text style={[t.fontLight, t.textLg]}>{qrData}</Text>
+					</View>
+					<Text style={[t.selfCenter, t.mT8, t.textCenter, {color: "#00000080"}, t.textLg]}>Make sure to show your qr code upon arrival</Text>
 				</Popup>
 				:
 				<></>
