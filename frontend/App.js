@@ -8,6 +8,7 @@ import Signin from "./Src/Screens/Signin";
 import Signup from "./Src/Screens/Signup";
 import Home from "./Src/Screens/Home";
 import Account from "./Src/Screens/Account";
+import Cart from "./Src/Screens/Cart";
 
 import ManageProducts from "./Src/Screens/Store/ManageProducts";
 import BarScanner from "./Src/Screens/BarScanner";
@@ -61,6 +62,9 @@ export default function App() {
 					</Stack.Screen>
 					<Stack.Screen  name="Account">
 						{(props)=> <Account {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
+					<Stack.Screen  name="Cart">
+						{(props)=> <Cart {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					
 					<Stack.Screen  name="ManageProducts">

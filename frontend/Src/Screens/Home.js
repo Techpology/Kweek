@@ -58,7 +58,7 @@ export default function Home(props) {
 		{
 			console.log(stores)
 			const ret = stores.map((i, key) =>
-				<WideImgBtn img={axios.defaults.baseURL + i["pfp"]} inner={i["name"] +"\n" + i["Address"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} />
+				<WideImgBtn key={key} img={axios.defaults.baseURL + i["pfp"]} inner={i["name"] +"\n" + i["Address"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} />
 			)
 			return(
 				<View style={[t.wFull, t.hFull]}>
@@ -73,7 +73,7 @@ export default function Home(props) {
 
 	return (
 		<Master searchIC={(activeScreen == 2) ? true : false} compassIC={(activeScreen == 0) ? true : false} starIC={(activeScreen == 1) ? true : false} top={true} sqTrigger={()=>{props.navigation.navigate("Account")}} 
-		navTrigger={()=>{setActiveScreen(0)}} favTrigger={()=>{setActiveScreen(1)}} searchTrigger={()=>{setActiveScreen(2)}}>
+		navTrigger={()=>{setActiveScreen(0)}} favTrigger={()=>{setActiveScreen(1)}} searchTrigger={()=>{setActiveScreen(2)}} cartPress={()=>{props.navigation.navigate("Cart")}}>
 			{flow()}
 		</Master>
 	)

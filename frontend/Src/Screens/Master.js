@@ -30,7 +30,7 @@ export default function Master(props) {
 				shadowOffset: {width: 0, height: 2},
 				shadowRadius: 8,
 				elevation: 4,
-			}]}>
+			}]} onPress={()=>{props.cartPress()}}>
 				<Ionicons name="md-cart-outline" size={24} color="black" />
 			</TouchableOpacity>
 			<View style={[t.itemsCenter, t.flex, t.flexRow, t.justifyCenter, t.wFull, t.bottom0, t.absolute, t.pX8, t.bgWhite,
