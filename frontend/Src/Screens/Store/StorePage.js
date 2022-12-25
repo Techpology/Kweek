@@ -25,6 +25,17 @@ export default function StorePage(props) {
 		})
 	}
 
+	const addToCart = () =>
+	{
+		axios.post("customer/add/cart/", {storeName: store["name"], product: selectedProd["id"]})
+		.then(resp=>{
+			console.log(resp.data);
+			props.updateSession()
+		}).catch(err=>{
+			alert(err.message);
+		})
+	}
+
 	useEffect(()=>{
 		getStore();
 	},[])
@@ -69,7 +80,7 @@ export default function StorePage(props) {
 	const listProds = () =>
 	{
 		const ret = prods.map((i, key)=>
-			<ProductCard name={i["name"]} price={i["price"]} img={i["img"]} trigger={()=>{setSelectedProd(i); setIsProdPopup(true);}} />
+			<ProductCard key={key} name={i["name"]} price={i["price"]} img={i["img"]} trigger={()=>{setSelectedProd(i); setIsProdPopup(true);}} />
 		)
 
 		return(
@@ -133,7 +144,7 @@ export default function StorePage(props) {
 						<Text style={[t.textGray600]}>{selectedProd["description"]}</Text>
 					</View>
 					<View style={[t.absolute, t.bottom0, t.wFull, t.pY2, t.itemsCenter, t.justifyCenter]}>
-						<Btn inner="Add to cart" />
+						<Btn inner="Add to cart" trigger={()=>{addToCart(); setIsProdPopup(false);}}/>
 					</View>
 				</Popup>
 				:

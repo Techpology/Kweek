@@ -58,7 +58,7 @@ export default function Home(props) {
 		{
 			console.log(stores)
 			const ret = stores.map((i, key) =>
-				<WideImgBtn img={axios.defaults.baseURL + i["pfp"]} inner={i["name"] +"\n" + i["Address"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} />
+				<WideImgBtn key={key} img={axios.defaults.baseURL + i["pfp"]} inner={i["name"] +"\n" + i["Address"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} />
 			)
 			return(
 				<View style={[t.wFull, t.hFull]}>

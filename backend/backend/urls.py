@@ -29,6 +29,12 @@ from customer.views import get_store
 from customer.views import get_store_category_products
 from customer.views import get_stores_at_location
 
+from customer.views import add_to_cart
+from customer.views import get_cart_prods
+from customer.views import del_cart
+from customer.views import clear_cart
+from customer.views import post_order
+
 # Store
 from store.views import get_store_details
 from store.views import set_store_details
@@ -57,6 +63,12 @@ urlpatterns = [
     path("customer/get/store/", get_store),
     path("customer/get/store/category/products/", get_store_category_products),
     path("customer/get/stores/at/location", get_stores_at_location),
+    
+    path("customer/add/cart/", add_to_cart),
+    path("customer/get/cart/products/", get_cart_prods),
+    path("customer/del/cart/", del_cart),
+    path("customer/clear/cart", clear_cart),
+    path("customer/post/order/", post_order),
 
     # Store
     path("store/details", get_store_details),

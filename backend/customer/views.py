@@ -150,7 +150,6 @@ def get_store(request):
 		req = requestHandler.extractRequest(request)
 
 		_store = Store.objects.filter(id=req["id"])[0]
-		_s = _store.__dict__
 		
 		print(_store.categories.replace('"', "'"))
 		_ret = {
@@ -214,7 +213,7 @@ def add_to_cart(request):
 			_cart[_store_name].append(int(_prod))
 		else:
 			_cart[_store_name] = [int(_prod)]
-		query[0].cart = _cart
+		query[0].cart = json.dumps(_cart).replace("'",'"')
 		query[0].save()
 
 		return HttpResponse(status=200)
@@ -232,17 +231,20 @@ def get_cart_prods(request):
 			return HttpResponse("Unauthorized", status=403)
 		
 		# Processing
-		_cart = query[0].cart
+		print(query[0].cart)
+		_cart = json.loads(query[0].cart)
 		_store_name = req["storeName"]
-		_prods = _cart["storeName"]
+		_prods = _cart[_store_name]
 		print(_prods)
 
 		_query_prods = []
 		for i in _prods:
-			_query_prods.append(json.dumps(Product.objects.filter(id=i).values()))
-		print(_query_prods)
-		
-		return HttpResponse(_query_prods, status=200)
+			x = Product.objects.filter(id=i).all().values()
+			print(list(x)[0])
+			_query_prods.append(list(x)[0])
+		print(json.dumps(_query_prods))
+
+		return HttpResponse(json.dumps(_query_prods), status=200)
 	return HttpResponse("Invalid request", status=409)
 
 def del_cart(request):
@@ -264,7 +266,7 @@ def del_cart(request):
 	return HttpResponse("Invalid request", status=409)
 
 def clear_cart(request):
-	if(request.method == "POST"):
+	if(request.method == "GET"):
 		# Verification
 		_email = request.session["account"]["email"]
 		query = Customer.objects.filter(email=_email, isStore=1)
