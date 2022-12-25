@@ -34,6 +34,8 @@ from customer.views import get_cart_prods
 from customer.views import del_cart
 from customer.views import clear_cart
 from customer.views import post_order
+from customer.views import edit_cart_amt
+from customer.views import rem_cart
 
 # Store
 from store.views import get_store_details
@@ -69,6 +71,8 @@ urlpatterns = [
     path("customer/del/cart/", del_cart),
     path("customer/clear/cart", clear_cart),
     path("customer/post/order/", post_order),
+    path("customer/edit/cart/", edit_cart_amt),
+    path("customer/rem/cart/", rem_cart),
 
     # Store
     path("store/details", get_store_details),

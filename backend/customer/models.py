@@ -15,5 +15,5 @@ class Customer(models.Model):
 
 	# Orders
 	cart = models.TextField(default="{}", null=False)
-	activeOrders = models.TextField(default="{}", null=False)
+	activeOrders = models.TextField(default="[]", null=False)
 
