@@ -179,7 +179,7 @@ def get_store_category_products(request):
 				break
 		if(index == -1): return HttpResponse("Invalid category", status= 500)
 
-		prods = Product.objects.filter(store=_store, category=index).all().values()
+		prods = Product.objects.filter(store=_store, category=index, visible=1).all().values()
 		ret = json.dumps(list(prods))
 
 		return HttpResponse(ret, status=200)
