@@ -13,9 +13,9 @@ export default function Cart(props) {
 	const [selectedStore, setSelectedStore] = useState("")
 	const [storePopup, setStorePopup] = useState(false)
 	const [prods, setProds] = useState([])
-	const getProds = () =>
+	const getProds = (x) =>
 	{
-		axios.post("customer/get/cart/products/", {storeName: selectedStore})
+		axios.post("customer/get/cart/products/", {storeName: x})
 		.then(resp=>{
 			console.log(resp.data);
 			setProds(resp.data);
@@ -41,7 +41,7 @@ export default function Cart(props) {
 	{
 		let _c = JSON.parse(props.session["cart"])
 		const ret = Object.keys(_c).map((i, key) =>
-			<WideImgBtn key={key} inner={i} trigger={()=>{setSelectedStore(i);getProds();}}/>
+			<WideImgBtn key={key} inner={i} trigger={()=>{setSelectedStore(i);getProds(i);}}/>
 		)
 
 		return(

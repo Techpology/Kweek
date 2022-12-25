@@ -206,14 +206,15 @@ def add_to_cart(request):
 		
 		# Processing
 		_store_name = req["storeName"]
-		_prod = req["product"]
+		_prod = req["product"] # {"id": 0, "amt": 2}
 
 		_cart = json.loads(query[0].cart)
 		if(_store_name in _cart):
-			_cart[_store_name].append(int(_prod))
+			_cart[_store_name].append(_prod)
 		else:
-			_cart[_store_name] = [int(_prod)]
+			_cart[_store_name] = [_prod]
 		query[0].cart = json.dumps(_cart).replace("'",'"')
+
 		query[0].save()
 
 		return HttpResponse(status=200)
@@ -239,9 +240,11 @@ def get_cart_prods(request):
 
 		_query_prods = []
 		for i in _prods:
-			x = Product.objects.filter(id=i).all().values()
-			print(list(x)[0])
-			_query_prods.append(list(x)[0])
+			x = Product.objects.filter(id=i["id"]).all().values()
+			toAppend = list(x)[0]
+			toAppend["amt"] = i["amt"]
+			print(toAppend)
+			_query_prods.append(toAppend)
 		print(json.dumps(_query_prods))
 
 		return HttpResponse(json.dumps(_query_prods), status=200)
@@ -259,7 +262,7 @@ def del_cart(request):
 			return HttpResponse("Unauthorized", status=403)
 		
 		# Processing
-		_store = req["store"]
+		_store = req["storeName"]
 		del query[0].cart[_store]
 		query[0].save()
 		return HttpResponse(status=200)

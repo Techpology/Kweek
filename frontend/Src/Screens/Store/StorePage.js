@@ -3,6 +3,7 @@ import { t } from "react-native-tailwindcss";
 import axios from "axios";
 import React, {useState, useEffect} from 'react';
 import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons'; 
 
 import Popup from '../../Components/Popup';
 import ProductCard from '../../Components/ProductCard';
@@ -25,9 +26,11 @@ export default function StorePage(props) {
 		})
 	}
 
+	const [amtPoppup, setAmtPoppup] = useState(false)
+	const [amt, setAmt] = useState(1)
 	const addToCart = () =>
 	{
-		axios.post("customer/add/cart/", {storeName: store["name"], product: selectedProd["id"]})
+		axios.post("customer/add/cart/", {storeName: store["name"], product: {id: selectedProd["id"], amt: amt}})
 		.then(resp=>{
 			console.log(resp.data);
 			props.updateSession()
@@ -119,6 +122,26 @@ export default function StorePage(props) {
 			{
 				(isProdPopup) ?
 				<Popup pressOut={()=>{setIsProdPopup(false); setIsPopup(false)}} _style={[{height: "70%"}, t.pX0, t.pY0]}>
+					{
+						(amtPoppup)?
+						<View style={[t.absolute, t.wFull, t.hFull, {backgroundColor: "#00000040"}, t.z40, t.itemsCenter, t.justifyCenter]}>
+							<View style={[t.bgWhite, t.wFull, t.pY4, t.itemsCenter, t.flex, t.flexCol, t.roundedLg]}>
+								<Text style={[t.textLg]}>How many would you like to have?</Text>
+								<View style={[t.flex, t.flexRow, t.itemsCenter, t.justifyCenter, t.mT6]}>
+									<TouchableOpacity style={[t.pY2, t.pX2, t.bgBlue400, t.roundedFull]} onPress={()=>{setAmt(amt - 1)}}>
+										<AntDesign name="minus" size={24} color="black" />
+									</TouchableOpacity>
+									<Text style={[t.textXl, t.mX8]}>{amt}</Text>
+									<TouchableOpacity style={[t.pY2, t.pX2, t.bgBlue400, t.roundedFull]} onPress={()=>{setAmt(amt + 1)}}>
+										<AntDesign name="plus" size={24} color="black" />
+									</TouchableOpacity>
+								</View>
+								<Btn inner="Done" style={[t.mT6]} trigger={()=>{setAmtPoppup(false); setIsProdPopup(false); addToCart();}} />
+							</View>
+						</View>
+						:
+						<></>
+					}
 					
 					<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT4, t.mX2, t.z10]}>
 						<TouchableOpacity onPress={()=>{setIsProdPopup(false)}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter,
@@ -144,7 +167,7 @@ export default function StorePage(props) {
 						<Text style={[t.textGray600]}>{selectedProd["description"]}</Text>
 					</View>
 					<View style={[t.absolute, t.bottom0, t.wFull, t.pY2, t.itemsCenter, t.justifyCenter]}>
-						<Btn inner="Add to cart" trigger={()=>{addToCart(); setIsProdPopup(false);}}/>
+						<Btn inner="Add to cart" trigger={()=>{setAmtPoppup(true) }}/>
 					</View>
 				</Popup>
 				:
