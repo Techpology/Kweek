@@ -8,7 +8,7 @@
 		- Create account		[*]
 		- Signin				[*]
 		- forgot password		[ ]
-		- Order					[ ]
+		- Order					[*]
 		- Add to favorites		[ ]
 		- Signout				[*]
 		
@@ -324,7 +324,7 @@ def post_order(request):
 
 		ao = json.loads(query[0].activeOrders)
 		print(ao)
-		ao.append(_id)
+		ao.append({"order": _id, "store": req["storeName"]})
 		query[0].activeOrders = json.dumps(ao)
 		del _cart[req["storeName"]]
 		query[0].cart = json.dumps(_cart).replace("'",'"')
@@ -383,4 +383,16 @@ def rem_cart(request):
 		query[0].save()
 
 		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_active_orders(request):
+	if(request.method == "GET"):
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+
+		return HttpResponse(query[0].activeOrders, status=200)
 	return HttpResponse("Invalid request", status=409)

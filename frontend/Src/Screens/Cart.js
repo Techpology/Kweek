@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-na
 import { t } from "react-native-tailwindcss";
 import axios from "axios";
 import React, {useState, useEffect} from 'react';
+import { QRCode } from 'react-native-custom-qr-codes-expo';
 
 import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
@@ -13,8 +14,35 @@ import Popup from "../Components/Popup";
 import Btn from '../Components/Btn';
 
 export default function Cart(props) {
+	
+	const [activeOrders, setActiveOrders] = useState([])
+	const getActiveOrders = () =>
+	{
+		axios.get("customer/get/active/")
+		.then(resp=>{
+			console.log(resp.data);
+			setActiveOrders(resp.data)
+		}).catch(err=>{
+			alert(err.message);
+		})
+	}
+
+	const listActiveOrders = () =>
+	{
+		const ret = activeOrders.map((i,key)=>
+			<WideImgBtn key={key} inner={i["store"]} under={i["order"]}/>
+		)
+
+		return(
+			<ScrollView style={[t.wFull, t.pX2]}>
+				{ret}
+			</ScrollView>
+		)
+	}
+
 	useEffect(()=>{
 		props.updateSession()
+		getActiveOrders();
 	},[])
 
 	const [selectedStore, setSelectedStore] = useState("")
@@ -100,6 +128,7 @@ export default function Cart(props) {
 		.then(resp=>{
 			console.log(resp.data);
 			props.updateSession();
+			getActiveOrders();
 			setProdPop(false);
 			setStorePopup(false);
 		}).catch(err=>{
@@ -171,9 +200,7 @@ export default function Cart(props) {
 			{listCart()}
 
 			<Text style={[t.textLg, t.mX8]}>Active orders</Text>
-			<ScrollView style={[t.wFull, t.pX8]}>
-				<WideImgBtn inner="test" />
-			</ScrollView>
+			{(activeOrders.length != 0) ? listActiveOrders() : <></>}
 		</View>
 	)
 }
