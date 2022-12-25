@@ -52,7 +52,7 @@ export default function Account(props) {
 				<View style={[t.flex, t.flexCol, t.itemsCenter, t.wFull, t.pX8, t.pT8]}>
 					<WideBtn trigger={()=>{props.navigation.navigate("ManageProducts")}} inner="Manage Products" />
 					<WideBtn trigger={()=>{props.navigation.navigate("ManageStore")}} inner="Manage Page" />
-					<WideBtn inner="Orders" />
+					<WideBtn trigger={()=>{props.navigation.navigate("Orders")}} inner="Orders" />
 					<WideBtn inner="Sign out" style={[t.textRed600]} trigger={()=>{signOut()}} /> 
 				</View>
 				:

@@ -207,6 +207,7 @@ def add_to_cart(request):
 		# Processing
 		_store_name = req["storeName"]
 		_prod = req["product"] # {"id": 0, "amt": 2}
+		_prod["check"] = False
 
 		_cart = json.loads(query[0].cart)
 		if(_store_name in _cart):
@@ -311,7 +312,7 @@ def post_order(request):
 
 		_price = 0
 		for i in _prods:
-			_price += float(Product.objects.filter(id=i["id"])[0].price)
+			_price += float(Product.objects.filter(id=i["id"])[0].price) * int(i["amt"])
 		
 		_newOrder = Order(
 			customer= query[0],

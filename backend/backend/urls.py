@@ -54,6 +54,10 @@ from store.views import edit_product
 from store.views import set_pfp
 from store.views import set_banner
 
+from store.views import get_active_orders
+from store.views import get_order_prods
+from store.views import edit_order
+
 urlpatterns = [
     path('admin/', admin.site.urls),
 
@@ -92,4 +96,9 @@ urlpatterns = [
     
     path("store/set/pfp/", set_pfp),
     path("store/set/banner/", set_banner),
+    
+    path("store/get/active_orders", get_active_orders),
+    path("store/get/order/products/", get_order_prods),
+    path("store/edit/order/products/", edit_order),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

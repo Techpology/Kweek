@@ -10,7 +10,7 @@ export default function ProductCard(props) {
 		shadowOffset: {width: 0, height: 2},
 		shadowRadius: 8,
 		elevation: 5,
-	}]} onPress={()=>{props.trigger()}}>
+	}, props._style]} onPress={()=>{props.trigger()}}>
 		<Image source={{uri: axios.defaults.baseURL + props.img}} style={[{height: 45, width: 45}, t.bgGray300, t.roundedLg]} />
 		<Text style={[{color: "#00000080"}, t.mL2]}>{props.name}</Text>
 		<View style={[t.absolute, t.right0, t.hFull, t.mR2, t.itemsCenter, t.justifyCenter]}>

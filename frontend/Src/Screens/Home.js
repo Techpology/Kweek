@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { t } from "react-native-tailwindcss"
 import axios from 'axios'
+import { MaterialIcons } from '@expo/vector-icons'; 
 
 import WideImgBtn from '../Components/WideImgBtn'
 import Search from "../Components/Search"
@@ -37,22 +38,25 @@ export default function Home(props) {
 		getStores()
 	},[])
 
-	const [activeScreen, setActiveScreen] = useState(0)
+	const [activeScreen, setActiveScreen] = useState(2)
 
 	const flow = () =>{
 		if(activeScreen == 0)
 		{
 			return(
-				<View style={[t.pX8, {height: "75%"}]}>
-					<ScrollView>
-						<WideImgBtn img={"https://punjabgrossen.se/storage/90056518-xl1-20210120-540x600.jpg"} inner={"Can"}/>
-					</ScrollView>
+				<View style={[t.flex, t.flexCol, t.wFull, t.itemsCenter, t.justifyCenter, t.pT8]}>
+					<Text style={[t.textLg]}>This page is still under development</Text>
+					<MaterialIcons name="engineering" size={24} color="black" />
 				</View>
 			)
 		}else if(activeScreen == 1)
 		{
 			return(
-				<Text style={[t.text4xl]}>1</Text>
+				
+				<View style={[t.flex, t.flexCol, t.wFull, t.itemsCenter, t.justifyCenter, t.pT8]}>
+					<Text style={[t.textLg]}>This page is still under development</Text>
+					<MaterialIcons name="engineering" size={24} color="black" />
+				</View>
 			)
 		}else if(activeScreen == 2)
 		{

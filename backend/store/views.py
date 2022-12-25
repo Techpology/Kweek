@@ -34,6 +34,7 @@ import json
 # Models
 from store.models import Store
 from store.models import Product
+from store.models import Order
 from customer.models import Customer
 
 def get_store_details(request):
@@ -310,5 +311,83 @@ def set_banner(request):
 		imageHandler.storeImage(req["img"], str(_store.id), f"banner.{req['ext']}")
 		_store.banner = f"media/{str(_store.id)}/banner.{req['ext']}"
 		_store.save()
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_active_orders(request):
+	if(request.method == "GET"):
+		
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+
+		_store = query[0].store
+
+		# Processing
+		_orders = Order.objects.filter(store=_store).all().values()
+		ret = json.dumps(list(_orders))
+
+		return HttpResponse(ret, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_order_prods(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Processing
+		print(req)
+		_prods = json.loads(req["products"].replace("'",'"'))
+		print(_prods)
+
+
+		_query_prods = []
+		for i in _prods:
+			x = Product.objects.filter(id=i["id"]).all().values()
+			toAppend = list(x)[0]
+			toAppend["amt"] = i["amt"]
+			toAppend["check"] = i["check"]
+			print(toAppend)
+			_query_prods.append(toAppend)
+		print(json.dumps(_query_prods))
+
+		return HttpResponse(json.dumps(_query_prods), status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def edit_order(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Processing
+		_key = req["id"]
+		_prod_key = req["prodKey"]
+
+		_prods = Order.objects.filter(id= int(_key)).all().values()
+		_a = json.loads(_prods[0]["products"].replace("'",'"'))
+		print(_a)
+		print(type(_a))
+
+		_a[_prod_key]["check"] = not(_a[_prod_key]["check"])
+		_p = Order.objects.filter(id= int(_key))[0]
+		_p.products = json.dumps(_a)
+		_p.save()
+
+
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
