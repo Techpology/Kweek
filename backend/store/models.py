@@ -29,3 +29,11 @@ class Product(models.Model):
 	price = models.FloatField(default=0.0, null=False)
 	img = models.TextField(default="", null=False)
 	store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
+
+class Order(models.Model):
+	customer = models.ForeignKey("customer.Customer", on_delete=models.SET_NULL, null=True)
+	store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
+	orderId = models.TextField(default="", null=False)
+	price = models.FloatField(default=0.0, null=False)
+	products = models.TextField(default="[]", null=False)
+	isActive = models.BooleanField(default=True, null=False)
