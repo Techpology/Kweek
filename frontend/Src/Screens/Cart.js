@@ -18,7 +18,7 @@ export default function Cart(props) {
 	const [activeOrders, setActiveOrders] = useState([])
 	const getActiveOrders = () =>
 	{
-		axios.get("customer/get/active/")
+		axios.get("customer/get/active")
 		.then(resp=>{
 			console.log(resp.data);
 			setActiveOrders(resp.data)
