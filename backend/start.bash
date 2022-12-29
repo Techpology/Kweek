@@ -1,1 +1,1 @@
-python3 manage.py runserver 192.168.1.190:8000
+python3 manage.py runserver 94.237.33.77:8000

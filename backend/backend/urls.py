@@ -36,7 +36,7 @@ from customer.views import clear_cart
 from customer.views import post_order
 from customer.views import edit_cart_amt
 from customer.views import rem_cart
-from customer.views import get_active_orders
+from customer.views import customer_get_active_orders
 
 # Store
 from store.views import get_store_details
@@ -57,6 +57,7 @@ from store.views import set_banner
 from store.views import get_active_orders
 from store.views import get_order_prods
 from store.views import edit_order
+from store.views import order_done
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -78,7 +79,7 @@ urlpatterns = [
     path("customer/post/order/", post_order),
     path("customer/edit/cart/", edit_cart_amt),
     path("customer/rem/cart/", rem_cart),
-    path("customer/get/active/", get_active_orders),
+    path("customer/get/active", customer_get_active_orders),
 
     # Store
     path("store/details", get_store_details),
@@ -100,5 +101,6 @@ urlpatterns = [
     path("store/get/active_orders", get_active_orders),
     path("store/get/order/products/", get_order_prods),
     path("store/edit/order/products/", edit_order),
+    path("store/order/done/", order_done),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

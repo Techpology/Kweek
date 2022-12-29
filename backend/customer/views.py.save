@@ -115,17 +115,9 @@ def signIn_account(request):
 					"cart": query[0].cart
 				}
 		else:
-			_session ={
-				"name": query[0].name,
-				"email": _email,
-				"city": query[0].city,
-				"region": query[0].region,
-				"store": query[0].isStore,
-				"cart": query[0].cart
-			}
+
 		request.session["account"] = _session
 		ret = json.dumps(request.session["account"]).replace("'", '"')
-		print(ret)
 
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
@@ -137,25 +129,26 @@ def signOut_account(request):
 	return HttpResponse("Invalid request", status=409)
 
 def getSession(request):
-	print("getting session")
-	if(request.method == "GET"):
-		if("account" not in request.session): return HttpResponse("0", status=200)
-		print("account in session")
-		# Verification
-		_email = request.session["account"]["email"]
-		query = Customer.objects.filter(email=_email)
+        print("getting session")
+        if(request.method == "GET"):
+            if("account" not in request.session): return HttpResponse("0", status=200)
+            print("account in session")
+		
+	    # Verification
+            _email = request.session["account"]["email"]
+            query = Customer.objects.filter(email=_email, isStore=1)
 
-		if(len(query) == 0):
-			return HttpResponse("Unauthorized", status=403)
-		if(query[0].isStore == 1):
-			_store = query[0].store
-			request.session["account"]["store_pfp"] = _store.pfp
-			request.session["account"]["store_banner"] = _store.banner
-		request.session["account"]["cart"] = query[0].cart
+            if(len(query) == 0):
+                return HttpResponse("Unauthorized", status=403)
 
-		ret = json.dumps(request.session["account"]).replace("'",'"')
-		return HttpResponse(ret, status=200)
-	return HttpResponse("Invalid request", status=409)
+            _store = query[0].store
+            request.session["account"]["store_pfp"] = _store.pfp
+            request.session["account"]["store_banner"] = _store.banner
+            request.session["account"]["cart"] = query[0].cart
+
+            ret = json.dumps(request.session["account"]).replace("'",'"')
+            return HttpResponse(ret, status=200)
+        return HttpResponse("Invalid request", status=409)
 
 def get_store(request):
 	if(request.method == "POST"):
@@ -211,7 +204,7 @@ def add_to_cart(request):
 
 		# Verification
 		_email = request.session["account"]["email"]
-		query = Customer.objects.filter(email=_email)
+		query = Customer.objects.filter(email=_email, isStore=1)
 
 		if(len(query) == 0):
 			return HttpResponse("Unauthorized", status=403)
@@ -239,7 +232,7 @@ def get_cart_prods(request):
 
 		# Verification
 		_email = request.session["account"]["email"]
-		query = Customer.objects.filter(email=_email)
+		query = Customer.objects.filter(email=_email, isStore=1)
 
 		if(len(query) == 0):
 			return HttpResponse("Unauthorized", status=403)
@@ -269,7 +262,7 @@ def del_cart(request):
 
 		# Verification
 		_email = request.session["account"]["email"]
-		query = Customer.objects.filter(email=_email)
+		query = Customer.objects.filter(email=_email, isStore=1)
 
 		if(len(query) == 0):
 			return HttpResponse("Unauthorized", status=403)
@@ -285,7 +278,7 @@ def clear_cart(request):
 	if(request.method == "GET"):
 		# Verification
 		_email = request.session["account"]["email"]
-		query = Customer.objects.filter(email=_email)
+		query = Customer.objects.filter(email=_email, isStore=1)
 
 		if(len(query) == 0):
 			return HttpResponse("Unauthorized", status=403)
@@ -303,7 +296,7 @@ def post_order(request):
 
 		# Verification
 		_email = request.session["account"]["email"]
-		query = Customer.objects.filter(email=_email)
+		query = Customer.objects.filter(email=_email, isStore=1)
 
 		if(len(query) == 0):
 			return HttpResponse("Unauthorized", status=403)
@@ -352,7 +345,7 @@ def edit_cart_amt(request):
 
 		# Verification
 		_email = request.session["account"]["email"]
-		query = Customer.objects.filter(email=_email)
+		query = Customer.objects.filter(email=_email, isStore=1)
 
 		if(len(query) == 0):
 			return HttpResponse("Unauthorized", status=403)
@@ -378,7 +371,7 @@ def rem_cart(request):
 
 		# Verification
 		_email = request.session["account"]["email"]
-		query = Customer.objects.filter(email=_email)
+		query = Customer.objects.filter(email=_email, isStore=1)
 
 		if(len(query) == 0):
 			return HttpResponse("Unauthorized", status=403)
@@ -398,11 +391,11 @@ def rem_cart(request):
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
 
-def customer_get_active_orders(request):
+def get_active_orders(request):
 	if(request.method == "GET"):
 		# Verification
 		_email = request.session["account"]["email"]
-		query = Customer.objects.filter(email=_email)
+		query = Customer.objects.filter(email=_email, isStore=1)
 
 		if(len(query) == 0):
 			return HttpResponse("Unauthorized", status=403)

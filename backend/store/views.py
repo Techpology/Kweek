@@ -346,12 +346,15 @@ def get_order_prods(request):
 		
 		# Processing
 		print(req)
-		_prods = json.loads(req["products"].replace("'",'"'))
-		print(_prods)
+		a = req["products"].replace("'",'"')
+		a = a.replace("False", "false")
+		a = a.replace("True", "true")
+		a = json.loads(a)
+		print(a)
 
 
 		_query_prods = []
-		for i in _prods:
+		for i in a:
 			x = Product.objects.filter(id=i["id"]).all().values()
 			toAppend = list(x)[0]
 			toAppend["amt"] = i["amt"]
@@ -379,15 +382,32 @@ def edit_order(request):
 		_prod_key = req["prodKey"]
 
 		_prods = Order.objects.filter(id= int(_key)).all().values()
-		_a = json.loads(_prods[0]["products"].replace("'",'"'))
-		print(_a)
-		print(type(_a))
+		a = _prods[0]["products"].replace("'",'"')
+		a = a.replace("False", "false")
+		a = a.replace("True", "true")
+		a = json.loads(a)
 
-		_a[_prod_key]["check"] = not(_a[_prod_key]["check"])
+		a[_prod_key]["check"] = not(a[_prod_key]["check"])
 		_p = Order.objects.filter(id= int(_key))[0]
-		_p.products = json.dumps(_a)
+		_p.products = json.dumps(a)
 		_p.save()
 
 
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def order_done(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+		a = Order.objects.filter(orderId=req["order"])[0]
+		b = json.loads(a.customer.activeOrders)
+		c = -1
+		for i in range(len(b)):
+			if(b[i]["order"] == req["order"]):
+				c = i
+				break
+		del b[c]
+		a.customer.activeOrders = b
+		a.customer.save()
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
