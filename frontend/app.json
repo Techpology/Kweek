@@ -5,7 +5,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "The app accesses your photos to let you share them with your friends."
+          "photosPermission": "The app accesses your photos to allow you to upload them for your own marketing purposes."
         }
       ]
     ],
@@ -26,22 +26,27 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "userInterfaceStyle": "light"
     },
     "android": {
+      "userInterfaceStyle": "light",
       "adaptiveIcon": {
         "foregroundImage": "./assets/Logo.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.kweek.tp",
-      "versionCode": 1
+      "package": "kweek.tp.com",
+      "versionCode": 1,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/kweekFav.png"
     },
     "extra": {
       "eas": {
-        "projectId": "4513b900-71aa-4e88-94b2-c75f68548675"
+        "projectId": "25fbcb6a-5dfe-43fc-8db6-a3d3eae14677"
       }
     }
   }
