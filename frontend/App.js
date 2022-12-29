@@ -17,11 +17,13 @@ import EditProduct from "./Src/Screens/Store/EditProduct";
 import ManageStore from "./Src/Screens/Store/ManageStore";
 import StorePage from "./Src/Screens/Store/StorePage";
 import Orders from "./Src/Screens/Store/Orders";
+import ScanOrder from "./Src/Screens/Store/ScanOrder";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-	axios.defaults.baseURL = 'http://192.168.1.190:8000/';
+	//axios.defaults.baseURL = 'http://192.168.1.190:8000/';
+	axios.defaults.baseURL = 'http://94.237.33.77:8000/';
 
 	const [session, setSession] = useState({})
 	const [showsession, setShowSession] = useState(false)
@@ -88,6 +90,9 @@ export default function App() {
 					</Stack.Screen>
 					<Stack.Screen  name="Orders">
 						{(props)=> <Orders {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
+					<Stack.Screen  name="ScanOrder">
+						{(props)=> <ScanOrder {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 				</Stack.Navigator> : <></>
 			}
