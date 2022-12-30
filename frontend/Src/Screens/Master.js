@@ -16,7 +16,7 @@ export default function Master(props) {
 			{(props.top) ?
 				<View style={[t.flex, t.flexRow, t.justifyBetween, t.itemsCenter, t.wFull]}>
 					<Logo width={80} height={80} />
-					<SqBtn trigger={()=>{props.sqTrigger()}} inner="A" />
+					<SqBtn trigger={()=>{props.sqTrigger()}} inner={(props.session["name"] != undefined) ? props.session["name"][0] : "?"} />
 				</View>
 				:
 				props.topInner()

@@ -52,7 +52,6 @@ export default function AddProduct(props) {
 	useEffect(()=>{
 		setEAN(_ean)
 		getCategories();
-		alert(ean)
 	},[])
 
 	const [vis, setVis] = useState(1)

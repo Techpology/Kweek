@@ -34,7 +34,7 @@ export default function Signin(props) {
 				<Logo width={200} height={200} />
 				<InputField title="Email" placeholder="e-mail" val={(e)=>{setEmail(e)}} style={[t.mB8]} />
 				<InputField type={"default"} secure={true} title="Password" placeholder="password" val={(e)=>{setPassword(e)}} />
-				<TextButton inner="Forgot password?" trigger={()=>{}} style={[{marginTop: 10}, t.selfEnd, t.mR16]} />
+				{/* <TextButton inner="Forgot password?" trigger={()=>{}} style={[{marginTop: 10}, t.selfEnd, t.mR16]} /> */}
 				<Btn inner="Sign in" style={[t.mT12]} trigger={()=>{signIn()}} />
 				<TextButton inner="Create an account?" trigger={()=>{props.navigation.navigate("Signup")}} style={[{marginTop: 4}, t.mT4, t.textCenter]} />
 			</View>

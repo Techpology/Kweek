@@ -38,15 +38,15 @@ export default function Signup(props) {
 		{
 			return(
 				<View style={[t.wFull]}>
-					<InputField title="Full name" placeholder="full-name" val={(e)=>{setFullName(e)}} style={[t.mB8]} />
-					<InputField title="Email" placeholder="e-mail" val={(e)=>{setEmail(e)}} />
+					<InputField _text={fullName} title="Full name" placeholder="full-name" val={(e)=>{setFullName(e)}} style={[t.mB8]} />
+					<InputField _text={email} title="Email" placeholder="e-mail" val={(e)=>{setEmail(e)}} />
 				</View>
 			)
 		}else if(index == 1)
 		{
 			return(
 				<View style={[t.wFull]}>
-					<InputField secure={true} title="Password" placeholder="password" val={(e)=>{setPassword(e)}} />
+					<InputField secure={true} title="Password" _text={password} placeholder="password" val={(e)=>{setPassword(e)}} />
 				</View>
 			)
 		}else if(index == 2)
@@ -108,6 +108,15 @@ export default function Signup(props) {
 		}
 	}
 
+	const decrement = () =>
+	{
+		if(index == 0){
+		}
+		else{
+			setIndex(index - 1)
+		}
+	}
+
 	const [fullName, setFullName] = useState("")
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
@@ -118,7 +127,15 @@ export default function Signup(props) {
 			<View style={[t.hFull, t.wFull, t.flex, t.flexCol, t.itemsCenter, t.justifyCenter]}>
 				<Logo width={200} height={200} />
 				{flow()}
-				<Btn inner="Next" style={[t.mT12]} trigger={()=>{increment()}} />
+					{
+						(index != 0) ?
+						<View style={[t.flex, t.flexRow, t.wFull, t.justifyBetween, t.pX12]}>
+							<Btn inner="Back" style={[t.mT12]} trigger={()=>{decrement()}} />
+							<Btn inner="Next" style={[t.mT12]} trigger={()=>{increment()}} />
+						</View>
+						:
+						<Btn inner="Next" style={[t.mT12]} trigger={()=>{increment()}} />
+					}
 				<TextButton inner="Already have an account?" trigger={()=>{props.navigation.navigate("Signin")}} style={[{marginTop: 4}, t.mT4, t.textCenter]} />
 			</View>
 		</View>

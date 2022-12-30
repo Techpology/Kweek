@@ -37,6 +37,8 @@ from customer.views import post_order
 from customer.views import edit_cart_amt
 from customer.views import rem_cart
 from customer.views import customer_get_active_orders
+from customer.views import setFave # _stores
+from customer.views import get_fave_stores
 
 # Store
 from store.views import get_store_details
@@ -80,6 +82,9 @@ urlpatterns = [
     path("customer/edit/cart/", edit_cart_amt),
     path("customer/rem/cart/", rem_cart),
     path("customer/get/active", customer_get_active_orders),
+    
+    path("customer/set/fave/", setFave),
+    path("customer/get/fave", get_fave_stores),
 
     # Store
     path("store/details", get_store_details),

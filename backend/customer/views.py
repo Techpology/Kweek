@@ -197,14 +197,6 @@ def get_store_category_products(request):
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
 
-def get_stores_at_location(request):
-	if(request.method == "GET"):
-		_city = request.session["account"]["city"]
-		_stores = Store.objects.filter(city=_city).all().values()
-		ret = json.dumps(list(_stores))
-		return HttpResponse(ret, status=200)
-	return HttpResponse("Invalid request", status=409)
-
 def add_to_cart(request):
 	if(request.method == "POST"):
 		req = requestHandler.extractRequest(request)
@@ -408,4 +400,66 @@ def customer_get_active_orders(request):
 			return HttpResponse("Unauthorized", status=403)
 
 		return HttpResponse(query[0].activeOrders, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def setFave(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Processing
+		_store = Store.objects.filter(id=int(req["id"]))
+		if(len(_store) == 0): return HttpResponse("Invalid store id", status=500)
+		_store = _store[0]
+		faves = json.loads(query[0].favorites)
+		
+		if(int(req["id"]) in faves):
+			del faves[faves.index(int(req["id"]))]
+			a = _store.fave
+			a -= 1
+			_store.fave = a
+			_store.save()
+		else:
+			a = _store.fave
+			a += 1
+			_store.fave = a
+			_store.save()
+			faves.append(int(req["id"]))
+		
+		query[0].favorites = json.dumps(faves)
+		query[0].save()
+
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_fave_stores(request):
+	if(request.method == "GET"):
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Processing
+		vals = []
+		for i in json.loads(query[0].favorites):
+			vals.append(Store.objects.filter(id = i).all().values()[0])
+		ret = json.dumps(vals)
+		return HttpResponse(ret, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+
+def get_stores_at_location(request):
+	if(request.method == "GET"):
+		_city = request.session["account"]["city"]
+		_stores = Store.objects.filter(city=_city).all().values()
+		ret = json.dumps(list(_stores))
+		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)

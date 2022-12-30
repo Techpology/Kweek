@@ -58,8 +58,6 @@ export default function Account(props) {
 				</View>
 				:
 				<View style={[t.flex, t.flexCol, t.itemsCenter, t.wFull, t.pX12, t.pT16]}>
-					<WideBtn inner="Manage Account" />
-					<WideBtn inner="My orders" /> 
 					<WideBtn inner="Sign out" style={[t.textRed600]} trigger={()=>{signOut()}} /> 
 				</View>
 			}

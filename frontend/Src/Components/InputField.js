@@ -8,7 +8,7 @@ export default function InputField(props) {
 	return (
 		<View style={[t.flex, t.flexCol, t.wFull, t.pX10, props.style]}>
 			<Text style={[t.fontNormal]}>{props.title}</Text>
-			<TextInput secureTextEntry={props.secure}
+			<TextInput secureTextEntry={(props.secure != undefined) ? props.secure : false}
 				keyboardType={props.type}
 				autoCapitalize={'none'}
 				style={[t.wFull, t.bgWhite,
@@ -23,7 +23,7 @@ export default function InputField(props) {
 					fontSize: 16
 				}, props._style]} placeholder={props.placeholder} value={text}
 				onChangeText={(e)=>{setText(e); props.val(e)}} 
-				multiline={true} numberOfLines={(props.multi) ? props.lines : 0}
+				multiline={(props.secure != undefined) ? false : true} numberOfLines={(props.multi) ? props.lines : 0}
 			/>
 		</View>
 	)

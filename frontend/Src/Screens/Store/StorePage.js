@@ -41,6 +41,7 @@ export default function StorePage(props) {
 
 	useEffect(()=>{
 		getStore();
+		getFave();
 	},[])
 
 	const listCategories = () =>
@@ -91,6 +92,35 @@ export default function StorePage(props) {
 				{ret}
 			</ScrollView>
 		)
+	}
+
+	const [isFave, setIsFave] = useState(false)
+	const triggerFave = () =>
+	{
+		axios.post("customer/set/fave/", {
+			"id": id,
+			"state": isFave
+		}).then(resp=>{
+			console.log(resp.data);
+		}).catch(err=>{
+			alert(err.message);
+		})
+	}
+
+	const getFave = () =>
+	{
+		axios.get("customer/get/fave")
+		.then(resp=>{
+			console.log(resp.data);
+			resp.data.forEach(element => {
+			if(element["id"] == id)
+			{
+				setIsFave(true)
+			}
+			});
+		}).catch(err=>{
+			alert(err.message);
+		})
 	}
 
 	return (
@@ -185,6 +215,24 @@ export default function StorePage(props) {
 						<Text style={[t.textXl]}>{store["name"]}</Text>
 						<Text style={[{color: "#00000080"}]}>{store["address"]}</Text>
 						<Text style={[{color: "#00000080"}]}>Mobile: {store["phone"]}</Text>
+						<View style={[t.wFull, t.absolute, t.bottom0, t.flex, t.flexRow, t.itemsCenter, t.justifyEnd, t.pX6]}>
+							<TouchableOpacity style={[t.bgWhite, t.roundedFull, 
+								{
+									shadowColor: 'rgba(0, 0, 0, 0.4)',
+									shadowOffset: {width: 0, height: 2},
+									shadowRadius: 8,
+									elevation: 5,
+									height: 40,
+									width: 40
+								}, t.mB2, t.itemsCenter, t.justifyCenter]} onPress={()=>{setIsFave(!isFave); triggerFave()}}>
+									{
+										(isFave) ?
+										<AntDesign name="heart" size={20} color="red" />
+										:
+										<AntDesign name="hearto" size={20} color="red" />
+									}
+							</TouchableOpacity>
+						</View>
 					</View>
 					{listCategories()}
 				</ScrollView>

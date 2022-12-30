@@ -16,7 +16,7 @@
 		- Edit categories						[*]
 		- Create products						[*]
 		- Get products							[*]
-		- Get active orders						[ ]
+		- Get active orders						[*]
 		- Get order history						[ ]
 		
 		Other functionality that the store
@@ -237,7 +237,9 @@ def del_product(request):
 			return HttpResponse("Unauthorized", status=403)
 		
 		_store = query[0].store
-		Product.objects.filter(store=_store, id=req["id"]).delete()
+		prod = Product.objects.filter(store=_store, id=req["id"])[0]
+		imageHandler.delImage(prod.img)
+		prod.delete()
 
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)

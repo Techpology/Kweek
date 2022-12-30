@@ -34,9 +34,22 @@ export default function Home(props) {
 	}
 
 	useEffect(()=>{
-		GetSession()
-		getStores()
+		GetSession();
+		getStores();
+		getFaveStores();
 	},[])
+
+	const [faveStores, setFaveStores] = useState([])
+	const getFaveStores = () =>
+	{
+		axios.get("customer/get/fave")
+		.then(resp=>{
+			console.log(resp.data);
+			setFaveStores(resp.data);
+		}).catch(err=>{
+			alert(err.message);
+		})
+	}
 
 	const [activeScreen, setActiveScreen] = useState(2)
 
@@ -51,11 +64,16 @@ export default function Home(props) {
 			)
 		}else if(activeScreen == 1)
 		{
+			const retFave = faveStores.map((i, key) =>
+				<WideImgBtn key={key} img={axios.defaults.baseURL + i["pfp"]} inner={i["name"] +"\n" + i["Address"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} />
+			)
+
 			return(
-				
-				<View style={[t.flex, t.flexCol, t.wFull, t.itemsCenter, t.justifyCenter, t.pT8]}>
-					<Text style={[t.textLg]}>This page is still under development</Text>
-					<MaterialIcons name="engineering" size={24} color="black" />
+				<View style={[t.wFull, t.hFull]}>
+					<Text style={[t.textXl, t.mL4, t.mT2, t.mB4]}>Liked stores</Text>
+					<ScrollView style={[t.wFull, t.hFull, t.pX5]}>
+						{retFave}
+					</ScrollView>
 				</View>
 			)
 		}else if(activeScreen == 2)
@@ -77,7 +95,8 @@ export default function Home(props) {
 
 	return (
 		<Master searchIC={(activeScreen == 2) ? true : false} compassIC={(activeScreen == 0) ? true : false} starIC={(activeScreen == 1) ? true : false} top={true} sqTrigger={()=>{props.navigation.navigate("Account")}} 
-		navTrigger={()=>{setActiveScreen(0)}} favTrigger={()=>{setActiveScreen(1)}} searchTrigger={()=>{setActiveScreen(2)}} cartPress={()=>{props.navigation.navigate("Cart")}}>
+		navTrigger={()=>{setActiveScreen(0)}} favTrigger={()=>{setActiveScreen(1); getFaveStores()}} searchTrigger={()=>{setActiveScreen(2)}} 
+		cartPress={()=>{props.navigation.navigate("Cart")}} session={(props.session["name"] != undefined) ? props.session : ""}>
 			{flow()}
 		</Master>
 	)

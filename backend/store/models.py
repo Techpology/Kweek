@@ -16,8 +16,8 @@ class Store(models.Model):
 		{0: "Frozen food", 1: "Canned food", 2: "Vegetables", 3: "other"}
 	).replace("'",'"'), null=False)
 
-	# Orders relation
-	# Forum relation
+	# Statistics
+	fave = models.IntegerField(default=0, null=False)
 
 class Product(models.Model):
 	visible = models.IntegerField(default=0, null=False)

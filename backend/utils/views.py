@@ -25,3 +25,10 @@ class imageHandler:
             f.write(base64.b64decode(data))
         
         return f"media/{path}/{file}"
+    
+    def delImage(path):
+        try:
+            os.remove(path)
+            return True
+        except:
+            return False

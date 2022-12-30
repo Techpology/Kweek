@@ -3,6 +3,10 @@
     "name": "Kweek",
     "plugins": [
       [
+        "./plugin/withDisableForcedDarkModeAndroid.js",
+        {}
+      ],
+      [
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to allow you to upload them for your own marketing purposes."
@@ -10,7 +14,7 @@
       ]
     ],
     "slug": "Kweek",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -36,7 +40,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "kweek.tp.com",
-      "versionCode": 1,
+      "versionCode": 2,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ]
