@@ -35,6 +35,7 @@ import json
 from store.models import Store
 from store.models import Product
 from store.models import Order
+from store.models import Post
 from customer.models import Customer
 
 def get_store_details(request):
@@ -411,5 +412,36 @@ def order_done(request):
 		del b[c]
 		a.customer.activeOrders = b
 		a.customer.save()
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def create_post(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Processing
+		_store = query[0].store
+		_title = req["title"]
+		_desc = req["desc"]
+		_img = req["img"]
+
+		_n = str(Order.objects.last().id + 1)
+		imageHandler.storeImage(req["img"], str(_store.id) + "/posts/", _n + '.' + req["ext"])
+		_img_path = f"media/{str(_store.id)}/posts/{_n + '.' + req['ext']}"
+
+		_newOrder = Post(
+			store = _store,
+			title = _title,
+			desc = _desc,
+			img = _img
+		).save()
+
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)

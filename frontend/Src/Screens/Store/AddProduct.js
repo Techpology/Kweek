@@ -13,6 +13,7 @@ import Search from '../../Components/Search';
 import Popup from '../../Components/Popup';
 import DropDown from '../../Components/DropDown';
 import Btn from '../../Components/Btn';
+import MultiLine from '../../Components/MultiLine';
 
 export default function AddProduct(props) {
 
@@ -176,9 +177,9 @@ export default function AddProduct(props) {
 							</View>
 						</View>
 
-						<InputField val={(e)=>{setName(e)}} title="Name" placeholder="name" style={[t.mT8]} lines={1}/>
-						<InputField _text={ean} val={(e)=>{setEAN(e)}} title="EAN" placeholder="0000000000000" style={[t.mT8]} lines={1}/>
-						<InputField val={(e)=>{setDescription(e)}} title="Description" placeholder="description" style={[t.mT8]} _style={[t.h32]} lines={8}/>
+						<InputField val={(e)=>{setName(e); console.log(e)}} title="Name" placeholder="name" style={[t.mT8]} lines={1}/>
+						<InputField _text={ean} val={(e)=>{setEAN(e); console.log(e)}} title="EAN" placeholder="0000000000000" style={[t.mT8]} lines={1}/>
+						<MultiLine val={(e)=>{setDescription(e); console.log(e)}} title="Description" placeholder="description" style={[t.mT8]} _style={[t.h32]} lines={8}/>
 						<Text style={[t.fontNormal, t.textXl, t.mT4, t.mB2]}>Unit</Text>
 						
 						<View style={[t.w4_5, t.h12, t.flex, t.flexRow, t.itemsCenter]}>
@@ -202,7 +203,7 @@ export default function AddProduct(props) {
 							</TouchableOpacity>
 						</View>
 
-						<InputField type="numeric" title="Price" placeholder="0.00" style={[t.mT8]} val={(e)=>{setPrice(e)}} lines={1}/>
+						<InputField type="numeric" title="Price" placeholder="0.00" style={[t.mT8]} val={(e)=>{setPrice(e); console.log(e)}} lines={1}/>
 						<Btn inner="Done" style={[t.mY12]} trigger={()=>{createProduct()}} />
 					</View>
 				</ScrollView>

@@ -2,12 +2,12 @@ import { View, Text, TextInput } from 'react-native'
 import React, {useState} from 'react'
 import { t } from "react-native-tailwindcss"
 
-export default function InputField(props) {
+export default function MultiLine(props) {
 	const [text, setText] = useState(props._text)
 	return (
 		<View style={[t.flex, t.flexCol, t.wFull, t.pX10, props.style]}>
 			<Text style={[t.fontNormal]}>{props.title}</Text>
-			<TextInput secureTextEntry={(props.secure != undefined) ? props.secure : false}
+			<TextInput
 				keyboardType={props.type}
 				autoCapitalize={'none'}
 				style={[t.wFull, t.bgWhite,
@@ -22,6 +22,7 @@ export default function InputField(props) {
 					fontSize: 16
 				}, props._style]} placeholder={props.placeholder} value={text}
 				onChangeText={(e)=>{setText(e); props.val(e)}}
+				multiline={true} lines={props.lines}
 			/>
 		</View>
 	)

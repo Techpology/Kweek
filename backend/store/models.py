@@ -37,3 +37,11 @@ class Order(models.Model):
 	price = models.FloatField(default=0.0, null=False)
 	products = models.TextField(default="[]", null=False)
 	isActive = models.BooleanField(default=True, null=False)
+
+class Post(models.Model):
+	store = models.ForeignKey(Store, on_delete=models.SET_NULL, null=True)
+	title = models.TextField(default="", null=False)
+	desc = models.TextField(default="", null=False)
+	img = models.TextField(default="", null=False)
+	likes = models.IntegerField(default=0, null=False)
+	created = models.DateTimeField(auto_now_add=True)

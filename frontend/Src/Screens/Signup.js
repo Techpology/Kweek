@@ -38,15 +38,15 @@ export default function Signup(props) {
 		{
 			return(
 				<View style={[t.wFull]}>
-					<InputField _text={fullName} title="Full name" placeholder="full-name" val={(e)=>{setFullName(e)}} style={[t.mB8]} />
-					<InputField _text={email} title="Email" placeholder="e-mail" val={(e)=>{setEmail(e)}} />
+					<InputField _text={fullName} title="Full name" placeholder="full-name" val={(e)=>{setFullName(e); console.log(e)}} style={[t.mB8]} />
+					<InputField _text={email} title="Email" placeholder="e-mail" val={(e)=>{setEmail(e); console.log(e)}} />
 				</View>
 			)
 		}else if(index == 1)
 		{
 			return(
 				<View style={[t.wFull]}>
-					<InputField secure={true} title="Password" _text={password} placeholder="password" val={(e)=>{setPassword(e)}} />
+					<InputField secure={true} title="Password" _text={password} placeholder="password" val={(e)=>{setPassword(e); console.log(e)}} />
 				</View>
 			)
 		}else if(index == 2)

@@ -14,14 +14,14 @@
       ]
     ],
     "slug": "Kweek",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/Logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFFFFF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -40,7 +40,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "kweek.tp.com",
-      "versionCode": 2,
+      "versionCode": 5,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ]
