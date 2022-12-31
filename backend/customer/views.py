@@ -510,7 +510,7 @@ def get_posts(request):
 
 		for i in range(len(_posts)):
 			print(_posts[i]["store_id"])
-			_posts[i]["pfp"] = Store.objects.filter(id=int(_posts[i]["store_id"]))[0]["pfp"]
+			_posts[i]["pfp"] = Store.objects.filter(id=int(_posts[i]["store_id"]))[0].pfp
 			if(_posts[i]["id"] in _liked):
 				_posts[i]["isLiked"] = True
 			else:
