@@ -12,6 +12,8 @@ import WideImgBtn from '../../Components/WideImgBtn'
 import Search from '../../Components/Search';
 import Popup from '../../Components/Popup';
 import Btn from '../../Components/Btn';
+import InputField from '../../Components/InputField'
+import MultiLine from '../../Components/MultiLine'
 
 export default function ManagePost(props) {
 
@@ -51,6 +53,14 @@ export default function ManagePost(props) {
 	const [imgPath, setImgPath] = useState(null)
 	const createPost = () =>
 	{
+		if(img == null){
+			alert("Must choose an image.");
+			return;
+		}
+		if(title == ""){
+			alert("Must set a title.");
+			return;
+		}
 		axios.post("/store/set/post/", {
 			title: title,
 			desc: desc,
@@ -68,12 +78,18 @@ export default function ManagePost(props) {
 		<View style={[t.wFull, t.hFull]}>
 			{
 				(isPopup) ?
-				<Popup pressOut={()=>{setIsPopup(false)}} _style={[{height:"75%"}]}>
+				<Popup pressOut={()=>{setIsPopup(false)}} _style={[{height:"75%", backgroundColor: "#fafafa"}, t.flex, t.flexCol, t.pX4]}>
 					<TouchableOpacity onPress={()=>{pickImage()}} style={[{backgroundColor: "#D9D9D980", height: 180}, t.wFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
 						<ImageBackground source={{uri: imgPath}} style={[t.wFull, t.hFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
 							<Text style={[t.textXl, {color: "#00000080"}]}>Select image</Text>
 						</ImageBackground>
 					</TouchableOpacity>
+
+					<InputField val={(e)=>{setTitle(e)}} title="Title" placeholder="title" style={[t.pX4, t.mT8,]} />
+					<MultiLine lines={8} val={(e)=>{setDesc(e)}} title="Description" placeholder="description" style={[t.pX4, t.mT8,]} />
+					<View style={[t.wFull, t.itemsCenter, t.justifyCenter, t.mT8]}>
+						<Btn inner="Post" trigger={()=>{createPost()}} />
+					</View>
 				</Popup>
 				:
 				<></>
