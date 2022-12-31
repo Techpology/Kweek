@@ -1,27 +1,31 @@
-import { View, Text, ScrollView, TouchableOpacity, ImageBackground, FlatList, Image } from 'react-native'
-import React, {useEffect, useState} from 'react'
-import { useFocusEffect } from '@react-navigation/native' 
-import { t } from "react-native-tailwindcss"
-import axios from 'axios'
+import { View, Text, ScrollView, TouchableOpacity, ImageBackground, FlatList, Image } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { t } from "react-native-tailwindcss";
+import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons'; 
-import { Feather } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
-import WideImgBtn from '../../Components/WideImgBtn'
+import WideImgBtn from '../../Components/WideImgBtn';
 import Search from '../../Components/Search';
 import Popup from '../../Components/Popup';
 import Btn from '../../Components/Btn';
-import InputField from '../../Components/InputField'
-import MultiLine from '../../Components/MultiLine'
+import InputField from '../../Components/InputField';
+import MultiLine from '../../Components/MultiLine';
 
 export default function ManagePost(props) {
 	const { id } = props.route.params
 
+	useEffect(()=>{
+		getPosts()
+	},[])
+
 	const [posts, setPosts] = useState([])
 	const getPosts = () =>
 	{
-		axios.get("/store/get/posts/", {id: id})
+		axios.post("/store/get/post/", {id: id})
 		.then(resp=>{
 			setPosts(resp.data);
 		}).catch(err=>{
@@ -29,11 +33,15 @@ export default function ManagePost(props) {
 		})
 	}
 
-	const PostItem = ({i})=>
-	{
+	const PostItem = ({i}) =>{
+		console.log(i)
+		return(
+			<PostCard title={i["title"]} desc={i["desc"]} base={axios.defaults.baseURL} images={JSON.parse(i["img"].replace(/'/g,'"'))} likes={i["likes"]} liked={i["isLiked"]} 
+			date={i["created"].split(" ")[0]} id={i["id"]} />
+		)
 	}
 
-	const renderItem = ({item})=>
+	const renderPostItem = ({item}) =>
 	{
 		return(
 			<PostItem i={item} />
@@ -118,6 +126,7 @@ export default function ManagePost(props) {
 			</View>
 		)
 	}
+
 	return (
 		<View style={[t.wFull, t.hFull]}>
 			{
@@ -159,9 +168,9 @@ export default function ManagePost(props) {
 				<Search placeholder="search" />
 			</View>
 
-			<ScrollView style={[t.pX4, t.pT4]}>
-				{/* {(showProducts) && renderProds()} */}
-			</ScrollView>
+			<View style={[t.wFull, t.hFull, t.pB48]}>
+				<FlatList data={posts} renderItem={renderPostItem} keyExtractor={item=>item.id} />
+			</View>
 			<FlatList data={posts} />
 
 			<View style={[t.absolute, t.flex, t.flexRowReverse, t.wFull, t.itemsCenter, t.mB32, t.bottom0]}>

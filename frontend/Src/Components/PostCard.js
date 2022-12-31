@@ -2,6 +2,7 @@ import { View, Text, Image, TouchableOpacity, ImageBackground } from 'react-nati
 import React, {useState} from 'react'
 import { t } from "react-native-tailwindcss"
 import { AntDesign } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons'; 
 
 import axios from "axios"
 
@@ -20,7 +21,6 @@ export default function PostCard(props) {
 	}
 
 	const [selectedIndex, setSelectedIndex] = useState(0)
-	alert(props.base + props.images[0])
 
 	return (
 		<View style={[{width:"90%", borderRadius: 8}, t.bgWhite, t.flex, t.flexCol, t.pB5, t.selfCenter, {
@@ -29,8 +29,28 @@ export default function PostCard(props) {
 			shadowRadius: 8,
 			elevation: 4,
 		}, t.mY2]}>
-			<View style={[{height: 225, borderTopLeftRadius: 8, borderTopRightRadius: 8}, t.wFull]}>
-				<Image source={{uri: (props.base + props.images[0])}} style={[{height: 225, borderTopLeftRadius: 8, borderTopRightRadius: 8}, t.wFull]}/>
+			<View style={[{height: 250, borderTopLeftRadius: 8, borderTopRightRadius: 8}, t.wFull]}>
+				<Image source={{uri: (props.base + props.images[selectedIndex])}} style={[{height: 250, borderTopLeftRadius: 8, borderTopRightRadius: 8}, t.wFull]}/>
+				<View style={[t.absolute, t.hFull, t.wFull, t.itemsCenter, t.justifyBetween, t.flex, t.flexRow, t.pX2]}>
+					{(selectedIndex > 0) ? 
+						<TouchableOpacity style={[t.bgWhite, {height: 35, width: 35}, t.roundedFull, t.itemsCenter, t.justifyCenter]} onPress={()=>{setSelectedIndex(selectedIndex - 1)}}>
+							<FontAwesome name="angle-left" size={24} color="black" />
+						</TouchableOpacity>
+						:
+						<Text></Text>
+					}
+					{
+						(selectedIndex < props.images.length - 1)?
+						<TouchableOpacity style={[t.bgWhite, {height: 35, width: 35}, t.roundedFull, t.itemsCenter, t.justifyCenter]} onPress={()=>{setSelectedIndex(selectedIndex + 1)}}>
+							<FontAwesome name="angle-right" size={24} color="black" />
+						</TouchableOpacity>
+						:
+						<Text></Text>
+					}
+				</View>
+				
+				<Image source={{uri: props.base + props.id.toString() + "/pfp.png"}} style={[{height: 30, width: 30}]} />
+				
 				<TouchableOpacity onPress={()=>{setLikes((isLiked) ? likes - 1 : likes + 1); setIsLiked(!isLiked); _like()}}
 				style={[t.absolute, t.bgWhite, {height: 30}, t.bottom0, t.right0, t.flex, t.flexRow, t.roundedLLg, t.pX2, t.itemsCenter, t.justifyCenter]}>
 					<Text style={[t.mR2]}>Likes: {likes}</Text>
