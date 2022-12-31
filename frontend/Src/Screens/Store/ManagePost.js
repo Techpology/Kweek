@@ -44,7 +44,7 @@ export default function ManagePost(props) {
 		let result = await ImagePicker.launchImageLibraryAsync({
 		  mediaTypes: ImagePicker.MediaTypeOptions.Images,
 		  allowsEditing: true,
-		  base64: false,
+		  base64: true,
 		  quality: .5,
 		  allowsMultipleSelection: true,
 		  orderedSelection: true
