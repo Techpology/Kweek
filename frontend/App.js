@@ -18,6 +18,7 @@ import ManageStore from "./Src/Screens/Store/ManageStore";
 import StorePage from "./Src/Screens/Store/StorePage";
 import Orders from "./Src/Screens/Store/Orders";
 import ScanOrder from "./Src/Screens/Store/ScanOrder";
+import ManagePost from "./Src/Screens/Store/ManagePost";
 
 const Stack = createNativeStackNavigator();
 
@@ -93,6 +94,9 @@ export default function App() {
 					</Stack.Screen>
 					<Stack.Screen  name="ScanOrder">
 						{(props)=> <ScanOrder {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
+					<Stack.Screen  name="ManagePost">
+						{(props)=> <ManagePost {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 				</Stack.Navigator> : <></>
 			}

@@ -395,7 +395,6 @@ def edit_order(request):
 		_p.products = json.dumps(a)
 		_p.save()
 
-
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
 
