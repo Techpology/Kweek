@@ -484,7 +484,7 @@ def like_post(request):
 		else:
 			liked.append(int(req["id"]))
 		
-		query[0].liked = liked
+		query[0].likedPosts = liked
 		query[0].save()
 
 		return HttpResponse(status=200)
