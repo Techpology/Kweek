@@ -77,7 +77,7 @@ export default function Home(props) {
 		console.log(i)
 		return(
 			<PostCard title={i["title"]} desc={i["desc"]} base={axios.defaults.baseURL} images={JSON.parse(i["img"].replace(/'/g,'"'))} likes={i["likes"]} liked={i["isLiked"]} 
-			date={i["created"].split(" ")[0]} id={i["id"]} />
+			date={i["created"].split(" ")[0]} id={i["id"]} pfp={i["pfp"]} />
 		)
 	}
 
