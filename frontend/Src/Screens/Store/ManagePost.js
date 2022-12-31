@@ -16,6 +16,7 @@ import InputField from '../../Components/InputField'
 import MultiLine from '../../Components/MultiLine'
 
 export default function ManagePost(props) {
+	const { id } = props.route.params
 
 	const [posts, setPosts] = useState([])
 	const getPosts = () =>
@@ -68,6 +69,11 @@ export default function ManagePost(props) {
 			ext: ext
 		}).then(resp=>{
 			console.log(resp.data)
+			setTitle("")
+			setDesc("")
+			setImg(null)
+			setImgPath(null)
+			setExt(null)
 		}).catch(err=>{
 			alert(err.message)
 		})
@@ -88,7 +94,7 @@ export default function ManagePost(props) {
 					<InputField val={(e)=>{setTitle(e)}} title="Title" placeholder="title" style={[t.pX4, t.mT8,]} />
 					<MultiLine lines={8} val={(e)=>{setDesc(e)}} title="Description" placeholder="description" style={[t.pX4, t.mT8,]} />
 					<View style={[t.wFull, t.itemsCenter, t.justifyCenter, t.mT8]}>
-						<Btn inner="Post" trigger={()=>{createPost()}} />
+						<Btn inner="Post" trigger={()=>{createPost(); setIsPopup(false)}} />
 					</View>
 				</Popup>
 				:

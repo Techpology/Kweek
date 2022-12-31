@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { useFocusEffect } from '@react-navigation/native' 
 import { t } from "react-native-tailwindcss"
@@ -63,6 +63,25 @@ export default function ManageProducts(props) {
 		getProducts()
 	},[])
 
+
+	const ProdItem = ({i}) =>
+	{
+		console.log(i)
+		return (
+			<View>
+				<WideImgBtn trigger={()=>{props.navigation.navigate("EditProduct", {_prod: i})}}
+				controls={true} img={axios.defaults.baseURL + i["img"]} inner={i["name"]} closePress={()=>{setDelKey(i["id"]); setIsDelPopup(true)}} />
+			</View>
+		)
+	}
+
+	const renderItem = ({item}) =>
+	{
+		return(
+			<ProdItem i={item} />
+		)
+	}
+
 	const renderProds = () =>
 	{
 		if(products.length != 0)
@@ -115,9 +134,8 @@ export default function ManageProducts(props) {
 			<View style={[t.wFull, t.pT24]}>
 				<Search placeholder="search" />
 			</View>
-			<ScrollView style={[t.pX4, t.pT4]}>
-				{(showProducts) && renderProds()}
-			</ScrollView>
+
+			<FlatList data={products} keyExtractor={item=>item.id} renderItem={renderItem} style={[t.pX4, t.pT4]} initialNumToRender={10} />
 
 			<View style={[t.absolute, t.flex, t.flexRowReverse, t.wFull, t.itemsCenter, t.mB32, t.bottom0]}>
 				<TouchableOpacity onPress={()=>{getProducts()}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter, t.mR8,

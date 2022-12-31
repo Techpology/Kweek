@@ -62,6 +62,7 @@ from store.views import edit_order
 from store.views import order_done
 
 from store.views import create_post
+from store.views import get_store_posts
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -111,5 +112,6 @@ urlpatterns = [
     path("store/order/done/", order_done),
     
     path("store/set/post/", create_post),
+    path("store/get/post/", get_store_posts),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -447,3 +447,22 @@ def create_post(request):
 
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
+
+def get_store_posts(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email, isStore=1)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Processing
+		_store = Store.objects.filter(id=int(req["id"]))[0]
+		_posts = Post.objects.filter(store=_store).all().values()
+		_ret = json.dumps(list(_posts))
+
+		return HttpResponse(_ret, status=200)
+	return HttpResponse("Invalid request", status=409)
