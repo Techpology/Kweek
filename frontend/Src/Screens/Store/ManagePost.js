@@ -1,19 +1,19 @@
-import { View, Text, ScrollView, TouchableOpacity, ImageBackground, FlatList, Image } from 'react-native'
-import React, {useEffect, useState} from 'react'
-import { useFocusEffect } from '@react-navigation/native' 
-import { t } from "react-native-tailwindcss"
-import axios from 'axios'
+import { View, Text, ScrollView, TouchableOpacity, ImageBackground, FlatList, Image } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { t } from "react-native-tailwindcss";
+import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons'; 
-import { Feather } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
-import WideImgBtn from '../../Components/WideImgBtn'
+import WideImgBtn from '../../Components/WideImgBtn';
 import Search from '../../Components/Search';
 import Popup from '../../Components/Popup';
 import Btn from '../../Components/Btn';
-import InputField from '../../Components/InputField'
-import MultiLine from '../../Components/MultiLine'
+import InputField from '../../Components/InputField';
+import MultiLine from '../../Components/MultiLine';
 
 export default function ManagePost(props) {
 	const { id } = props.route.params
@@ -126,6 +126,7 @@ export default function ManagePost(props) {
 			</View>
 		)
 	}
+
 	return (
 		<View style={[t.wFull, t.hFull]}>
 			{

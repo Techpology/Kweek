@@ -48,6 +48,9 @@ export default function PostCard(props) {
 						<Text></Text>
 					}
 				</View>
+				
+				<Image source={{uri: props.base + props.id.toString() + "/pfp.png"}} style={[{height: 30, width: 30}]} />
+				
 				<TouchableOpacity onPress={()=>{setLikes((isLiked) ? likes - 1 : likes + 1); setIsLiked(!isLiked); _like()}}
 				style={[t.absolute, t.bgWhite, {height: 30}, t.bottom0, t.right0, t.flex, t.flexRow, t.roundedLLg, t.pX2, t.itemsCenter, t.justifyCenter]}>
 					<Text style={[t.mR2]}>Likes: {likes}</Text>
