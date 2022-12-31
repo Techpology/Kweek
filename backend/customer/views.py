@@ -477,12 +477,17 @@ def like_post(request):
 		
 		# Processing
 		liked = json.loads(query[0].likedPosts)
+		_post = Post.objects.filter(id=int(req["id"]))[0]
 
 		if(int(req["id"]) in liked):
 			print("liked")
 			liked.remove(int(req["id"]))
+			_post.likes -= 1
 		else:
 			liked.append(int(req["id"]))
+			_post.likes += 1
+		_post.save()
+		
 		
 		query[0].likedPosts = liked
 		query[0].save()
