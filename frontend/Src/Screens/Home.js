@@ -38,6 +38,7 @@ export default function Home(props) {
 		GetSession();
 		getStores();
 		getFaveStores();
+		getPosts();
 	},[])
 
 	const [faveStores, setFaveStores] = useState([])
