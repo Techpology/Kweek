@@ -61,8 +61,9 @@ export default function ManagePost(props) {
 				_img.push(result.assets[index].base64)
 				_path.push(result.assets[index].uri)
 				var _e = result.assets[index].uri.split(".")
-				_ext.push(_e[_ext.length - 1])
+				_ext.push(_e[_e.length - 1])
 			}
+			console.log(_ext)
 			setImg(_img);
 			setImgPath(_path);
 			setExt(_ext)
@@ -122,19 +123,21 @@ export default function ManagePost(props) {
 			{
 				(isPopup) ?
 				<Popup pressOut={()=>{setIsPopup(false)}} _style={[{height:"75%", backgroundColor: "#fafafa"}, t.flex, t.flexCol, t.pX4]}>
-					<TouchableOpacity onPress={()=>{pickImage()}} style={[{backgroundColor: "#D9D9D980", height: 180}, t.wFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
-						<ImageBackground source={{uri: (imgPath != null) ? imgPath[selectedIndex] : ""}} style={[t.wFull, t.hFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
-							<Text style={[t.textXl, {color: "#00000080"}]}>Select image</Text>
-						</ImageBackground>
-					</TouchableOpacity>
+					<ScrollView>
+						<TouchableOpacity onPress={()=>{pickImage()}} style={[{backgroundColor: "#D9D9D980", height: 180}, t.wFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
+							<ImageBackground source={{uri: (imgPath != null) ? imgPath[selectedIndex] : ""}} style={[t.wFull, t.hFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
+								<Text style={[t.textXl, {color: "#00000080"}]}>Select image</Text>
+							</ImageBackground>
+						</TouchableOpacity>
 
-					{(imgPath != null) ? listSelected() : <></>}
+						{(imgPath != null) ? listSelected() : <></>}
 
-					<InputField val={(e)=>{setTitle(e)}} title="Title" placeholder="title" style={[t.pX4, t.mT8,]} />
-					<MultiLine lines={8} val={(e)=>{setDesc(e)}} title="Description" placeholder="description" style={[t.pX4, t.mT8,]} />
-					<View style={[t.wFull, t.itemsCenter, t.justifyCenter, t.mT8]}>
-						<Btn inner="Post" trigger={()=>{createPost(); setIsPopup(false)}} />
-					</View>
+						<InputField val={(e)=>{setTitle(e)}} title="Title" placeholder="title" style={[t.pX4, t.mT8,]} />
+						<MultiLine lines={8} val={(e)=>{setDesc(e)}} title="Description" placeholder="description" style={[t.pX4, t.mT8,]} />
+						<View style={[t.wFull, t.itemsCenter, t.justifyCenter, t.mT8]}>
+							<Btn inner="Post" trigger={()=>{createPost(); setIsPopup(false)}} />
+						</View>
+					</ScrollView>
 				</Popup>
 				:
 				<></>

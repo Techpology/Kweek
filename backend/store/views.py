@@ -436,7 +436,7 @@ def create_post(request):
 		_n = str(Order.objects.last().id + 1)
 		_img_paths = []
 		for i in range(len(_imgs)):
-			imageHandler.storeImage(req["img"][i], str(_store.id) + "/posts/", _n + '.' + req["ext"][i])
+			imageHandler.storeImage(_imgs[i], str(_store.id) + "/posts/", _n + '.' + req["ext"][i])
 			_img_paths.append(str(_store.id) + "/posts/" + _n + '.' + req["ext"][i])
 			_n += 1
 
