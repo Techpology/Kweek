@@ -18,10 +18,14 @@ import MultiLine from '../../Components/MultiLine'
 export default function ManagePost(props) {
 	const { id } = props.route.params
 
+	useEffect(()=>{
+		getPosts()
+	},[])
+
 	const [posts, setPosts] = useState([])
 	const getPosts = () =>
 	{
-		axios.get("/store/get/posts/", {id: id})
+		axios.post("/store/get/post/", {id: id})
 		.then(resp=>{
 			setPosts(resp.data);
 		}).catch(err=>{
@@ -29,11 +33,15 @@ export default function ManagePost(props) {
 		})
 	}
 
-	const PostItem = ({i})=>
-	{
+	const PostItem = ({i}) =>{
+		console.log(i)
+		return(
+			<PostCard title={i["title"]} desc={i["desc"]} base={axios.defaults.baseURL} images={JSON.parse(i["img"].replace(/'/g,'"'))} likes={i["likes"]} liked={i["isLiked"]} 
+			date={i["created"].split(" ")[0]} id={i["id"]} />
+		)
 	}
 
-	const renderItem = ({item})=>
+	const renderPostItem = ({item}) =>
 	{
 		return(
 			<PostItem i={item} />
@@ -159,9 +167,9 @@ export default function ManagePost(props) {
 				<Search placeholder="search" />
 			</View>
 
-			<ScrollView style={[t.pX4, t.pT4]}>
-				{/* {(showProducts) && renderProds()} */}
-			</ScrollView>
+			<View style={[t.wFull, t.hFull, t.pB48]}>
+				<FlatList data={posts} renderItem={renderPostItem} keyExtractor={item=>item.id} />
+			</View>
 			<FlatList data={posts} />
 
 			<View style={[t.absolute, t.flex, t.flexRowReverse, t.wFull, t.itemsCenter, t.mB32, t.bottom0]}>
