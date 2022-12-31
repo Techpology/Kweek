@@ -431,17 +431,20 @@ def create_post(request):
 		_store = query[0].store
 		_title = req["title"]
 		_desc = req["desc"]
-		_img = req["img"]
+		_imgs = req["img"]
 
 		_n = str(Order.objects.last().id + 1)
-		imageHandler.storeImage(req["img"], str(_store.id) + "/posts/", _n + '.' + req["ext"])
-		_img_path = f"media/{str(_store.id)}/posts/{_n + '.' + req['ext']}"
+		_img_paths = []
+		for i in range(len(_imgs)):
+			imageHandler.storeImage(req["img"][i], str(_store.id) + "/posts/", _n + '.' + req["ext"][i])
+			_img_paths.append(str(_store.id) + "/posts/" + _n + '.' + req["ext"][i])
+			_n += 1
 
 		_newOrder = Post(
 			store = _store,
 			title = _title,
 			desc = _desc,
-			img = _img_path,
+			img = _img_paths,
 			city = _store.city
 		).save()
 

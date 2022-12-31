@@ -10,6 +10,14 @@ import PostCard from '../Components/PostCard';
 
 import Master from './Master'
 
+
+/* return(
+	<View style={[t.flex, t.flexCol, t.wFull, t.itemsCenter, t.justifyCenter, t.pT8]}>
+		<Text style={[t.textLg]}>This page is still under development</Text>
+		<MaterialIcons name="engineering" size={24} color="black" />
+	</View>
+) */
+
 export default function Home(props) {
 	const [session, setSession] = useState({})
 	const GetSession = () => {
@@ -86,12 +94,8 @@ export default function Home(props) {
 		if(activeScreen == 0)
 		{
 			return(
-				<FlatList data={posts} renderItem={renderPostItem} keyExtractor={item=>item.id} />
-			)
-			return(
-				<View style={[t.flex, t.flexCol, t.wFull, t.itemsCenter, t.justifyCenter, t.pT8]}>
-					<Text style={[t.textLg]}>This page is still under development</Text>
-					<MaterialIcons name="engineering" size={24} color="black" />
+				<View style={[t.wFull, t.hFull, t.pB48]}>
+					<FlatList data={posts} renderItem={renderPostItem} keyExtractor={item=>item.id} />
 				</View>
 			)
 		}else if(activeScreen == 1)
@@ -127,7 +131,7 @@ export default function Home(props) {
 
 	return (
 		<Master searchIC={(activeScreen == 2) ? true : false} compassIC={(activeScreen == 0) ? true : false} starIC={(activeScreen == 1) ? true : false} top={true} sqTrigger={()=>{props.navigation.navigate("Account")}} 
-		navTrigger={()=>{setActiveScreen(0)}} favTrigger={()=>{setActiveScreen(1); getFaveStores()}} searchTrigger={()=>{setActiveScreen(2)}} 
+		navTrigger={()=>{setActiveScreen(0); getPosts()}} favTrigger={()=>{setActiveScreen(1); getFaveStores()}} searchTrigger={()=>{setActiveScreen(2)}} 
 		cartPress={()=>{props.navigation.navigate("Cart")}} session={(props.session["name"] != undefined) ? props.session : ""}>
 			{flow()}
 		</Master>
