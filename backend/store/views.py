@@ -329,7 +329,7 @@ def get_active_orders(request):
 		_store = query[0].store
 
 		# Processing
-		_orders = Order.objects.filter(store=_store).all().values()
+		_orders = Order.objects.filter(store=_store, isActive = 1).all().values()
 		ret = json.dumps(list(_orders))
 
 		return HttpResponse(ret, status=200)
@@ -409,6 +409,8 @@ def order_done(request):
 				c = i
 				break
 		del b[c]
+		a.isActive = 0
+		a.save()
 		a.customer.activeOrders = b
 		a.customer.save()
 		return HttpResponse(status=200)
