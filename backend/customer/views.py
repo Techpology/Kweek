@@ -509,6 +509,7 @@ def get_posts(request):
 		_liked = json.loads(query[0].likedPosts)
 
 		for i in range(len(_posts)):
+			print(i)
 			if(_posts[i]["id"] in _liked):
 				_posts[i]["isLiked"] = True
 			else:
