@@ -66,8 +66,10 @@ export default function Home(props) {
 	}
 
 	const PostItem = ({i}) =>{
+		console.log(i)
 		return(
-			<PostCard title={i["title"]} desc={i["desc"]} image={axios.defaults.baseURL + i["img"]} likes={i["likes"]} date={i["created"].split(" ")[0]} id={i["id"]} />
+			<PostCard title={i["title"]} desc={i["desc"]} image={axios.defaults.baseURL + i["img"]} likes={i["likes"]} liked={i["isLiked"]} 
+			date={i["created"].split(" ")[0]} id={i["id"]} />
 		)
 	}
 

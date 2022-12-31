@@ -476,15 +476,15 @@ def like_post(request):
 			return HttpResponse("Unauthorized", status=403)
 		
 		# Processing
-		faves = json.loads(query[0].favorites)
+		liked = json.loads(query[0].likedPosts)
 
-		if(int(req["id"]) in faves):
+		if(int(req["id"]) in liked):
 			print("liked")
-			faves.remove(int(req["id"]))
+			liked.remove(int(req["id"]))
 		else:
-			faves.append(int(req["id"]))
+			liked.append(int(req["id"]))
 		
-		query[0].favorites = faves
+		query[0].liked = liked
 		query[0].save()
 
 		return HttpResponse(status=200)
