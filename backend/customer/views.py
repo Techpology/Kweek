@@ -509,6 +509,8 @@ def get_posts(request):
 		_liked = json.loads(query[0].likedPosts)
 
 		for i in range(len(_posts)):
+			print(_posts[i]["store"])
+			print(_posts[i]["store"]["id"])
 			_posts[i]["pfp"] = Store.objects.filter(id=int(_posts[i]["store"]))[0]["pfp"]
 			if(_posts[i]["id"] in _liked):
 				_posts[i]["isLiked"] = True
