@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { t } from "react-native-tailwindcss"
 import axios from 'axios'
@@ -6,6 +6,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import WideImgBtn from '../Components/WideImgBtn'
 import Search from "../Components/Search"
+import PostCard from '../Components/PostCard';
 
 import Master from './Master'
 
@@ -51,11 +52,39 @@ export default function Home(props) {
 		})
 	}
 
+	const [posts, setPosts] = useState([])
+	const getPosts = () =>
+	{
+		axios.get("/customer/get/posts")
+		.then(resp=>{
+			console.log(resp.data)
+			setPosts(resp.data)
+		}).catch(err=>{
+			alert(err.message)
+		})
+	}
+
+	const PostItem = ({i}) =>{
+		return(
+			<PostCard title={i["title"]} desc={i["desc"]} image={axios.defaults.baseURL + i["img"]} />
+		)
+	}
+
+	const renderPostItem = ({item}) =>
+	{
+		return(
+			<PostItem i={item} />
+		)
+	}
+
 	const [activeScreen, setActiveScreen] = useState(2)
 
 	const flow = () =>{
 		if(activeScreen == 0)
 		{
+			return(
+				<FlatList data={posts} renderItem={renderPostItem} keyExtractor={item=>item.id} />
+			)
 			return(
 				<View style={[t.flex, t.flexCol, t.wFull, t.itemsCenter, t.justifyCenter, t.pT8]}>
 					<Text style={[t.textLg]}>This page is still under development</Text>

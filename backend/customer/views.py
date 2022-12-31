@@ -30,6 +30,7 @@ from customer.models import Customer
 from store.models import Store
 from store.models import Product
 from store.models import Order
+from store.models import Post
 
 def create_account(request):
 	if(request.method == "POST"):
@@ -455,11 +456,52 @@ def get_fave_stores(request):
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
 
-
 def get_stores_at_location(request):
 	if(request.method == "GET"):
 		_city = request.session["account"]["city"]
 		_stores = Store.objects.filter(city=_city).all().values()
 		ret = json.dumps(list(_stores))
 		return HttpResponse(ret, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def like_post(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Processing
+		faves = json.loads(query[0].favorites)
+
+		if(int(req["id"]) in faves):
+			print("liked")
+			faves.remove(int(req["id"]))
+		else:
+			faves.append(int(req["id"]))
+		
+		query[0].favorites = faves
+		query[0].save()
+
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_posts(request):
+	if(request.method == "GET"):
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		# Processing
+		_posts = Post.objects.filter(city=query[0].city).all().values()
+		_ret = json.dumps(list(_posts))
+
+		return HttpResponse(_ret, status=200)
 	return HttpResponse("Invalid request", status=409)

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, ImageBackground } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, ImageBackground, FlatList } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { useFocusEffect } from '@react-navigation/native' 
 import { t } from "react-native-tailwindcss"
@@ -21,12 +21,23 @@ export default function ManagePost(props) {
 	const [posts, setPosts] = useState([])
 	const getPosts = () =>
 	{
-		axios.get("/store/get/posts")
+		axios.get("/store/get/posts/", {id: id})
 		.then(resp=>{
 			setPosts(resp.data);
 		}).catch(err=>{
 			alert(err.message);
 		})
+	}
+
+	const PostItem = ({i})=>
+	{
+	}
+
+	const renderItem = ({item})=>
+	{
+		return(
+			<PostItem i={item} />
+		)
 	}
 
 	const pickImage = async () => {
@@ -116,9 +127,11 @@ export default function ManagePost(props) {
 			<View style={[t.wFull, t.pT24]}>
 				<Search placeholder="search" />
 			</View>
+
 			<ScrollView style={[t.pX4, t.pT4]}>
 				{/* {(showProducts) && renderProds()} */}
 			</ScrollView>
+			<FlatList data={posts} />
 
 			<View style={[t.absolute, t.flex, t.flexRowReverse, t.wFull, t.itemsCenter, t.mB32, t.bottom0]}>
 				<TouchableOpacity onPress={()=>{/* getProducts() */}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter, t.mR8,
