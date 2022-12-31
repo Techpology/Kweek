@@ -1,8 +1,9 @@
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, ImageBackground } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { useFocusEffect } from '@react-navigation/native' 
 import { t } from "react-native-tailwindcss"
 import axios from 'axios'
+import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons'; 
@@ -25,16 +26,36 @@ export default function ManagePost(props) {
 		})
 	}
 
+	const pickImage = async () => {
+		let result = await ImagePicker.launchImageLibraryAsync({
+		  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+		  allowsEditing: true,
+		  base64: true,
+		  quality: .5,
+		});
+	
+		console.log(result);
+	
+		if (!result.canceled) {
+			setImg(result.assets[0].base64);
+			setImgPath(result.assets[0].uri);
+			var _ext = result.assets[0].uri.split(".")
+			setExt(_ext[_ext.length - 1])
+		}
+	};
+
 	const [title, setTitle] = useState("")
 	const [desc, setDesc] = useState("")
-	const [img, setImg] = useState("")
-	const [imgPath, setImgPath] = useState("")
+	const [img, setImg] = useState(null)
+	const [ext, setExt] = useState(null)
+	const [imgPath, setImgPath] = useState(null)
 	const createPost = () =>
 	{
-		axios.post("/store/set/post", {
-			title,
-			desc,
-			img
+		axios.post("/store/set/post/", {
+			title: title,
+			desc: desc,
+			img: img,
+			ext: ext
 		}).then(resp=>{
 			console.log(resp.data)
 		}).catch(err=>{
@@ -48,9 +69,11 @@ export default function ManagePost(props) {
 			{
 				(isPopup) ?
 				<Popup pressOut={()=>{setIsPopup(false)}} _style={[{height:"75%"}]}>
-					<ImageBackground source={{uri: imgPath}} style={[t.wFull, t.hFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
-						<Text style={[t.textXl, {color: "#00000080"}]}>Select image</Text>
-					</ImageBackground>
+					<TouchableOpacity onPress={()=>{pickImage()}} style={[{backgroundColor: "#D9D9D980", height: 180}, t.wFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
+						<ImageBackground source={{uri: imgPath}} style={[t.wFull, t.hFull, t.itemsCenter, t.justifyCenter, t.roundedLg]}>
+							<Text style={[t.textXl, {color: "#00000080"}]}>Select image</Text>
+						</ImageBackground>
+					</TouchableOpacity>
 				</Popup>
 				:
 				<></>

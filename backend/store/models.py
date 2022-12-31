@@ -43,5 +43,6 @@ class Post(models.Model):
 	title = models.TextField(default="", null=False)
 	desc = models.TextField(default="", null=False)
 	img = models.TextField(default="", null=False)
+	city = models.TextField(default="", null=False)
 	likes = models.IntegerField(default=0, null=False)
 	created = models.DateTimeField(auto_now_add=True)
