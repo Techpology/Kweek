@@ -441,7 +441,8 @@ def create_post(request):
 			store = _store,
 			title = _title,
 			desc = _desc,
-			img = _img
+			img = _img_path,
+			city = _store.city
 		).save()
 
 		return HttpResponse(status=200)
