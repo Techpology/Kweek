@@ -500,8 +500,8 @@ def get_posts(request):
 			return HttpResponse("Unauthorized", status=403)
 		
 		# Processing
-		_posts = Post.objects.filter(city=query[0].city).defer("created").all().values()
-		_ret = json.dumps(list(_posts))
+		_posts = Post.objects.filter(city=query[0].city).all().values()
+		_ret = json.dumps(list(_posts), default=str)
 
 		return HttpResponse(_ret, status=200)
 	return HttpResponse("Invalid request", status=409)
