@@ -501,6 +501,14 @@ def get_posts(request):
 		
 		# Processing
 		_posts = Post.objects.filter(city=query[0].city).defer("created").all().values()
+		_liked = json.loads(query[0].likedPosts)
+
+		for i in range(len(_posts)):
+			if(_posts[i].id in _liked):
+				_posts[i]["isLiked"] = True
+			else:
+				_posts[i]["isLiked"] = False
+
 		_ret = json.dumps(list(_posts))
 
 		return HttpResponse(_ret, status=200)

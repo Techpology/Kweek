@@ -13,7 +13,7 @@ class Customer(models.Model):
 	isStore  = models.IntegerField(default=0, null=False)
 	store = models.ForeignKey(Store, on_delete=models.SET_NULL, blank=True, null=True)
 	favorites = models.TextField(default="[]", null=False)
-	likePosts = models.TextField(default="[]", null=False)
+	likedPosts = models.TextField(default="[]", null=False)
 
 	# Orders
 	cart = models.TextField(default="{}", null=False)
