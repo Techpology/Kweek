@@ -19,6 +19,9 @@ export default function PostCard(props) {
 		})
 	}
 
+	const [selectedIndex, setSelectedIndex] = useState(0)
+	alert(props.base + props.images[0])
+
 	return (
 		<View style={[{width:"90%", borderRadius: 8}, t.bgWhite, t.flex, t.flexCol, t.pB5, t.selfCenter, {
 			shadowColor: 'rgba(0, 0, 0, 0.1)',
@@ -27,7 +30,7 @@ export default function PostCard(props) {
 			elevation: 4,
 		}, t.mY2]}>
 			<View style={[{height: 225, borderTopLeftRadius: 8, borderTopRightRadius: 8}, t.wFull]}>
-				<Image source={{uri: props.image}} style={[{height: 225, borderTopLeftRadius: 8, borderTopRightRadius: 8}, t.wFull]}/>
+				<Image source={{uri: (props.base + props.images[0])}} style={[{height: 225, borderTopLeftRadius: 8, borderTopRightRadius: 8}, t.wFull]}/>
 				<TouchableOpacity onPress={()=>{setLikes((isLiked) ? likes - 1 : likes + 1); setIsLiked(!isLiked); _like()}}
 				style={[t.absolute, t.bgWhite, {height: 30}, t.bottom0, t.right0, t.flex, t.flexRow, t.roundedLLg, t.pX2, t.itemsCenter, t.justifyCenter]}>
 					<Text style={[t.mR2]}>Likes: {likes}</Text>

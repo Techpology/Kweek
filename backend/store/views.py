@@ -437,7 +437,7 @@ def create_post(request):
 		_img_paths = []
 		for i in range(len(_imgs)):
 			imageHandler.storeImage(_imgs[i], str(_store.id) + "/posts/", str(_n) + '.' + req["ext"][i])
-			_img_paths.append(str(_store.id) + "/posts/" + str(_n) + '.' + req["ext"][i])
+			_img_paths.append("media/" + str(_store.id) + "/posts/" + str(_n) + '.' + req["ext"][i])
 			_n += 1
 
 		_newOrder = Post(
