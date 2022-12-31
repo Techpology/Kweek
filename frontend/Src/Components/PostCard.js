@@ -10,7 +10,12 @@ export default function PostCard(props) {
 	const [isLiked, setIsLiked] = useState(props.liked)
 
 	const _like = () =>{
-		axios.post("/customer/like/post", {id: props.id})
+		axios.post("/customer/like/post/", {id: props.id})
+		.then(resp =>{
+			console.log(resp.data);
+		}).catch(err=>{
+			alert(err.message)
+		})
 	}
 
 	return (
@@ -22,7 +27,7 @@ export default function PostCard(props) {
 		}]}>
 			<View style={[{height: 225, borderTopLeftRadius: 8, borderTopRightRadius: 8}, t.wFull]}>
 				<Image source={{uri: props.image}} style={[{height: 225, borderTopLeftRadius: 8, borderTopRightRadius: 8}, t.wFull]}/>
-				<TouchableOpacity onPress={()=>{setIsLiked(!isLiked);}}
+				<TouchableOpacity onPress={()=>{setIsLiked(!isLiked); _like()}}
 				style={[t.absolute, t.bgWhite, {height: 30}, t.bottom0, t.right0, t.flex, t.flexRow, t.roundedLLg, t.pX2, t.itemsCenter, t.justifyCenter]}>
 					<Text style={[t.mR2]}>Likes: {props.likes}</Text>
 					{(isLiked) ?
