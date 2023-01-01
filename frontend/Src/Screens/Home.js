@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, FlatList, Image } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { t } from "react-native-tailwindcss"
 import axios from 'axios'
@@ -77,7 +77,7 @@ export default function Home(props) {
 		console.log(i)
 		return(
 			<PostCard title={i["title"]} desc={i["desc"]} base={axios.defaults.baseURL} images={JSON.parse(i["img"].replace(/'/g,'"'))} likes={i["likes"]} liked={i["isLiked"]} 
-			date={i["created"].split(" ")[0]} id={i["id"]} pfp={i["pfp"]} />
+			date={i["created"].split(" ")[0]} id={i["id"]} pfp={i["pfp"]} storeName={i["store_name"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["store_id"]})}} />
 		)
 	}
 
@@ -115,14 +115,26 @@ export default function Home(props) {
 		}else if(activeScreen == 2)
 		{
 			console.log(stores)
+			{/* <WideImgBtn key={key} img={axios.defaults.baseURL + i["pfp"]} inner={i["name"] +"\n" + i["Address"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} /> */}
 			const ret = stores.map((i, key) =>
-				<WideImgBtn key={key} img={axios.defaults.baseURL + i["pfp"]} inner={i["name"] +"\n" + i["Address"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} />
+				<TouchableOpacity style={[t.pX2, t.pY2, t.flex, t.flexCol, t.itemsCenter, t.justifyCenter, t.bgWhite, {height: 100, width: 100}, t.roundedLg, t.mY2, t.mX2, 
+				{
+					shadowColor: 'rgba(0, 0, 0, 0.1)',
+					shadowOffset: {width: 0, height: 2},
+					shadowRadius: 8,
+					elevation: 4
+				}]} onPress={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} key={key}>
+					<Image source={{uri: axios.defaults.baseURL + i["pfp"]}} style={[{height: 80, width: 80}, t.roundedFull]} />
+					<Text>{i["name"]}</Text>
+				</TouchableOpacity>
 			)
 			return(
 				<View style={[t.wFull, t.hFull]}>
 					<Search placeholder="Search" title="Where would you like to shop?" style={[t.mT4]} />
 					<ScrollView style={[t.wFull, t.hFull, t.pX5]}>
-						{ret}
+						<View style={[t.flex, t.flexRow, t.flexWrap]}>
+							{ret}
+						</View>
 					</ScrollView>
 				</View>
 			)

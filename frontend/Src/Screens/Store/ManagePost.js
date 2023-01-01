@@ -14,6 +14,7 @@ import Popup from '../../Components/Popup';
 import Btn from '../../Components/Btn';
 import InputField from '../../Components/InputField';
 import MultiLine from '../../Components/MultiLine';
+import PostCard from '../../Components/PostCard';
 
 export default function ManagePost(props) {
 	const { id } = props.route.params
@@ -34,10 +35,9 @@ export default function ManagePost(props) {
 	}
 
 	const PostItem = ({i}) =>{
-		console.log(i)
 		return(
-			<PostCard title={i["title"]} desc={i["desc"]} base={axios.defaults.baseURL} images={JSON.parse(i["img"].replace(/'/g,'"'))} likes={i["likes"]} liked={i["isLiked"]} 
-			date={i["created"].split(" ")[0]} id={i["id"]} />
+			<PostCard title={i["title"]} desc={i["desc"]} base={axios.defaults.baseURL} images={JSON.parse(i["img"].replace(/'/g,'"'))} likes={i["likes"]} liked={i["isLiked"]}
+			date={i["created"].split(" ")[0]} id={i["id"]} hideLikes={true} />
 		)
 	}
 
@@ -168,7 +168,7 @@ export default function ManagePost(props) {
 				<Search placeholder="search" />
 			</View>
 
-			<View style={[t.wFull, t.hFull, t.pB48]}>
+			<View style={[t.wFull, t.hFull, t.pB8]}>
 				<FlatList data={posts} renderItem={renderPostItem} keyExtractor={item=>item.id} />
 			</View>
 			<FlatList data={posts} />
