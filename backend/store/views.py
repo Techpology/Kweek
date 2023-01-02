@@ -433,7 +433,7 @@ def create_post(request):
 		_desc = req["desc"]
 		_imgs = req["img"]
 
-		_n = int(Order.objects.latest("id")) + 1
+		_n = int(Order.objects.latest()) + 1
 		
 		_img_paths = []
 		for i in range(len(_imgs)):
