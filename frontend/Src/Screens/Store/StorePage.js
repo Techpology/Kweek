@@ -189,7 +189,7 @@ export default function StorePage(props) {
 
 					<Image style={[t.wFull, t.bgGray300, {height: "35%", borderTopLeftRadius: 20, borderTopRightRadius: 20}, t.objectContain, t.roundedBLg]} 
 							source={{uri: axios.defaults.baseURL + selectedProd["img"]}} />
-					<View style={[t.flex, t.flexRow, t.justifyBetween, t.mT6, t.pX6]}>
+					<View style={[t.flex, t.flexRow, t.flexWrap, t.justifyBetween, t.mT6, t.pX6]}>
 						<Text style={[t.text2xl]}>{selectedProd["name"]}</Text>
 						<Text style={[t.text2xl]}>{selectedProd["price"]}kr</Text>
 					</View>
