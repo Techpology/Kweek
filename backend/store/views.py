@@ -433,7 +433,7 @@ def create_post(request):
 		_desc = req["desc"]
 		_imgs = req["img"]
 
-		o = Order.objects.acount()
+		o = Order.objects.count()
 		if(o == 0):
 			_n = 0
 		else:
