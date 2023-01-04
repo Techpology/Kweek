@@ -337,6 +337,13 @@ def post_order(request):
 		for i in _prods:
 			_price += float(Product.objects.filter(id=i["id"])[0].price) * int(i["amt"])
 		
+		_clients = Customer.objects.filter(store=_store, isStore=1).all()
+		for i in _clients:
+			if(i.expoNotificationToken != ""):
+				notifRes = notificationsHandler.sendPushMessage(i.expoNotificationToken,
+				"You have recieved a new order!",
+				f"{query[0].name} has requested an order of {str(len(_prods))} items.")
+		
 		_newOrder = Order(
 			customer= query[0],
 			store= _store,
@@ -503,18 +510,14 @@ def like_post(request):
 		else:
 			_store = _post.store
 			_clients = Customer.objects.filter(store=_store, isStore=1).all()
-			print(str(_clients))
+
 			for i in _clients:
 				if(i.expoNotificationToken != ""):
-					print(i.expoNotificationToken)
 					notifRes = notificationsHandler.sendPushMessage(i.expoNotificationToken, "Somebody liked your post!", f"{query[0].name} has liked one of your posts!")
-					print(notifRes)
-			print("sent like")
-
+			
 			liked.append(int(req["id"]))
 			_post.likes += 1
 		_post.save()
-		
 		
 		query[0].likedPosts = liked
 		query[0].save()
