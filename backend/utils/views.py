@@ -1,3 +1,10 @@
+from exponent_server_sdk import (
+    DeviceNotRegisteredError,
+    PushClient,
+    PushMessage,
+    PushServerError,
+    PushTicketError,
+)
 from django.conf import settings
 from passlib.hash import argon2
 import json
@@ -32,3 +39,18 @@ class imageHandler:
             return True
         except:
             return False
+
+class notificationsHandler:
+    def sendPushMessage(token, message, extra=None):
+        try:
+            response = PushClient().publish(
+                PushMessage(to=token, body=message, data=extra)
+            )
+        except:
+            return False
+        
+        try:
+            response.validate_response()
+        except DeviceNotRegisteredError:
+            return False
+        return True

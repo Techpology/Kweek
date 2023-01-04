@@ -1,8 +1,11 @@
-import React,{useState, useEffect} from "react";
-import {Text, View, AsyncStorage } from 'react-native';
+import React,{useState, useEffect, useRef} from "react";
+import {Text, View, Platform  } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios, { Axios } from "axios"
+
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
 
 import Signin from "./Src/Screens/Signin";
 import Signup from "./Src/Screens/Signup";
@@ -21,6 +24,14 @@ import ScanOrder from "./Src/Screens/Store/ScanOrder";
 import ManagePost from "./Src/Screens/Store/ManagePost";
 
 const Stack = createNativeStackNavigator();
+
+Notifications.setNotificationHandler({
+	handleNotification: async () => ({
+		shouldShowAlert: true,
+		shouldPlaySound: true,
+		shouldSetBadge: true
+	}),
+});
 
 export default function App() {
 	//axios.defaults.baseURL = 'http://192.168.1.190:8000/';
@@ -45,11 +56,57 @@ export default function App() {
 		})
 	}
 
+	registerForPushNotificationsAsync = async () =>
+	{
+		let token;
+		if(Device.isDevice){
+			const {status: existingStatus} = await Notifications.getPermissionsAsync();
+			let finalStatus = existingStatus;
+			if(existingStatus != 'granted')
+			{
+				const { status } = await Notifications.requestPermissionsAsync();
+				finalStatus = status;
+			}
+			if(finalStatus != 'granted')
+			{
+				alert("Failed to get push token for push notification");
+				return;
+			}
+			token = (await Notifications.getExpoPushTokenAsync()).data;
+			console.log(token);
+		}else{
+			alert("Must use physical device for push notifications");
+		}
+
+		if(Platform.os == "android")
+		{
+			Notifications.setNotificationChannelAsync("default", {
+				name: "default",
+				importance: Notifications.AndroidImportance.MAX,
+				vibrationPattern: [0, 250, 0, 250],
+				lightColor: "#FFFFFF"
+			});
+		}
+		return token
+	}
+
 	useEffect(()=>{
 		GetSession()
 		if (Text.defaultProps == null) Text.defaultProps = {};
 		Text.defaultProps.allowFontScaling = false;
+
+		registerForPushNotificationsAsync().then(token => setExpoPushToken(token))
 	},[])
+
+	const setExpoPushToken = (x) =>
+	{
+		axios.post("customer/set/expo_notification_token/", {token: x})
+		.then(resp=>{
+			console.log(resp.data);
+		}).catch(err=>{
+			alert("ERROR:" + err.data);
+		})
+	}
 
 	return (
 		<NavigationContainer>
@@ -70,7 +127,7 @@ export default function App() {
 					<Stack.Screen  name="Cart">
 						{(props)=> <Cart {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
-					
+
 					<Stack.Screen  name="ManageProducts">
 						{(props)=> <ManageProducts {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>

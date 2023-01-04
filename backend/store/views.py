@@ -9,7 +9,7 @@
 		- Upload images for pfp and banner		[*]
 		- Manage store details					[*]
 		- Get store details						[*]
-		- Upload and manage forum posts			[ ]
+		- Upload and manage forum posts			[*]
 		- Create categories						[*]
 		- Get categories						[*]
 		- Delete categories						[*]

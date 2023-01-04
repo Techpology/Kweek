@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "107311104018",
+    "project_id": "kweek-f4e9b",
+    "storage_bucket": "kweek-f4e9b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107311104018:android:239eed8b55984d532398cb",
+        "android_client_info": {
+          "package_name": "kweek.tp.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "107311104018-4bv62orroptdjjqpesgf3f6nl4pq0rqd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMjbl8v2p8p_4n5UfZQfrdUhctrgo1ufE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "107311104018-4bv62orroptdjjqpesgf3f6nl4pq0rqd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

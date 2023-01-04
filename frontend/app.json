@@ -34,13 +34,14 @@
       "userInterfaceStyle": "light"
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "userInterfaceStyle": "light",
       "adaptiveIcon": {
         "foregroundImage": "./assets/Logo.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "kweek.tp.com",
-      "versionCode": 6,
+      "versionCode": 8,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ]

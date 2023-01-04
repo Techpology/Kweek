@@ -23,6 +23,7 @@ from django.http import HttpResponse
 from customer.views import create_account
 from customer.views import signIn_account
 from customer.views import signOut_account
+from customer.views import setExpoNoticationToken
 from customer.views import getSession
 
 from customer.views import get_store
@@ -93,6 +94,8 @@ urlpatterns = [
 
     path("customer/get/posts", get_posts),
     path("customer/like/post/", like_post),
+    
+    path("customer/set/expo_notification_token/", setExpoNoticationToken),
 
     # Store
     path("store/details", get_store_details),

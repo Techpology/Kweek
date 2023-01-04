@@ -21,6 +21,7 @@
 # Functions/Classes
 from django.http import HttpResponse
 from utils.views import requestHandler
+from utils.views import notificationsHandler
 import datetime
 import random
 import json
@@ -134,6 +135,23 @@ def signIn_account(request):
 def signOut_account(request):
 	if(request.method == "GET"):
 		del request.session["account"]
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def setExpoNoticationToken(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+
+		# Processing
+		query[0].expoNotificationToken = req["token"]
+		query[0].save()
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
 
@@ -478,6 +496,12 @@ def like_post(request):
 		# Processing
 		liked = json.loads(query[0].likedPosts)
 		_post = Post.objects.filter(id=int(req["id"]))[0]
+
+		_store = _post.store
+		_clients = Customer.objects.filter(store=_store, isStore=1).all()
+		for i in _clients:
+			if(i.expoNotificationToken != ""):
+				notificationsHandler.sendPushMessage(i.expoNotificationToken, f"query[0].name has liked one of your posts!", "")
 
 		if(int(req["id"]) in liked):
 			print("liked")

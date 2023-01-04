@@ -36,11 +36,11 @@ export default function ManageProducts(props) {
 		axios.post("store/del/product/",{"id": delKey})
 		.then(resp=>{
 			console.log(resp.data);
-			setIsDelPopup(false)
+			setIsDelPopup(false);
 		}).catch(err=>{
 			alert(err.message);
 		})
-		getProducts()
+		getProducts();
 	}
 
 	const [isDelPopup, setIsDelPopup] = useState(false)
@@ -110,13 +110,13 @@ export default function ManageProducts(props) {
 				<></>
 			}
 			{(isPop) ?
-			<Popup pressOut={()=>{setIsPop(false)}} >
-				<Text style={[t.text2xl, t.selfCenter]}>Add product</Text>
-				<View style={[t.flex, t.flexCol, t.itemsCenter, t.pT16]}>
-					<Btn trigger={()=>{props.navigation.navigate("BarScanner")}} inner="Scan EAN" style={[t.mB8]} />
-					<Btn trigger={()=>{props.navigation.navigate("AddProduct", {_ean: ""})}} inner="Manual" />
-				</View>
-			</Popup> : <></>
+				<Popup pressOut={()=>{setIsPop(false)}} >
+					<Text style={[t.text2xl, t.selfCenter]}>Add product</Text>
+					<View style={[t.flex, t.flexCol, t.itemsCenter, t.pT16]}>
+						<Btn trigger={()=>{props.navigation.navigate("BarScanner")}} inner="Scan EAN" style={[t.mB8]} />
+						<Btn trigger={()=>{props.navigation.navigate("AddProduct", {_ean: ""})}} inner="Manual" />
+					</View>
+				</Popup> : <></>
 			}
 			<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT12, t.mX4]}>
 				<TouchableOpacity onPress={()=>{props.navigation.goBack()}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter,

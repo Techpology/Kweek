@@ -9,6 +9,9 @@ class Customer(models.Model):
 	city = models.TextField(default="", null=False)
 	region = models.TextField(default="", null=False)
 
+	# Push notifications
+	expoNotificationToken = models.TextField(default="", null=False)
+
 	# Store relation
 	isStore  = models.IntegerField(default=0, null=False)
 	store = models.ForeignKey(Store, on_delete=models.SET_NULL, blank=True, null=True)
