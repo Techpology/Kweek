@@ -547,7 +547,7 @@ def get_posts(request):
 			else:
 				_posts[i]["isLiked"] = False
 
-		_ret = json.dumps(list(_posts), default=str)
+		_ret = json.dumps(list(reversed(_posts)), default=str)
 
 		return HttpResponse(_ret, status=200)
 	return HttpResponse("Invalid request", status=409)

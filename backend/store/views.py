@@ -470,7 +470,7 @@ def get_store_posts(request):
 		# Processing
 		_store = Store.objects.filter(id=int(req["id"]))[0]
 		_posts = Post.objects.filter(store=_store).all().values()
-		_ret = json.dumps(list(_posts), default=str)
+		_ret = json.dumps(list(reversed(_posts)), default=str)
 
 		return HttpResponse(_ret, status=200)
 	return HttpResponse("Invalid request", status=409)
