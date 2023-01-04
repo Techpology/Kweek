@@ -44,7 +44,7 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "kweek.tp.com",
-      "versionCode": 8,
+      "versionCode": 11,
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ]
