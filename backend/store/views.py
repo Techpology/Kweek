@@ -220,8 +220,8 @@ def get_products(request):
 			return HttpResponse("Unauthorized", status=403)
 		
 		_store = query[0].store
-		_prods = Product.objects.filter(store=_store).all().values().reverse()
-		ret = json.dumps(list(_prods))
+		_prods = Product.objects.filter(store=_store).all().values()
+		ret = json.dumps(list(reversed(_prods)))
 		print(ret)
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
