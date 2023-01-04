@@ -44,11 +44,12 @@ class notificationsHandler:
     def sendPushMessage(token, message, extra=None):
         try:
             response = PushClient().publish(
-                PushMessage(to=token, body=message, data=extra)
+                PushMessage(to=token, title=message, body=extra, display_in_foreground=True)
             )
-        except:
+        except PushServerError as exc:
+            print(exc.message)
             return False
-        
+        print(response)
         try:
             response.validate_response()
         except DeviceNotRegisteredError:
