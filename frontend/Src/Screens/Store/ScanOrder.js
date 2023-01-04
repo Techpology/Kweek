@@ -55,7 +55,7 @@ export default function ScanOrder(props) {
 					<TouchableOpacity onPress={()=>{props.navigation.goBack()}}>
 						<MaterialIcons name="keyboard-arrow-left" size={45} color="black" />
 					</TouchableOpacity>
-					<Text style={[t.mR1, t.fontLight]}>Scan product</Text>
+					<Text style={[t.textLg, t.textGray700]}>Scan order</Text>
 				</View>
 				<BarCodeScanner
 					style={StyleSheet.absoluteFillObject}

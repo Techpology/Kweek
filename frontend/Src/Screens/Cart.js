@@ -165,7 +165,7 @@ export default function Cart(props) {
 				<Popup pressOut={()=>{setProdPop(false)}} title="Edit amount or remove product" textStyle={[t.textCenter]} style={[t.itemsCenter]}>
 					<Text style={[t.textLg]}></Text>
 					<View style={[t.flex, t.flexRow, t.itemsCenter, t.justifyCenter, t.mT8]}>
-						<TouchableOpacity style={[t.pY2, t.pX2, t.bgBlue400, t.roundedFull]} onPress={()=>{setAmt(amt - 1);}}>
+						<TouchableOpacity style={[t.pY2, t.pX2, t.bgBlue400, t.roundedFull]} onPress={()=>{setAmt((amt != 1) ? amt - 1 : amt);}}>
 							<AntDesign name="minus" size={24} color="black" />
 						</TouchableOpacity>
 						<Text style={[t.textXl, t.mX8]}>{amt}</Text>
@@ -175,7 +175,7 @@ export default function Cart(props) {
 					</View>
 					<View style={[t.flex, t.flexRow, t.wFull, t.justifyBetween, t.pX8, t.mT8]}>
 						<Btn inner="Remove" _style={[t.textSm]} style={[t.mT6, t.h10, t.w24, t.bgRed400]} trigger={()=>{removeCartProd();}} />
-						<Btn inner="Done" _style={[t.textSm]} style={[t.mT6, t.h10, t.w24]} trigger={()=>{let x = selectedProd; x["amt"] = amt; setSelectedProd(x); editCartProd(); setProdPop(false);}} />
+						<Btn inner="Done" _style={[t.textSm]} style={[t.mT6, t.h10, t.w24]} trigger={()=>{let x = selectedProd; x["amt"] = amt; setSelectedProd(x); setAmt(1); editCartProd(); setProdPop(false);}} />
 					</View>
 				</Popup>
 				:

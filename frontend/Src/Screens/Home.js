@@ -130,7 +130,7 @@ export default function Home(props) {
 			)
 			return(
 				<View style={[t.wFull, t.hFull]}>
-					<Search placeholder="Search" title="Where would you like to shop?" style={[t.mT4]} />
+					<Search val={(e)=>{}} placeholder="Search" title="Where would you like to shop?" style={[t.mT4]} />
 					<ScrollView style={[t.wFull, t.hFull, t.pX5]}>
 						<View style={[t.flex, t.flexRow, t.flexWrap]}>
 							{ret}

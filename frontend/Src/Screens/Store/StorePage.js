@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, SafeAreaView, FlatList } from 'react-native';
 import { t } from "react-native-tailwindcss";
 import axios from "axios";
 import React, {useState, useEffect} from 'react';
@@ -6,7 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons'; 
 
 import Popup from '../../Components/Popup';
-import ProductCard from '../../Components/ProductCard';
+import ProductCard2 from '../../Components/ProductCard2';
 import Btn from "../../Components/Btn";
 
 export default function StorePage(props) {
@@ -18,7 +18,6 @@ export default function StorePage(props) {
 	{
 		axios.post("customer/get/store/", {"id": id})
 		.then(resp=>{
-			console.log(resp.data);
 			setStore(resp.data);
 			setIsStore(true);
 		}).catch(err=>{
@@ -32,7 +31,6 @@ export default function StorePage(props) {
 	{
 		axios.post("customer/add/cart/", {storeName: store["name"], product: {id: selectedProd["id"], amt: amt}})
 		.then(resp=>{
-			console.log(resp.data);
 			props.updateSession()
 		}).catch(err=>{
 			alert(err.message);
@@ -48,7 +46,6 @@ export default function StorePage(props) {
 	{
 		let categ = store["categories"]
 		categ = categ.replace(/'/g,'"')
-		console.log(JSON.parse(categ))
 
 		const ret = JSON.parse(categ).map((i, key)=>
 			<TouchableOpacity key={key} style={[t.bgWhite, t.wFull, {height: 100}, t.roundedLg, t.itemsCenter, t.justifyCenter, t.mY2]} onPress={()=>{setSelectedCateg(i); getProds(i); setIsPopup(true)}}>
@@ -71,7 +68,6 @@ export default function StorePage(props) {
 	{
 		axios.post("customer/get/store/category/products/", {id: id, ind: x})
 		.then(resp=>{
-			console.log(resp.data);
 			setProds(resp.data);
 		}).catch(err=>{
 			alert(err.message);
@@ -81,16 +77,19 @@ export default function StorePage(props) {
 	const [isProdPopup, setIsProdPopup] = useState(false)
 	const [selectedProd, setSelectedProd] = useState({})
 
-	const listProds = () =>
+	const ProdItem = ({i}) =>
 	{
-		const ret = prods.map((i, key)=>
-			<ProductCard key={key} name={i["name"]} price={i["price"]} img={i["img"]} trigger={()=>{setSelectedProd(i); setIsProdPopup(true);}} />
+		return (
+			<ProductCard2 name={i["name"]} price={i["price"]} img={i["img"]} trigger={()=>{setSelectedProd(i); setIsProdPopup(true);}} />
 		)
+	}
 
+	const renderItem = ({item}) =>
+	{
 		return(
-			<ScrollView style={[t.wFull, t.hFull]}>
-				{ret}
-			</ScrollView>
+			<View style={[{alignContent: "space-around"}, t.w1_2, t.pX2, t.mY2]}>
+				<ProdItem i={item} />
+			</View>
 		)
 	}
 
@@ -101,7 +100,6 @@ export default function StorePage(props) {
 			"id": id,
 			"state": isFave
 		}).then(resp=>{
-			console.log(resp.data);
 		}).catch(err=>{
 			alert(err.message);
 		})
@@ -111,7 +109,6 @@ export default function StorePage(props) {
 	{
 		axios.get("customer/get/fave")
 		.then(resp=>{
-			console.log(resp.data);
 			resp.data.forEach(element => {
 			if(element["id"] == id)
 			{
@@ -141,9 +138,19 @@ export default function StorePage(props) {
 
 			{
 				(isPopup) ?
-				<Popup pressOut={()=>{setIsPopup(false)}} _style={[{height: "70%"}, t.pT0]} title={""}>
-					<Text style={[t.textLg, t.mB4]}>{selectedCateg}</Text>
-					{(prods.length != 0) ? listProds() : <></>}
+				<Popup pressOut={()=>{setIsPopup(false)}} _style={[{height: "70%"}, t.pT0, t.pX0]} title={""}>
+					<Text style={[t.textLg, t.mB4, t.mL4]}>{selectedCateg}</Text>
+					{(prods.length != 0) ? <FlatList
+						data={prods}
+						renderItem={renderItem}
+						keyExtractor={item => item.id}
+						numColumns={2}
+						style={[{ flex: 1, width: "100%" }]}
+						contentContainerStyle={{ paddingVertical: 20 }}
+						/>
+						: 
+						<></>
+					}
 				</Popup>
 				:
 				<></>
@@ -154,11 +161,11 @@ export default function StorePage(props) {
 				<Popup pressOut={()=>{setIsProdPopup(false); setIsPopup(false)}} _style={[{height: "70%"}, t.pX0, t.pY0]}>
 					{
 						(amtPoppup)?
-						<View style={[t.absolute, t.wFull, t.hFull, {backgroundColor: "#00000040"}, t.z40, t.itemsCenter, t.justifyCenter]}>
+						<TouchableOpacity onPress={()=>{setAmt(1); setAmtPoppup(false)}} style={[t.absolute, t.wFull, t.hFull, {backgroundColor: "#00000040"}, t.z40, t.itemsCenter, t.justifyCenter]}>
 							<View style={[t.bgWhite, t.wFull, t.pY4, t.itemsCenter, t.flex, t.flexCol, t.roundedLg]}>
 								<Text style={[t.textLg]}>How many would you like to have?</Text>
 								<View style={[t.flex, t.flexRow, t.itemsCenter, t.justifyCenter, t.mT6]}>
-									<TouchableOpacity style={[t.pY2, t.pX2, t.bgBlue400, t.roundedFull]} onPress={()=>{setAmt(amt - 1)}}>
+									<TouchableOpacity style={[t.pY2, t.pX2, t.bgBlue400, t.roundedFull]} onPress={()=>{setAmt((amt != 1) ? amt - 1 : amt)}}>
 										<AntDesign name="minus" size={24} color="black" />
 									</TouchableOpacity>
 									<Text style={[t.textXl, t.mX8]}>{amt}</Text>
@@ -166,9 +173,9 @@ export default function StorePage(props) {
 										<AntDesign name="plus" size={24} color="black" />
 									</TouchableOpacity>
 								</View>
-								<Btn inner="Done" style={[t.mT6]} trigger={()=>{setAmtPoppup(false); setIsProdPopup(false); addToCart();}} />
+								<Btn inner="Done" style={[t.mT6]} trigger={()=>{setAmtPoppup(false); setIsProdPopup(false); addToCart(); setAmt(1)}} />
 							</View>
-						</View>
+						</TouchableOpacity>
 						:
 						<></>
 					}

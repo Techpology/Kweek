@@ -197,7 +197,7 @@ export default function ManageStore(props) {
 				<></>
 			}
 			<ScrollView style={[t.hFull, t.wFull]}>
-				<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT12, t.mX4]}>
+				<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT12, t.mX4, t.justifyBetween]}>
 					<TouchableOpacity onPress={()=>{props.navigation.goBack()}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter,
 					{
 						shadowColor: 'rgba(0, 0, 0, 0.4)',
@@ -209,6 +209,7 @@ export default function ManageStore(props) {
 					}]}>
 						<FontAwesome name="angle-left" size={32} color="black" />
 					</TouchableOpacity>
+					<Text style={[t.mR12, t.textLg, t.textGray700]}>Manage page</Text>
 				</View>
 
 				<View style={[t.wFull, t.flex, t.flexCol, t.itemsCenter, t.justifyCenter, t.pT24]}>

@@ -151,7 +151,7 @@ export default function ManagePost(props) {
 				:
 				<></>
 			}
-			<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT12, t.mX4]}>
+			<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT12, t.mX4, t.justifyBetween]}>
 				<TouchableOpacity onPress={()=>{props.navigation.goBack()}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter,
 				{
 					shadowColor: 'rgba(0, 0, 0, 0.4)',
@@ -163,12 +163,14 @@ export default function ManagePost(props) {
 				}]}>
 					<FontAwesome name="angle-left" size={32} color="black" />
 				</TouchableOpacity>
+
+				<Text style={[t.mR12, t.textLg, t.textGray700]}>Manage posts</Text>
 			</View>
 			<View style={[t.wFull, t.pT24]}>
-				<Search placeholder="search" />
+				{/* <Search placeholder="search" /> */}
 			</View>
 
-			<View style={[t.wFull, t.hFull, t.pB8]}>
+			<View style={[t.wFull, t.hFull, t.pB8, t.mT8]}>
 				<FlatList data={posts} renderItem={renderPostItem} keyExtractor={item=>item.id} />
 			</View>
 			<FlatList data={posts} />

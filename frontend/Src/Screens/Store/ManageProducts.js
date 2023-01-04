@@ -118,7 +118,7 @@ export default function ManageProducts(props) {
 					</View>
 				</Popup> : <></>
 			}
-			<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT12, t.mX4]}>
+			<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT12, t.mX4, t.justifyBetween]}>
 				<TouchableOpacity onPress={()=>{props.navigation.goBack()}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter,
 				{
 					shadowColor: 'rgba(0, 0, 0, 0.4)',
@@ -130,9 +130,10 @@ export default function ManageProducts(props) {
 				}]}>
 					<FontAwesome name="angle-left" size={32} color="black" />
 				</TouchableOpacity>
+				<Text style={[t.mR12, t.textLg, t.textGray700]}>Manage products</Text>
 			</View>
 			<View style={[t.wFull, t.pT24]}>
-				<Search placeholder="search" />
+				<Search placeholder="search" val={(e)=>{}} />
 			</View>
 
 			<FlatList data={products} keyExtractor={item=>item.id} renderItem={renderItem} style={[t.pX4, t.pT4]} initialNumToRender={10} />

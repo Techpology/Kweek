@@ -105,7 +105,7 @@ export default function Orders(props) {
 				:
 				<></>
 			}
-			<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT12, t.mX4]}>
+			<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT12, t.mX4, t.justifyBetween]}>
 				<TouchableOpacity onPress={()=>{props.navigation.goBack()}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter,
 				{
 					shadowColor: 'rgba(0, 0, 0, 0.4)',
@@ -117,13 +117,11 @@ export default function Orders(props) {
 				}]}>
 					<FontAwesome name="angle-left" size={32} color="black" />
 				</TouchableOpacity>
-			</View>
-			<View style={[t.absolute, t.right0, t.top0, t.mT16, t.mX6]}>
-				<Text style={[t.textLg]}>Orders</Text>
+				<Text style={[t.mR12, t.textLg, t.textGray700]}>Manage orders</Text>
 			</View>
 
 			<View style={[t.wFull, t.hFull, t.pT24]}>
-				<Search placeholder="Search"/>
+				<Search placeholder="Search" val={(e)=>{}} />
 				{(orders.length != 0) ? listOrders() : <></>}
 			</View>
 		</View>
