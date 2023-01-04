@@ -497,17 +497,19 @@ def like_post(request):
 		liked = json.loads(query[0].likedPosts)
 		_post = Post.objects.filter(id=int(req["id"]))[0]
 
-		_store = _post.store
-		_clients = Customer.objects.filter(store=_store, isStore=1).all()
-		for i in _clients:
-			if(i.expoNotificationToken != ""):
-				notificationsHandler.sendPushMessage(i.expoNotificationToken, f"query[0].name has liked one of your posts!", "")
-
 		if(int(req["id"]) in liked):
-			print("liked")
 			liked.remove(int(req["id"]))
 			_post.likes -= 1
 		else:
+			_store = _post.store
+			_clients = Customer.objects.filter(store=_store, isStore=1).all()
+			print(str(_clients))
+			for i in _clients:
+				if(i.expoNotificationToken != ""):
+					print(i.expoNotificationToken)
+					notificationsHandler.sendPushMessage(i.expoNotificationToken, f"{query[0].name} has liked one of your posts!", "")
+			print("sent like")
+
 			liked.append(int(req["id"]))
 			_post.likes += 1
 		_post.save()
