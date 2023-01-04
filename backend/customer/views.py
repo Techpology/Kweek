@@ -507,7 +507,8 @@ def like_post(request):
 			for i in _clients:
 				if(i.expoNotificationToken != ""):
 					print(i.expoNotificationToken)
-					notificationsHandler.sendPushMessage(i.expoNotificationToken, f"{query[0].name} has liked one of your posts!", "")
+					notifRes = notificationsHandler.sendPushMessage(i.expoNotificationToken, f"{query[0].name} has liked one of your posts!", "")
+					print(notifRes)
 			print("sent like")
 
 			liked.append(int(req["id"]))
