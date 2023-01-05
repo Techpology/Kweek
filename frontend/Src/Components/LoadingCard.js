@@ -1,23 +1,30 @@
-import { View, Text, Animated, Image } from 'react-native';
+import { View, Text, Animated, Image, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import * as Animatable from "react-native-animatable";
 import { t } from "react-native-tailwindcss";
-import GifImage from '@lowkey/react-native-gif';
+import AnimatedLoader from 'react-native-animated-loader';
 
 import { AntDesign } from '@expo/vector-icons'; 
 
-import Loading from "../Images/Loading.gif"
-
 export default function LoadingCard(props) {
+	const [visible, setVisible] = useState(true);
+
 	return (
-		<Animatable.View style={[{width: "75%", height: "25%"}, t.selfCenter, t.flex, t.itemsCenter, t.justifyCenter, t.mX3, t.mY2, t.bgWhite, t.roundedLg,{
-			shadowColor: 'rgba(0, 0, 0, 0.5)',
-			shadowOffset: {width: 0, height: 2},
-			shadowRadius: 8,
-			elevation: 5,
-		}]} animation="fadeInUp" >
-			<GifImage source={Loading} style={[{width: 64, height: 64}]} />
+		<AnimatedLoader
+		visible={visible}
+		overlayColor={"rgba(255,255,255,0.75)"}
+		animationStyle={styles.lottie}
+		source={{uri: "https://assets4.lottiefiles.com/private_files/lf30_ykdoon9j.json"}}
+		loop={true}
+		speed={1}>
 			<Text style={[{fontSize: 16, fontWeight: "300"}, t.textCenter]}>{(props.inner == undefined) ? "Loading..." : props.inner}</Text>
-		</Animatable.View>
+		</AnimatedLoader>
 	)
 }
+
+const styles = StyleSheet.create({
+	lottie: {
+	  width: 100,
+	  height: 100,
+	},
+  });
