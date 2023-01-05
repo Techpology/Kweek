@@ -433,11 +433,7 @@ def create_post(request):
 		_desc = req["desc"]
 		_imgs = req["img"]
 
-		o = Order.objects.count()
-		if(o == 0):
-			_n = 0
-		else:
-			_n = Order.objects.last().id + 1
+		_n = Order.objects.last().id + 1
 		
 		_img_paths = []
 		for i in range(len(_imgs)):

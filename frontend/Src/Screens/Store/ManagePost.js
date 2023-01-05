@@ -15,6 +15,7 @@ import Btn from '../../Components/Btn';
 import InputField from '../../Components/InputField';
 import MultiLine from '../../Components/MultiLine';
 import PostCard from '../../Components/PostCard';
+import LoadingCard from '../../Components/LoadingCard';
 
 export default function ManagePost(props) {
 	const { id } = props.route.params
@@ -48,10 +49,13 @@ export default function ManagePost(props) {
 		)
 	}
 
+	const [isLoading, setIsLoading] = useState(false)
+
 	const pickImage = async () => {
+		setIsLoading(true)
 		let result = await ImagePicker.launchImageLibraryAsync({
 		  mediaTypes: ImagePicker.MediaTypeOptions.Images,
-		  allowsEditing: true,
+		  allowsEditing: false,
 		  base64: true,
 		  quality: .5,
 		  allowsMultipleSelection: true,
@@ -75,6 +79,7 @@ export default function ManagePost(props) {
 			setImg(_img);
 			setImgPath(_path);
 			setExt(_ext)
+			setIsLoading(false)
 		}
 	};
 
@@ -93,6 +98,7 @@ export default function ManagePost(props) {
 			alert("Must set a title.");
 			return;
 		}
+		setIsPopup(false)
 		axios.post("/store/set/post/", {
 			title: title,
 			desc: desc,
@@ -130,6 +136,14 @@ export default function ManagePost(props) {
 	return (
 		<View style={[t.wFull, t.hFull]}>
 			{
+				(isLoading) ?
+				<View style={[t.absolute, t.wFull, t.hFull, t.z40, t.itemsCenter, t.justifyCenter, {backgroundColor: "#00000080"}]}>
+					<LoadingCard inner={"Loading images. \nplease wait..."} />
+				</View>
+				:
+				<></>
+			}
+			{
 				(isPopup) ?
 				<Popup pressOut={()=>{setIsPopup(false)}} _style={[{height:"75%", backgroundColor: "#fafafa"}, t.flex, t.flexCol, t.pX4]}>
 					<ScrollView>
@@ -144,7 +158,7 @@ export default function ManagePost(props) {
 						<InputField val={(e)=>{setTitle(e)}} title="Title" placeholder="title" style={[t.pX4, t.mT8,]} />
 						<MultiLine lines={8} val={(e)=>{setDesc(e)}} title="Description" placeholder="description" style={[t.pX4, t.mT8,]} />
 						<View style={[t.wFull, t.itemsCenter, t.justifyCenter, t.mT8]}>
-							<Btn inner="Post" trigger={()=>{createPost(); setIsPopup(false)}} />
+							<Btn inner="Post" trigger={()=>{createPost();}} />
 						</View>
 					</ScrollView>
 				</Popup>
@@ -170,10 +184,9 @@ export default function ManagePost(props) {
 				{/* <Search placeholder="search" /> */}
 			</View>
 
-			<View style={[t.wFull, t.hFull, t.pB8, t.mT8]}>
-				<FlatList data={posts} renderItem={renderPostItem} keyExtractor={item=>item.id} />
+			<View style={[t.wFull, t.hFull, t.pB8]}>
+				<FlatList data={posts} renderItem={renderPostItem} keyExtractor={item=>item.id} style={[t.mB16]} />
 			</View>
-			<FlatList data={posts} />
 
 			<View style={[t.absolute, t.flex, t.flexRowReverse, t.wFull, t.itemsCenter, t.mB32, t.bottom0]}>
 				<TouchableOpacity onPress={()=>{/* getProducts() */}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter, t.mR8,

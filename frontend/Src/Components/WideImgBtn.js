@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default function WideImgBtn(props) {
   return (
-	<TouchableOpacity style={[t.wFull, {height: 60}, t.flex, t.flexRow, t.itemsCenter, t.bgWhite, t.mY2, t.roundedLg, 
+	<TouchableOpacity style={[t.wFull, {height: 60}, t.flex, t.flexRow, t.itemsCenter, t.bgWhite, t.mT2, t.roundedLg, 
 	{
 		shadowColor: 'rgba(0, 0, 0, 0.1)',
 		shadowOffset: {width: 0, height: 2},

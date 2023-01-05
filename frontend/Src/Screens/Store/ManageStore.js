@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, Image } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React, {useEffect, useState} from 'react'
 import { t } from "react-native-tailwindcss"
 import axios from 'axios'
@@ -8,6 +8,14 @@ import { Entypo } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+	SafeAreaView,
+	SafeAreaProvider,
+	SafeAreaInsetsContext,
+	useSafeAreaInsets,
+	initialWindowMetrics,
+  } from 'react-native-safe-area-context';
+  
 
 import Btn from '../../Components/Btn';
 import Popup from '../../Components/Popup';
@@ -144,18 +152,18 @@ export default function ManageStore(props) {
 	const listCategories = () =>
 	{
 		const ret = categories.map((i,key) =>
-			<TouchableOpacity style={[t.wFull, t.bgWhite, t.p2, t.roundedLg,t.mY1, t.flex, t.flexRow, t.justifyBetween, t.itemsCenter]} onPress={()=>{setEditCategoryPopup(true); setEditCategoryName(i); setEditCategoryIndex(key);}}>
-				<Text>{i}</Text>
+			<TouchableOpacity style={[t.wFull, t.bgWhite, t.pX3, t.pY5, t.roundedLg, t.mB2, t.flex, t.flexRow, t.justifyBetween, t.itemsCenter]} onPress={()=>{setEditCategoryPopup(true); setEditCategoryName(i); setEditCategoryIndex(key);}}>
+				<Text style={[{fontSize: 16}]}>{i}</Text>
 				<TouchableOpacity style={[t.w1_6, t.absolute, t.right0, t.hFull, t.itemsCenter, t.justifyCenter]} onPress={()=>{delCategory(key)}}>
-					<MaterialCommunityIcons name="window-close" size={18} color="black" />
+					<MaterialCommunityIcons name="window-close" size={24} color="black" />
 				</TouchableOpacity>
 			</TouchableOpacity>
 		)
 
 		return (
-			<ScrollView style={[t.wFull, t.p3, {backgroundColor:"#9e9e9e30"}, t.roundedLg, t.h40]}>
+			<View style={[t.wFull, t.p3, {backgroundColor:"#9e9e9e20"}, t.roundedLg]}>
 				{ret}
-			</ScrollView>
+			</View>
 		)
 	}
 
@@ -196,8 +204,8 @@ export default function ManageStore(props) {
 				:
 				<></>
 			}
-			<ScrollView style={[t.hFull, t.wFull]}>
-				<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT12, t.mX4, t.justifyBetween]}>
+			<ScrollView>
+				<View style={[t.absolute, t.flex, t.flexRow, t.wFull, t.itemsCenter, t.mT4, t.mX4, t.justifyBetween]}>
 					<TouchableOpacity onPress={()=>{props.navigation.goBack()}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter,
 					{
 						shadowColor: 'rgba(0, 0, 0, 0.4)',
@@ -212,7 +220,7 @@ export default function ManageStore(props) {
 					<Text style={[t.mR12, t.textLg, t.textGray700]}>Manage page</Text>
 				</View>
 
-				<View style={[t.wFull, t.flex, t.flexCol, t.itemsCenter, t.justifyCenter, t.pT24]}>
+				<View style={[t.wFull, t.flex, t.flexCol, t.itemsCenter, t.justifyCenter, t.pT16]}>
 					<TouchableOpacity style={[{backgroundColor: "#00000040"}, t.roundedFull, t.itemsCenter, t.justifyCenter]} onPress={()=>{pickPfp()}}>
 						<Image source={{uri: axios.defaults.baseURL + props.session["store_pfp"]}} style={[t.roundedFull, {width: 120, height: 120},
 						{
@@ -229,7 +237,7 @@ export default function ManageStore(props) {
 					<Text style={[t.textXl, t.mT2]}>{props.session["store_name"]}</Text>
 					<Text style={[t.mT2, {color: "#00000080"}]}>{props.session["store_address"]}</Text>
 
-					<TouchableOpacity style={[{backgroundColor: "#00000040"}, t.w5_6, t.h40, t.mT16, t.itemsCenter, t.justifyCenter, t.roundedLg]} onPress={()=>{pickBanner()}}>
+					<TouchableOpacity style={[{backgroundColor: "#00000040"}, t.w5_6, t.h40, t.mT8, t.itemsCenter, t.justifyCenter, t.roundedLg]} onPress={()=>{pickBanner()}}>
 						<Image source={{uri: axios.defaults.baseURL + props.session["store_banner"]}} style={[t.roundedLg, t.wFull, t.hFull,
 						{
 							shadowColor: 'rgba(0, 0, 0, 0.1)',
@@ -242,14 +250,14 @@ export default function ManageStore(props) {
 						</View>
 					</TouchableOpacity>
 
-					<View style={[t.wFull, t.mT8, t.pX6]}>
+					<View style={[t.wFull, t.mT4, t.mB8, t.pX6]}>
 						<Text style={[t.textXl]}>Categories</Text>
 						{(categories.length != 0) ?
-							listCategories() 
-							: 
+							listCategories()
+							:
 							<Text style={[t.textCenter, {color: "#00000080"}]}>No categories found. Create a new one using the (Add) button below</Text>
 						}
-						<Btn inner="Add" style={[t.h10, t.w24, t.selfEnd, t.mY2]} _style={[t.textSm]} trigger={()=>{setCategoryPopup(true)}} />
+						<Btn inner="New category" style={[t.h14, t.selfEnd, t.mY2]} _style={[{fontSize: 16}]} trigger={()=>{setCategoryPopup(true)}} />
 					</View>
 				</View>
 			</ScrollView>

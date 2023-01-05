@@ -9,6 +9,7 @@ import Search from "../Components/Search"
 import PostCard from '../Components/PostCard';
 
 import Master from './Master'
+import LoadingCard from '../Components/LoadingCard';
 
 
 /* return(

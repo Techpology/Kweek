@@ -11,6 +11,7 @@ import WideImgBtn from '../../Components/WideImgBtn'
 import Search from '../../Components/Search';
 import Popup from '../../Components/Popup';
 import Btn from '../../Components/Btn';
+import LoadingCard from '../../Components/LoadingCard'
 
 export default function ManageProducts(props) {
 
@@ -68,7 +69,7 @@ export default function ManageProducts(props) {
 	{
 		console.log(i)
 		return (
-			<View>
+			<View style={[t.mB2]}>
 				<WideImgBtn trigger={()=>{props.navigation.navigate("EditProduct", {_prod: i})}}
 				controls={true} img={axios.defaults.baseURL + i["img"]} inner={i["name"]} closePress={()=>{setDelKey(i["id"]); setIsDelPopup(true)}} />
 			</View>
@@ -136,7 +137,11 @@ export default function ManageProducts(props) {
 				<Search placeholder="search" val={(e)=>{}} />
 			</View>
 
-			<FlatList data={products} keyExtractor={item=>item.id} renderItem={renderItem} style={[t.pX4, t.pT4]} initialNumToRender={10} />
+			{(products.length != 0) ?
+				<FlatList data={products} keyExtractor={item=>item.id} renderItem={renderItem} style={[t.pX4, t.pT4, t.mB4]} initialNumToRender={10} />
+				:
+				<LoadingCard />
+			}
 
 			<View style={[t.absolute, t.flex, t.flexRowReverse, t.wFull, t.itemsCenter, t.mB32, t.bottom0]}>
 				<TouchableOpacity onPress={()=>{getProducts()}} style={[t.roundedFull, t.bgWhite, t.itemsCenter, t.justifyCenter, t.mR8,

@@ -134,6 +134,16 @@ def signIn_account(request):
 
 def signOut_account(request):
 	if(request.method == "GET"):
+		# Verification
+		_email = request.session["account"]["email"]
+		query = Customer.objects.filter(email=_email)
+
+		if(len(query) == 0):
+			return HttpResponse("Unauthorized", status=403)
+		
+		query[0].expoNotificationToken = ""
+		query[0].save()
+
 		del request.session["account"]
 		return HttpResponse(status=200)
 	return HttpResponse("Invalid request", status=409)
