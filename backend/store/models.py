@@ -2,6 +2,7 @@ from django.db import models
 import json
 
 class Store(models.Model):
+	_type = models.IntegerField(default=0, null=False)		# [livsmedel, restaurant, clothes, electronics, Entertainment]
 	name = models.TextField(default="", null=False)
 	email = models.TextField(default="", null=False)
 	pfp = models.TextField(default="", null=False)

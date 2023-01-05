@@ -32,9 +32,10 @@ export default function Home(props) {
 	}
 
 	const [stores, setStores] = useState([])
+	const [storeType, setStoreType] = useState("#")
 	const getStores = () =>
 	{
-		axios.get("customer/get/stores/at/location")
+		axios.post("customer/get/stores/at/location", {type: storeType})
 		.then(resp=>{
 			console.log(resp.data);
 			setStores(resp.data);

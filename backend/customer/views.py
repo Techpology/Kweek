@@ -114,7 +114,8 @@ def signIn_account(request):
 					"city": query[0].city,
 					"region": query[0].region,
 					"store": query[0].isStore,
-					"cart": query[0].cart
+					"cart": query[0].cart,
+					"storeType": query[0].store._type
 				}
 		else:
 			_session ={
@@ -492,9 +493,15 @@ def get_fave_stores(request):
 	return HttpResponse("Invalid request", status=409)
 
 def get_stores_at_location(request):
-	if(request.method == "GET"):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+
 		_city = request.session["account"]["city"]
-		_stores = Store.objects.filter(city=_city).all().values()
+		_t = req["type"]
+		if(_t == "*"):
+			_stores = Store.objects.filter(city=_city).all().values()
+		else:
+			_stores = Store.objects.filter(city=_city, _type = int(_t)).all().values()
 		ret = json.dumps(list(_stores))
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
