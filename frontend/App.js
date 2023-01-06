@@ -8,6 +8,8 @@ import { useFonts } from 'expo-font';
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
 
+import Intro from "./Src/Screens/IntroFlow/Intro";
+
 import Signin from "./Src/Screens/Signin";
 import Signup from "./Src/Screens/Signup";
 import Home from "./Src/Screens/Home";
@@ -42,12 +44,12 @@ export default function App() {
 		"Kodchasan_medium": require("./Src/fonts/Kodchasan/Kodchasan-Medium.ttf"),
 	});
 
-	//axios.defaults.baseURL = 'http://192.168.1.190:8000/';
+	//axios.defaults.baseURL = 'http://192.168.1.189:8000/';
 	axios.defaults.baseURL = 'http://94.237.33.77:8000/';
 
 	const [session, setSession] = useState({})
-	const [showsession, setShowSession] = useState(false)
-	const [issession, setIsSession] = useState(false)
+	const [showsession, setShowSession] = useState(true)
+	const [issession, setIsSession] = useState(true)
 
 	const GetSession = () => {
 		axios.get("customer/get/session")
@@ -99,7 +101,7 @@ export default function App() {
 	}
 
 	useEffect(()=>{
-		GetSession()
+		//GetSession()
 		if (Text.defaultProps == null) Text.defaultProps = {};
 		Text.defaultProps.allowFontScaling = false;
 
@@ -112,19 +114,19 @@ export default function App() {
 		.then(resp=>{
 			console.log(resp.data);
 		}).catch(err=>{
-			alert("ERROR:" + err.data);
+			//alert("ERROR:" + err.data);
 		})
 	}
 
 	return (
 		<NavigationContainer>
 			{(issession) ?
-				<Stack.Navigator initialRouteName={(showsession) ? "Home" : "Signin"} screenOptions={{ headerShown: false }}>
+				<Stack.Navigator initialRouteName={"Signin"} screenOptions={{ headerShown: false }}>
 					<Stack.Screen  name="Home">
 						{(props) => <Home2 {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="Signin">
-						{(props)=> <Signin {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props)=> <Intro {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="Signup">
 						{(props)=> <Signup {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
