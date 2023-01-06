@@ -3,6 +3,7 @@ import {Text, View, Platform  } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios, { Axios } from "axios"
+import { useFonts } from 'expo-font';
 
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
@@ -10,6 +11,7 @@ import * as Notifications from 'expo-notifications';
 import Signin from "./Src/Screens/Signin";
 import Signup from "./Src/Screens/Signup";
 import Home from "./Src/Screens/Home";
+import Home2 from "./Src/Screens/Home2";
 import Account from "./Src/Screens/Account";
 import Cart from "./Src/Screens/Cart";
 
@@ -34,6 +36,12 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
+	const [fontsLoaded] = useFonts({
+		"Kodchasan_semiBold": require("./Src/fonts/Kodchasan/Kodchasan-SemiBold.ttf"),
+		"Kodchasan_light": require("./Src/fonts/Kodchasan/Kodchasan-Light.ttf"),
+		"Kodchasan_medium": require("./Src/fonts/Kodchasan/Kodchasan-Medium.ttf"),
+	});
+
 	//axios.defaults.baseURL = 'http://192.168.1.190:8000/';
 	axios.defaults.baseURL = 'http://94.237.33.77:8000/';
 
@@ -113,7 +121,7 @@ export default function App() {
 			{(issession) ?
 				<Stack.Navigator initialRouteName={(showsession) ? "Home" : "Signin"} screenOptions={{ headerShown: false }}>
 					<Stack.Screen  name="Home">
-						{(props) => <Home {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props) => <Home2 {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="Signin">
 						{(props)=> <Signin {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}

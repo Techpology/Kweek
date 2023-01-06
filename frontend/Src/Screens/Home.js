@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react'
 import { t } from "react-native-tailwindcss"
 import axios from 'axios'
 import { MaterialIcons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons'; 
 
 import WideImgBtn from '../Components/WideImgBtn'
 import Search from "../Components/Search"
@@ -32,10 +33,9 @@ export default function Home(props) {
 	}
 
 	const [stores, setStores] = useState([])
-	const [storeType, setStoreType] = useState("#")
-	const getStores = () =>
+	const getStores = (x="*") =>
 	{
-		axios.post("customer/get/stores/at/location", {type: storeType})
+		axios.post("customer/get/stores/at/location", {type: x})
 		.then(resp=>{
 			console.log(resp.data);
 			setStores(resp.data);
@@ -130,9 +130,28 @@ export default function Home(props) {
 					<Text>{i["name"]}</Text>
 				</TouchableOpacity>
 			)
+
+			const PillBtn = (x, y, z) => {
+				return(
+					<TouchableOpacity style={[{height: 35}, t.bgWhite, t.itemsCenter, t.justifyCenter, t.pX8, t.roundedFull, t.selfCenter, t.flex, t.flexRow]}
+					onPress={()=>{getStores(y);}}>
+						{z}
+						<Text style={[t.textCenter, t.textBlack]}>{x}</Text>
+					</TouchableOpacity>
+				)
+			}
+
 			return(
 				<View style={[t.wFull, t.hFull]}>
 					<Search val={(e)=>{}} placeholder="Search" title="Where would you like to shop?" style={[t.mT4]} />
+					<ScrollView style={[t.wFull, t.flex, t.flexRow, {height: 50}, t.mY2]} horizontal={true} showsHorizontalScrollIndicator={false}>
+						{PillBtn("All", "*")}
+						{PillBtn("livsmedel", 0,(<Ionicons name="restaurant-outline" size={24} color="black" />))}
+						{PillBtn("restaurant", 1)}
+						{PillBtn("clothes", 2)}
+						{PillBtn("electronics", 3)}
+						{PillBtn("Entertainment", 4)}
+					</ScrollView>
 					<ScrollView style={[t.wFull, t.hFull, t.pX5]}>
 						<View style={[t.flex, t.flexRow, t.flexWrap]}>
 							{ret}

@@ -8,23 +8,25 @@ export default function Search(props) {
 	return (
 		<View style={[t.flex, t.flexCol, t.wFull, t.pX8, props.style]}>
 			<Text style={[t.fontNormal, t.textXl]}>{props.title}</Text>
-			<View style={[t.flex, t.flexRow, t.mT4]}>
+			<View style={[t.flex, t.flexRow]}>
+
+				<View style={[t.bgWhite, t.absolute, t.left0, t.mL4, t.hFull, t.flex, t.itemsCenter, t.justifyCenter, t.z20]}>
+					<Ionicons name="ios-search" size={24} color={(props.searchIC) ? "black" : "gray"} />
+				</View>
+				
 				<TextInput secureTextEntry={props.secure}
 					style={[t.wFull, t.bgWhite,
 					{
-						borderRadius: 8,
+						borderRadius: 10,
 						height: 50,
 						shadowColor: 'rgba(0, 0, 0, 0.1)',
 						shadowOffset: {width: 0, height: 2},
 						shadowRadius: 8,
 						elevation: 4,
-						paddingHorizontal: 12,
+						paddingLeft: 50,
 						fontSize: 16
 					}]} placeholder={props.placeholder} text={text}
 					onChangeText={(e)=>{setText(e); props.val(e)}} />
-					<View style={[t.bgWhite, t.absolute, t.right0, t.mR4, t.hFull, t.flex, t.itemsCenter, t.justifyCenter]}>
-						<Ionicons name="ios-search" size={24} color={(props.searchIC) ? "black" : "gray"} />
-					</View>
 			</View>
 		</View>
 	)
