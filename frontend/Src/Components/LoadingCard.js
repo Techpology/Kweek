@@ -4,7 +4,7 @@ import * as Animatable from "react-native-animatable";
 import { t } from "react-native-tailwindcss";
 import AnimatedLoader from 'react-native-animated-loader';
 
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 
 export default function LoadingCard(props) {
 	const [visible, setVisible] = useState(true);

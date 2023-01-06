@@ -12,6 +12,7 @@ import Intro from "./Src/Screens/IntroFlow/Intro";
 
 import Signin from "./Src/Screens/Signin";
 import Signup from "./Src/Screens/Signup";
+import Signup2 from "./Src/Screens/Signup2";
 import Home from "./Src/Screens/Home";
 import Home2 from "./Src/Screens/Home2";
 import Account from "./Src/Screens/Account";
@@ -121,15 +122,18 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			{(issession) ?
-				<Stack.Navigator initialRouteName={"Signin"} screenOptions={{ headerShown: false }}>
+				<Stack.Navigator initialRouteName={"Intro"} screenOptions={{ headerShown: false }}>
 					<Stack.Screen  name="Home">
 						{(props) => <Home2 {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
-					<Stack.Screen  name="Signin">
+					<Stack.Screen  name="Intro">
 						{(props)=> <Intro {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
+					<Stack.Screen  name="Signin">
+						{(props)=> <Signin {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+					</Stack.Screen>
 					<Stack.Screen  name="Signup">
-						{(props)=> <Signup {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props)=> <Signup2 {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="Account">
 						{(props)=> <Account {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}

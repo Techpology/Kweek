@@ -1,8 +1,10 @@
 import { View, Text, ScrollView, TouchableOpacity, FlatList, Image, Dimensions  } from 'react-native'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import { t } from "react-native-tailwindcss"
 import axios from 'axios'
 import * as Animatable from "react-native-animatable";
+import LottieView from 'lottie-react-native';
+import AnimatedLoader from 'react-native-animated-loader';
 import { AntDesign } from '@expo/vector-icons'; 
 
 import {
@@ -15,6 +17,7 @@ import {
 
 import Art_Intro from "../../Images/Art_Intro"
 import Art_Intro2 from "../../Images/Art_Intro2"
+import Art_Transition_1 from "../../Images/Art_Transition_1"
 import LogoLight from "../../Images/LogoLight"
 
 export default function Intro(props) {
@@ -27,6 +30,8 @@ export default function Intro(props) {
 
 	const [flowIndex, setFlowIndex] = useState(0)
 	const [flowCardIndex, setFlowCardIndex] = useState(0)
+
+	const [isTransitionOut, setIsTransitionOut] = useState(false)
 
 	const flow = () =>
 	{
@@ -45,12 +50,12 @@ export default function Intro(props) {
 				break;
 			case 1:
 				return (
-					<View>
-						<Animatable.View animation="fadeInDown" style={[{height: _h, width: _w}, t.justifyStart]} duration={1000}>
+					<Animatable.View animation="fadeInDown" style={[{height: _h, width: _w}, t.justifyStart]} duration={1000}>
+						<View style={[t.absolute, {top: -30}]}>
 							<Art_Intro2 />
-							{flowCard()}
-						</Animatable.View>
-					</View>
+						</View>
+						{flowCard()}
+					</Animatable.View>
 				)
 				break;
 		}
@@ -121,7 +126,7 @@ export default function Intro(props) {
 										</Text>
 									</TouchableOpacity>
 								</Animatable.View>
-								<TouchableOpacity onPress={()=>{props.navigation.navigate("Home")}}
+								<TouchableOpacity onPress={()=>{props.navigation.navigate("Signup")}}
 									style={[{height: 60, width: 60, backgroundColor: "#24EA3F"}, t.roundedFull, t.mT8, t.itemsCenter, t.justifyCenter]}>
 									<AntDesign name="arrowright" size={24} color="white" />
 								</TouchableOpacity>
