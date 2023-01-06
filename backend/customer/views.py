@@ -497,11 +497,12 @@ def get_stores_at_location(request):
 		req = requestHandler.extractRequest(request)
 
 		_city = request.session["account"]["city"]
-		_t = req["type"]
+		_stores = Store.objects.filter(city=_city).all().values()
+		""" _t = req["type"]
 		if(_t == "*"):
 			_stores = Store.objects.filter(city=_city).all().values()
 		else:
-			_stores = Store.objects.filter(city=_city, _type = int(_t)).all().values()
+			_stores = Store.objects.filter(city=_city, _type = int(_t)).all().values() """
 		ret = json.dumps(list(_stores))
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
