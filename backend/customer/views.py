@@ -493,8 +493,8 @@ def get_fave_stores(request):
 	return HttpResponse("Invalid request", status=409)
 
 def get_stores_at_location(request):
-	if(request.method == "POST"):
-		req = requestHandler.extractRequest(request)
+	if(request.method == "GET"):
+		#req = requestHandler.extractRequest(request)
 
 		_city = request.session["account"]["city"]
 		_stores = Store.objects.filter(city=_city).all().values()
