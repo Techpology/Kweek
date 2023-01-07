@@ -120,7 +120,7 @@ export default function Intro(props) {
 									Create an account to start surfing.
 								</Animatable.Text>
 								<Animatable.View animation="fadeInLeft">
-									<TouchableOpacity onPress={()=>{}}>
+									<TouchableOpacity onPress={()=>{props.navigation.navigate("Signin")}}>
 										<Text style={[{fontFamily: "Kodchasan_medium", fontSize: 14, color: "#23EA3F"}, t.textCenter]}>
 											Already have an account?
 										</Text>

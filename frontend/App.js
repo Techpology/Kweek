@@ -11,6 +11,7 @@ import * as Notifications from 'expo-notifications';
 import Intro from "./Src/Screens/IntroFlow/Intro";
 
 import Signin from "./Src/Screens/Signin";
+import Signin2 from "./Src/Screens/Signin2";
 import Signup from "./Src/Screens/Signup";
 import Signup2 from "./Src/Screens/Signup2";
 import Home from "./Src/Screens/Home";
@@ -131,7 +132,7 @@ export default function App() {
 						{(props)=> <Intro {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="Signin">
-						{(props)=> <Signin {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
+						{(props)=> <Signin2 {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>
 					<Stack.Screen  name="Signup">
 						{(props)=> <Signup2 {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
