@@ -43,10 +43,11 @@ export default function App() {
 		"Kodchasan_semiBold": require("./Src/fonts/Kodchasan/Kodchasan-SemiBold.ttf"),
 		"Kodchasan_light": require("./Src/fonts/Kodchasan/Kodchasan-Light.ttf"),
 		"Kodchasan_medium": require("./Src/fonts/Kodchasan/Kodchasan-Medium.ttf"),
+		"Kodchasan_regular": require("./Src/fonts/Kodchasan/Kodchasan-Regular.ttf"),
 	});
 
-	//axios.defaults.baseURL = 'http://192.168.1.189:8000/';
-	axios.defaults.baseURL = 'http://94.237.33.77:8000/';
+	axios.defaults.baseURL = 'http://192.168.1.189:8000/';
+	//axios.defaults.baseURL = 'http://94.237.33.77:8000/';
 
 	const [session, setSession] = useState({})
 	const [showsession, setShowSession] = useState(true)

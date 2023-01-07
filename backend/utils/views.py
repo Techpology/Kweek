@@ -5,6 +5,7 @@ from exponent_server_sdk import (
     PushServerError,
     PushTicketError,
 )
+from django.http import HttpResponse
 from django.conf import settings
 from passlib.hash import argon2
 import json
@@ -55,3 +56,21 @@ class notificationsHandler:
         except DeviceNotRegisteredError:
             return False
         return True
+
+sCountries = [
+    "Sweden"
+]
+
+sCities = [
+    "Norrköping"
+]
+
+def getSupportedCountries(request):
+    if(request.method == "GET"):
+        return HttpResponse(json.dumps(sCountries), status = 200)
+    return HttpResponse("Invalid request", status=409)
+
+def getSupportedCities(request):
+    if(request.method == "GET"):
+        return HttpResponse(json.dumps(sCities), status = 200)
+    return HttpResponse("Invalid request", status=409)

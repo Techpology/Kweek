@@ -19,6 +19,10 @@ from django.conf import settings
 from django.urls import path
 from django.http import HttpResponse
 
+# Utils
+from utils.views import getSupportedCountries
+from utils.views import getSupportedCities
+
 # Customer
 from customer.views import create_account
 from customer.views import signIn_account
@@ -69,6 +73,10 @@ from store.views import get_store_posts
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Utils
+    path("utils/countries", getSupportedCountries),
+    path("utils/cities", getSupportedCities),
 
     # Customer
     path("customer/create/", create_account),
