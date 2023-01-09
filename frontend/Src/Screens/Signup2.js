@@ -16,7 +16,7 @@ import {
 	initialWindowMetrics,
 } from 'react-native-safe-area-context';
 
-import Art_DarkTop from "../Images/Art_DarkTop";
+import Art_Intro2 from "../Images/Art_Intro2";
 import Art_LightTop from "../Images/Art_LightTop";
 import V3InputField from '../Components/V3InputField';
 
@@ -70,7 +70,7 @@ export default function Signup2(props) {
 				<ScrollView>
 					<Animatable.View animation={(flowIndex <= 1) ? "fadeInLeft" : "fadeOutUp"} style={[t.z0]} onAnimationEnd={()=>{((flowIndex > 1) ? setPageIndex(1) : {})}}>
 						<View style={[t.top0, t.left0]}>
-							<Art_DarkTop />
+							<Art_Intro2 />
 							<Text style={[t.textWhite, {fontFamily: "Kodchasan_semiBold", fontSize: 32}, t.mL4, t.mT12, t.z10, t.absolute]}>Sign up</Text>
 						</View>
 					</Animatable.View>

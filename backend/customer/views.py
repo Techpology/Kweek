@@ -28,6 +28,7 @@ import json
 
 # Models
 from customer.models import Customer
+from customer.models import Global
 from store.models import Store
 from store.models import Product
 from store.models import Order
@@ -109,6 +110,7 @@ def signIn_account(request):
 					"store_address": query[0].store.Address,
 					"store_pfp": query[0].store.pfp,
 					"store_banner": query[0].store.banner,
+					"store_faves": query[0].store.fave,
 					"name": query[0].name,
 					"email": _email,
 					"city": query[0].city,
@@ -568,4 +570,36 @@ def get_posts(request):
 		_ret = json.dumps(list(reversed(_posts)), default=str)
 
 		return HttpResponse(_ret, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_featured_stores(request):
+	if(request.method == "GET"):
+		# Processing
+		vals = []
+		_g: Global.objects.all()[0]
+		fs = _g.FeaturedStores
+		for i in json.loads(fs):
+			vals.append(Store.objects.filter(id = i).all().values()[0])
+		ret = json.dumps(vals)
+		return HttpResponse(ret, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_featured_Posts(request):
+	if(request.method == "GET"):
+		# Processing
+		vals = []
+		_g: Global.objects.all()[0]
+		fs = _g.FeaturedPosts
+		for i in json.loads(fs):
+			vals.append(Post.objects.filter(id = i).all().values()[0])
+		ret = json.dumps(vals)
+		return HttpResponse(ret, status=200)
+	return HttpResponse("Invalid request", status=409)
+
+def get_app_categories(request):
+	if(request.method == "GET"):
+		# Processing
+		_g: Global.objects.all()[0]
+		ret = json.dumps(_g.categories)
+		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)

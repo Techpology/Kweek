@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import axios, { Axios } from "axios"
 import { useFonts } from 'expo-font';
+import * as Font from 'expo-font';
 
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
@@ -40,19 +41,32 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
-	const [fontsLoaded] = useFonts({
+
+	const [isFonts, setIsFonts] = useState(false)
+	const loadFonts = async () =>
+	{
+		await Font.loadAsync({
+			"Kodchasan_semiBold": require("./Src/fonts/Kodchasan/Kodchasan-SemiBold.ttf"),
+			"Kodchasan_light": require("./Src/fonts/Kodchasan/Kodchasan-Light.ttf"),
+			"Kodchasan_medium": require("./Src/fonts/Kodchasan/Kodchasan-Medium.ttf"),
+			"Kodchasan_regular": require("./Src/fonts/Kodchasan/Kodchasan-Regular.ttf"),
+		});
+		setIsFonts(true);
+	}
+
+	/* const [fontsLoaded] = useFonts({
 		"Kodchasan_semiBold": require("./Src/fonts/Kodchasan/Kodchasan-SemiBold.ttf"),
 		"Kodchasan_light": require("./Src/fonts/Kodchasan/Kodchasan-Light.ttf"),
 		"Kodchasan_medium": require("./Src/fonts/Kodchasan/Kodchasan-Medium.ttf"),
 		"Kodchasan_regular": require("./Src/fonts/Kodchasan/Kodchasan-Regular.ttf"),
-	});
+	}); */
 
-	axios.defaults.baseURL = 'http://192.168.1.189:8000/';
-	//axios.defaults.baseURL = 'http://94.237.33.77:8000/';
+	//axios.defaults.baseURL = 'http://192.168.1.189:8000/';
+	axios.defaults.baseURL = 'http://94.237.33.77:8000/';
 
 	const [session, setSession] = useState({})
-	const [showsession, setShowSession] = useState(true)
-	const [issession, setIsSession] = useState(true)
+	const [showsession, setShowSession] = useState(false)
+	const [issession, setIsSession] = useState(false)
 
 	const GetSession = () => {
 		axios.get("customer/get/session")
@@ -104,10 +118,11 @@ export default function App() {
 	}
 
 	useEffect(()=>{
-		//GetSession()
+		GetSession();
+		loadFonts();
 		if (Text.defaultProps == null) Text.defaultProps = {};
 		Text.defaultProps.allowFontScaling = false;
-
+		
 		registerForPushNotificationsAsync().then(token => setExpoPushToken(token))
 	},[])
 
@@ -123,8 +138,8 @@ export default function App() {
 
 	return (
 		<NavigationContainer>
-			{(issession) ?
-				<Stack.Navigator initialRouteName={"Intro"} screenOptions={{ headerShown: false }}>
+			{(issession && isFonts) ?
+				<Stack.Navigator initialRouteName={(showsession) ? "Home" : "Intro"} screenOptions={{ headerShown: false }}>
 					<Stack.Screen  name="Home">
 						{(props) => <Home2 {...props} isSession={showsession} session={session} updateSession={()=>{GetSession()}} />}
 					</Stack.Screen>

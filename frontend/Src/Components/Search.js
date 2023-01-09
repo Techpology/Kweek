@@ -10,7 +10,7 @@ export default function Search(props) {
 			<Text style={[t.fontNormal, t.textXl]}>{props.title}</Text>
 			<View style={[t.flex, t.flexRow]}>
 
-				<View style={[t.bgWhite, t.absolute, t.left0, t.mL4, t.hFull, t.flex, t.itemsCenter, t.justifyCenter, t.z20]}>
+				<View style={[t.bgWhite, t.absolute, t.left0, t.mL4, t.hFull, t.flex, t.itemsCenter, t.justifyCenter, t.z10]}>
 					<Ionicons name="ios-search" size={24} color={(props.searchIC) ? "black" : "gray"} />
 				</View>
 				

@@ -23,6 +23,10 @@ from django.http import HttpResponse
 from utils.views import getSupportedCountries
 from utils.views import getSupportedCities
 
+from customer.views import get_featured_stores
+from customer.views import get_featured_Posts
+from customer.views import get_app_categories
+
 # Customer
 from customer.views import create_account
 from customer.views import signIn_account
@@ -77,6 +81,10 @@ urlpatterns = [
     # Utils
     path("utils/countries", getSupportedCountries),
     path("utils/cities", getSupportedCities),
+    
+    path("utils/featured/stores", get_featured_stores),
+    path("utils/featured/posts", get_featured_Posts),
+    path("utils/featured/categories", get_app_categories),
 
     # Customer
     path("customer/create/", create_account),

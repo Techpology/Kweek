@@ -16,7 +16,7 @@ import {
 	initialWindowMetrics,
 } from 'react-native-safe-area-context';
 
-import Art_DarkTop from "../Images/Art_DarkTop";
+import Art_Intro2 from "../Images/Art_Intro2";
 import V3InputField from '../Components/V3InputField';
 
 export default function Signin2(props) {
@@ -48,7 +48,7 @@ export default function Signin2(props) {
 		<ScrollView>
 			<Animatable.View animation={"fadeInLeft"} style={[t.z0]}>
 				<View style={[t.top0, t.left0]}>
-					<Art_DarkTop />
+					<Art_Intro2 />
 					<Text style={[t.textWhite, {fontFamily: "Kodchasan_semiBold", fontSize: 32}, t.mL4, t.mT12, t.z10, t.absolute]}>Sign in</Text>
 				</View>
 			</Animatable.View>
@@ -58,7 +58,7 @@ export default function Signin2(props) {
 					<Text style={[t.selfCenter, {fontFamily: "Kodchasan_semiBold", fontSize: 12, color: "#FF0000"}]}>{errTxt}</Text>
 					<View style={[t.wFull, t.itemsCenter, t.justifyCenter]}>
 						<V3InputField txt={email} val={(e)=>{setEmail(e)}} delay={400} title="Email" placeholder="e-mail" icon={(<Feather name="mail" size={18} color="#00000080" />)}/>
-						<V3InputField txt={password} val={(e)=>{setPassword(e)}} delay={800} title="Password" placeholder="password" icon={(<Ionicons name="ios-keypad-outline" size={18} color="#00000080" />)} />
+						<V3InputField pass={true} txt={password} val={(e)=>{setPassword(e)}} delay={800} title="Password" placeholder="password" icon={(<Ionicons name="ios-keypad-outline" size={18} color="#00000080" />)} />
 					</View>
 
 					<Animatable.View style={[t.wFull, t.pX16, t.pY3, t.flex, t.flexRow, t.justifyEnd]} animation={"fadeInLeft"} delay={1000} duration={1800}>

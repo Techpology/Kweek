@@ -5,7 +5,7 @@ import axios from 'axios'
 
 export default function Popup(props) {
   return (
-	<View style={[t.absolute, t.wFull, t.hFull, {backgroundColor: "#00000040"}, t.itemsCenter, t.justifyCenter, t.z10]}>
+	<View style={[t.absolute, t.wFull, t.hFull, {backgroundColor: "#00000040"}, t.itemsCenter, t.justifyCenter, t.z20]}>
 		<TouchableOpacity style={[t.absolute, t.wFull, t.hFull, t.z10]} onPress={()=>{props.pressOut()}} />
 		<View style={[{width: "90%", height: "45%", borderRadius: 20}, t.bgWhite, t.z20, t.flex, t.flexCol, t.pX4, t.pY4, props._style]}>
 			{(props.title != undefined) ? <Text style={[t.text2xl, t.selfCenter, props.textStyle]}>{props.title}</Text> : <></> }
