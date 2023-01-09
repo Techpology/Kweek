@@ -22,3 +22,7 @@ class Customer(models.Model):
 	cart = models.TextField(default="{}", null=False)
 	activeOrders = models.TextField(default="[]", null=False)
 
+class Global:
+	FeaturedStores = models.TextField(default="", null=False)
+	Categories = models.TextField(default="", null=False)
+	FeaturedPosts = models.TextField(default="", null=False)
