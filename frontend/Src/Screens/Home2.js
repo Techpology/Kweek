@@ -101,10 +101,11 @@ export default function Home2(props) {
 
 	const listPosts = () =>
 	{
-		const ret = featuredStores.map((i, key)=>{
-			alert(JSON.stringify(i))
+		const ret = featuredPosts.map((i, key)=>{
+			var _img = JSON.parse(i["img"].replace(/'/g, '"'))
+			console.log(axios.defaults.baseURL + _img[0])
 			return(
-				<RectBtnMd img={i["img"]} title={i["title"]} desc={i["desc"]} />
+				<RectBtnMd img={axios.defaults.baseURL + _img[0]} title={i["title"]} desc={i["desc"]} />
 			)
 		})
 
@@ -164,9 +165,9 @@ export default function Home2(props) {
 					elevation: 4,
 				},
 				t.itemsCenter, t.pX2,]} onPress={()=>{}}>
-					<Image source={props.img} style={[{height: 80, width: 80}, t.roundedLg, t.bgGray600]} />
+					<Image source={{uri: props.img}} style={[{height: 80, width: 80}, t.roundedLg]} />
 					<View style={[t.hFull, t.itemsCenter, t.pY4, t.flex, t.flexCol]}>
-						<Text style={[{fontFamily: "Kodchasan_light", fontSize: 14}]}>{props.title}</Text>
+						<Text style={[{fontFamily: "Kodchasan_light", fontSize: 14}, t.mL2]}>{props.title}</Text>
 						<View style={[t.pL3]}>
 							<Text style={[{fontFamily: "Kodchasan_light", color: "#00000080", fontSize: 12}]}>{props.desc}</Text>
 						</View>
@@ -257,21 +258,6 @@ export default function Home2(props) {
 						<Text style={[{fontFamily: "Kodchasan_medium", fontSize: 16, marginTop: 20, marginLeft: 20}]}>Featured posts</Text>
 						{(featuredPosts.length != 0) ? listPosts() : <></>}
 					</Animatable.View>
-
-					<Text style={[{fontFamily: "Kodchasan_medium", fontSize: 16, marginTop: 20, marginLeft: 20}]}>Featured stores</Text>
-					<ScrollView style={[t.wFull, t.flex, t.flexRow, {marginLeft: 5}]} horizontal={true} showsHorizontalScrollIndicator={false} >
-						<RectBtnLg bg="https://upload.wikimedia.org/wikipedia/commons/a/a2/Mon_Ami_Boulangerie_%288119944759%29.jpg"
-							front="https://t4.ftcdn.net/jpg/03/31/93/85/360_F_331938599_nmkc39B7E74s1G5P01b0YCJ6x0MNMqJz.jpg" />
-
-						<RectBtnLg bg="https://vernsglass.com/wp-content/uploads/2019/09/Commercial-Storefronts.jpg"
-							front="https://images-platform.99static.com//6m2oEkLGOcAM-NspjIsGTF_x0do=/992x996:1866x1870/fit-in/500x500/projects-files/81/8156/815645/5513ffc1-e979-45e3-9684-6b725aa4df71.jpg" />
-
-						<RectBtnLg bg="https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3RvcmVmcm9udHxlbnwwfHwwfHw%3D&w=1000&q=80"
-							front="https://www.logodesign.net/logo-new/basket-with-grocery-store-items-9065ld.png?industry=grocery-shop" />
-
-						<RectBtnLg bg="https://upload.wikimedia.org/wikipedia/commons/a/a2/Mon_Ami_Boulangerie_%288119944759%29.jpg"
-							front="https://t4.ftcdn.net/jpg/03/31/93/85/360_F_331938599_nmkc39B7E74s1G5P01b0YCJ6x0MNMqJz.jpg" />
-					</ScrollView>
 
 					<View style={[{height: 90}, t.itemsCenter, t.justifyCenter]} />
 				</ScrollView>
