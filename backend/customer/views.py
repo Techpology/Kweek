@@ -578,7 +578,7 @@ def get_featured_stores(request):
 		vals = []
 		_g= GlobalConfig.objects.all().values()[0]
 		print(_g)
-		fs = _g.FeaturedStores
+		fs = _g["FeaturedStores"]
 		for i in json.loads(fs):
 			vals.append(Store.objects.filter(id = i).all().values()[0])
 		ret = json.dumps(vals)
@@ -591,7 +591,7 @@ def get_featured_Posts(request):
 		vals = []
 		_g= GlobalConfig.objects.all().values()[0]
 		print(_g)
-		fs = _g.FeaturedPosts
+		fs = _g.["FeaturedPosts"]
 		for i in json.loads(fs):
 			vals.append(Post.objects.filter(id = i).all().values()[0])
 		ret = json.dumps(vals, default=str)
@@ -603,6 +603,6 @@ def get_app_categories(request):
 		# Processing
 		_g= GlobalConfig.objects.all().values()[0]
 		print(_g)
-		ret = json.dumps(_g.Categories)
+		ret = json.dumps(_g["Categories"])
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
