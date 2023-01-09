@@ -42,11 +42,23 @@ export default function Home2(props) {
 	{
 		axios.get("utils/featured/categories")
 		.then(resp=>{
-			console.log(resp.data);
-			setCateg(resp.data);
+			setCateg(JSON.parse(resp.data));
 		}).catch(err=>{
 			alert(err.message);
 		})
+	}
+
+	const listCateg = () =>
+	{
+		const ret = categ.map((i, key) => (
+			<RectPillBtn inner={i} key={key} />
+		))
+
+		return(
+			<ScrollView style={[t.wFull, t.flex, t.flexRow, {marginLeft: 5}]} horizontal={true} showsHorizontalScrollIndicator={false} >
+				{ret}
+			</ScrollView>
+		)
 	}
 
 	const [featuredStores, setFeaturedStores] = useState([])
@@ -61,6 +73,20 @@ export default function Home2(props) {
 		})
 	}
 
+	const listStores = () =>
+	{
+		const ret = featuredStores.map((i, key)=>(
+			<RectBtnLg bg={axios.defaults.baseURL + i["banner"]}
+				front={axios.defaults.baseURL + i["pfp"]} />
+		))
+
+		return(
+			<ScrollView style={[t.wFull, t.flex, t.flexRow, {marginLeft: 5}]} horizontal={true} showsHorizontalScrollIndicator={false} >
+				{ret}
+			</ScrollView>
+		)
+	}
+
 	const [featuredPosts, setFeaturedPosts] = useState([])
 	const getFeaturedPosts = () =>
 	{
@@ -71,6 +97,22 @@ export default function Home2(props) {
 		}).catch(err=>{
 			alert(err.message);
 		})
+	}
+
+	const listPosts = () =>
+	{
+		const ret = featuredStores.map((i, key)=>{
+			alert(JSON.stringify(i))
+			return(
+				<RectBtnMd img={i["img"]} title={i["title"]} desc={i["desc"]} />
+			)
+		})
+
+		return(
+			<ScrollView style={[t.wFull, t.flex, t.flexRow, {marginLeft: 5, marginTop: 10}]} horizontal={true} showsHorizontalScrollIndicator={false} >
+				{ret}
+			</ScrollView>
+		)
 	}
 
 	const RectBtnLg = (props) =>
@@ -110,7 +152,7 @@ export default function Home2(props) {
 		)
 	}
 
-	const RectBtnMd = () =>
+	const RectBtnMd = (props) =>
 	{
 		return(
 			<Animatable.View animation="fadeInRight" duration={1500} delay={2000}>
@@ -122,11 +164,11 @@ export default function Home2(props) {
 					elevation: 4,
 				},
 				t.itemsCenter, t.pX2,]} onPress={()=>{}}>
-					<View style={[{height: 80, width: 80}, t.roundedLg, t.bgGray600]} />
+					<Image source={props.img} style={[{height: 80, width: 80}, t.roundedLg, t.bgGray600]} />
 					<View style={[t.hFull, t.itemsCenter, t.pY4, t.flex, t.flexCol]}>
-						<Text style={[{fontFamily: "Kodchasan_light", fontSize: 14}]}>Title</Text>
+						<Text style={[{fontFamily: "Kodchasan_light", fontSize: 14}]}>{props.title}</Text>
 						<View style={[t.pL3]}>
-							<Text style={[{fontFamily: "Kodchasan_light", color: "#00000080", fontSize: 12}]}>Desc</Text>
+							<Text style={[{fontFamily: "Kodchasan_light", color: "#00000080", fontSize: 12}]}>{props.desc}</Text>
 						</View>
 					</View>
 				</TouchableOpacity>
@@ -203,36 +245,17 @@ export default function Home2(props) {
 					
 					<Animatable.View animation="fadeInUp" duration={1500}>
 						<Text style={[{fontFamily: "Kodchasan_medium", fontSize: 16, marginTop: 20, marginLeft: 20}]}>Featured stores</Text>
-						<ScrollView style={[t.wFull, t.flex, t.flexRow, {marginLeft: 5}]} horizontal={true} showsHorizontalScrollIndicator={false} >
-							<RectBtnLg bg="https://upload.wikimedia.org/wikipedia/commons/a/a2/Mon_Ami_Boulangerie_%288119944759%29.jpg"
-								front="https://t4.ftcdn.net/jpg/03/31/93/85/360_F_331938599_nmkc39B7E74s1G5P01b0YCJ6x0MNMqJz.jpg" />
-
-							<RectBtnLg bg="https://vernsglass.com/wp-content/uploads/2019/09/Commercial-Storefronts.jpg"
-								front="https://images-platform.99static.com//6m2oEkLGOcAM-NspjIsGTF_x0do=/992x996:1866x1870/fit-in/500x500/projects-files/81/8156/815645/5513ffc1-e979-45e3-9684-6b725aa4df71.jpg" />
-
-							<RectBtnLg bg="https://images.unsplash.com/photo-1528698827591-e19ccd7bc23d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8c3RvcmVmcm9udHxlbnwwfHwwfHw%3D&w=1000&q=80"
-								front="https://www.logodesign.net/logo-new/basket-with-grocery-store-items-9065ld.png?industry=grocery-shop" />
-
-							<RectBtnLg bg="https://upload.wikimedia.org/wikipedia/commons/a/a2/Mon_Ami_Boulangerie_%288119944759%29.jpg"
-								front="https://t4.ftcdn.net/jpg/03/31/93/85/360_F_331938599_nmkc39B7E74s1G5P01b0YCJ6x0MNMqJz.jpg" />
-						</ScrollView>
+						{(featuredStores.length != 0) ? listStores() : <></>}
 					</Animatable.View>
 
 					<Animatable.View animation="fadeInRight" duration={1500}>
 						<Text style={[{fontFamily: "Kodchasan_medium", fontSize: 16, marginTop: 30, marginLeft: 20}]}>Categories</Text>
-						<ScrollView style={[t.wFull, t.flex, t.flexRow, {marginLeft: 5}]} horizontal={true} showsHorizontalScrollIndicator={false} >
-							<RectPillBtn inner="All" />
-							<RectPillBtn inner="Groceries" icon={(<MaterialIcons name="storefront" size={18} color="black" />)}/>
-							<RectPillBtn inner="Restaurants" icon={(<Ionicons name="restaurant-outline" size={18} color="black" />)}/>
-							<RectPillBtn inner="Electronics" icon={(<Ionicons name="phone-portrait-outline" size={18} color="black" />)} />
-						</ScrollView>
+						{(categ.length != 0) ? listCateg() : <></>}
 					</Animatable.View>
 
 					<Animatable.View animation="fadeInRight" duration={1500}>
 						<Text style={[{fontFamily: "Kodchasan_medium", fontSize: 16, marginTop: 20, marginLeft: 20}]}>Featured posts</Text>
-						<ScrollView style={[t.wFull, t.flex, t.flexRow, {marginLeft: 5, marginTop: 10}]} horizontal={true} showsHorizontalScrollIndicator={false} >
-							<RectBtnMd /><RectBtnMd /><RectBtnMd /><RectBtnMd />
-						</ScrollView>
+						{(featuredPosts.length != 0) ? listPosts() : <></>}
 					</Animatable.View>
 
 					<Text style={[{fontFamily: "Kodchasan_medium", fontSize: 16, marginTop: 20, marginLeft: 20}]}>Featured stores</Text>
