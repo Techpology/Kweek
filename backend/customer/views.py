@@ -592,7 +592,7 @@ def get_featured_Posts(request):
 		fs = _g.FeaturedPosts
 		for i in json.loads(fs):
 			vals.append(Post.objects.filter(id = i).all().values()[0])
-		ret = json.dumps(vals)
+		ret = json.dumps(vals, default=str)
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
 

@@ -42,6 +42,7 @@ export default function Home2(props) {
 	{
 		axios.get("utils/featured/categories")
 		.then(resp=>{
+			console.log(resp.data);
 			setCateg(resp.data);
 		}).catch(err=>{
 			alert(err.message);
@@ -53,6 +54,7 @@ export default function Home2(props) {
 	{
 		axios.get("utils/featured/stores")
 		.then(resp=>{
+			console.log(resp.data);
 			setFeaturedStores(resp.data);
 		}).catch(err=>{
 			alert(err.message);
@@ -64,6 +66,7 @@ export default function Home2(props) {
 	{
 		axios.get("utils/featured/posts")
 		.then(resp=>{
+			console.log(resp.data);
 			setFeaturedPosts(resp.data);
 		}).catch(err=>{
 			alert(err.message);
