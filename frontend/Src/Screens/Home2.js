@@ -30,9 +30,45 @@ export default function Home2(props) {
 	const [_w, set_w] = useState(Dimensions.get("window").width);
 
 	useEffect(()=>{
+		getAppCategories()
+		getFeaturedStores()
+		getFeaturedPosts()
 		getFaveStores()
 		getPosts()
 	},[])
+
+	const [categ, setCateg] = useState([])
+	const getAppCategories = () =>
+	{
+		axios.get("utils/featured/categories")
+		.then(resp=>{
+			setCateg(resp.data);
+		}).catch(err=>{
+			alert(err.message);
+		})
+	}
+
+	const [featuredStores, setFeaturedStores] = useState([])
+	const getFeaturedStores = () =>
+	{
+		axios.get("utils/featured/stores")
+		.then(resp=>{
+			setFeaturedStores(resp.data);
+		}).catch(err=>{
+			alert(err.message);
+		})
+	}
+
+	const [featuredPosts, setFeaturedPosts] = useState([])
+	const getFeaturedPosts = () =>
+	{
+		axios.get("utils/featured/posts")
+		.then(resp=>{
+			setFeaturedPosts(resp.data);
+		}).catch(err=>{
+			alert(err.message);
+		})
+	}
 
 	const RectBtnLg = (props) =>
 	{
