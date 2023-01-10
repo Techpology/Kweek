@@ -605,3 +605,11 @@ def get_app_categories(request):
 		ret = json.dumps(_g["Categories"])
 		return HttpResponse(ret, status=200)
 	return HttpResponse("Invalid request", status=409)
+
+def change_city(request):
+	if(request.method == "POST"):
+		req = requestHandler.extractRequest(request)
+		request.session["account"]["city"] = req["city"]
+
+		return HttpResponse(status=200)
+	return HttpResponse("Invalid request", status=409)

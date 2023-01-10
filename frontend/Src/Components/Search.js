@@ -15,6 +15,7 @@ export default function Search(props) {
 				</View>
 				
 				<TextInput secureTextEntry={props.secure}
+					onFocus={()=>{props.onFocus()}}
 					style={[t.wFull, t.bgWhite,
 					{
 						borderRadius: 10,

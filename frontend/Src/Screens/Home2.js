@@ -17,6 +17,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons'; 
 import { AntDesign } from '@expo/vector-icons'; 
 import { Ionicons } from '@expo/vector-icons'; 
+import { FontAwesome } from '@expo/vector-icons'; 
 
 import Art_LightTop from "../Images/Art_LightTop"
 
@@ -35,6 +36,7 @@ export default function Home2(props) {
 		getFeaturedPosts()
 		getFaveStores()
 		getPosts()
+		getStores()
 	},[])
 
 	const [categ, setCateg] = useState([])
@@ -77,7 +79,7 @@ export default function Home2(props) {
 	{
 		const ret = featuredStores.map((i, key)=>(
 			<RectBtnLg bg={axios.defaults.baseURL + i["banner"]}
-				front={axios.defaults.baseURL + i["pfp"]} />
+				front={axios.defaults.baseURL + i["pfp"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} />
 		))
 
 		return(
@@ -126,7 +128,7 @@ export default function Home2(props) {
 					shadowOffset: {width: 0, height: 0},
 					shadowRadius: 8,
 					elevation: 4,
-				}]} onPress={()=>{}}>
+				}]} onPress={()=>{props.trigger()}}>
 					<Image style={[t.hFull, t.wFull, {borderRadius: 10}]} source={{uri: props.bg}} />
 					<Image style={[{height: 80, width: 80}, t.absolute, t.roundedFull, t.bgWhite]} 
 					source={{uri: props.front}} />
@@ -228,33 +230,85 @@ export default function Home2(props) {
 		})
 	}
 
+	const [stores, setStores] = useState([])
+	const getStores = (x="*") =>
+	{
+		axios.get("customer/get/stores/at/location", {type: x})
+		.then(resp=>{
+			console.log(resp.data);
+			setStores(resp.data);
+		}).catch(err=>{
+			console.log(err.message);
+		})
+	}
+
+	const changeCity = (x) =>
+	{
+		axios.post("customer/set/city/", {city: x})
+		.then(resp=>{
+			console.log(resp.status)
+		}).catch(err=>{
+			alert(err.message)
+		})
+	}
+
 	const [pageIndex, setPageIndex] = useState(0)
+	const [pageSearch, setPageSearch] = useState(false)
 	const flow = () =>
 	{
 		if(pageIndex == 0)
 		{
+			const ret = stores.map((i, key) =>{
+				return(
+					<RectBtnLg bg={axios.defaults.baseURL + i["banner"]}
+						front={axios.defaults.baseURL + i["pfp"]} trigger={()=>{props.navigation.navigate("StorePage", {id: i["id"]})}} />
+				)
+			})
+
 			return(
 				<ScrollView style={[{paddingBottom: 90}]}>
-					<Animatable.Text style={[{fontFamily: "Kodchasan_semiBold", fontSize: 24, marginTop: 40, marginLeft: 20}]} animation="fadeInLeft">
+					<Animatable.Text style={[{fontFamily: "Kodchasan_semiBold", fontSize: (pageSearch) ? 10 : 24, marginTop: 40, marginLeft: 20}]} animation={(pageSearch) ? "fadeOutUp" : "fadeInLeft"}>
 						Where would you like{"\n"}to shop today
 					</Animatable.Text>
-					
-					<Animatable.View animation="fadeInUp" duration={1500}>
-						<Search placeholder="Search"/>
-						<TouchableOpacity><Text style={[{fontFamily: "Kodchasan_light", fontSize: 14}, t.selfEnd, t.mR10]}>Change city</Text></TouchableOpacity>
+
+					<Animatable.View animation={(pageSearch) ? "fadeInLeft" : "fadeOutLeft"} style={[t.absolute, t.top0, t.wFull, t.p4, {
+						shadowColor: 'rgba(0, 0, 0, 0.6)',
+						shadowOffset: {width: 0, height: 0},
+						shadowRadius: 8,
+						elevation: 4,
+					}]}>
+						<TouchableOpacity onPress={()=>{setPageSearch(false)}} style={[{width: 50, height: 50}, t.bgWhite, t.roundedFull, t.flex, t.itemsCenter, t.justifyCenter]}>
+							<FontAwesome name="angle-left" size={30} color="black" />
+						</TouchableOpacity>
 					</Animatable.View>
 					
-					<Animatable.View animation="fadeInUp" duration={1500}>
+					<Animatable.View animation="fadeInUp" duration={(pageSearch) ? 0 : 1500} >
+						<Search placeholder="Search" onFocus={()=>{getStores(); setPageSearch(true)}}/>
+						<TouchableOpacity><Text style={[{fontFamily: "Kodchasan_light", fontSize: 14}, t.selfEnd, t.mR10]}>Change city</Text></TouchableOpacity>
+					</Animatable.View>
+
+					{
+						(pageSearch) ?
+						<ScrollView style={[t.wFull, t.hFull, t.pX5, t.mT8]}>
+							<View style={[t.flex, t.flexRow, t.flexWrap, t.justifyEvenly]}>
+								{ret}
+							</View>
+						</ScrollView>
+						:
+						<></>
+					}
+					
+					<Animatable.View animation={(pageSearch) ? "fadeOutLeft" : "fadeInUp"} duration={(pageSearch) ? 0 : 1500}>
 						<Text style={[{fontFamily: "Kodchasan_medium", fontSize: 16, marginTop: 20, marginLeft: 20}]}>Featured stores</Text>
 						{(featuredStores.length != 0) ? listStores() : <></>}
 					</Animatable.View>
 
-					<Animatable.View animation="fadeInRight" duration={1500}>
+					<Animatable.View animation={(pageSearch) ? "fadeOutLeft" : "fadeInUp"} duration={(pageSearch) ? 0 : 1500}>
 						<Text style={[{fontFamily: "Kodchasan_medium", fontSize: 16, marginTop: 30, marginLeft: 20}]}>Categories</Text>
 						{(categ.length != 0) ? listCateg() : <></>}
 					</Animatable.View>
 
-					<Animatable.View animation="fadeInRight" duration={1500}>
+					<Animatable.View animation={(pageSearch) ? "fadeOutLeft" : "fadeInUp"} duration={(pageSearch) ? 0 : 1500}>
 						<Text style={[{fontFamily: "Kodchasan_medium", fontSize: 16, marginTop: 20, marginLeft: 20}]}>Featured posts</Text>
 						{(featuredPosts.length != 0) ? listPosts() : <></>}
 					</Animatable.View>
@@ -343,7 +397,7 @@ export default function Home2(props) {
 	return (
 		<SafeAreaView style={[{backgroundColor: "#F6F6F6"}, t.flex, t.flexCol, t.wFull, t.hFull]}>
 
-			<TouchableOpacity style={[t.absolute, t.flex, t.itemsCenter, t.justifyCenter, t.bgWhite, t.p4, t.roundedFull, {bottom: 100}, t.z20, t.right0, t.mR4,
+			<TouchableOpacity style={[t.absolute, t.flex, t.itemsCenter, t.justifyCenter, t.bgWhite, t.p4, t.roundedFull, {bottom: (pageSearch) ? 40 : 100}, t.z20, t.right0, t.mR4,
 			{
 				shadowColor: 'rgba(0, 0, 0, 0.4)',
 				shadowOffset: {width: 0, height: 2},
@@ -353,24 +407,26 @@ export default function Home2(props) {
 					<Ionicons name="md-cart-outline" size={24} color="black" />
 			</TouchableOpacity>
 			
-			<BlurView intensity={90} tint="light" style={[t.wFull, {height: 90}, t.absolute, t.bottom0, t.z40, {backgroundColor: "#ffffffe6"}, t.flex, t.flexRow, t.itemsCenter, t.justifyEvenly]}>
-				<TouchableOpacity style={[t.flex, t.flexCol, t.itemsCenter]} onPress={()=>{setPageIndex(0)}}>
-					<Octicons name="home" size={24} color="black" />
-					<Text style={[{fontFamily: "Kodchasan_light"}]}>Home</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={[t.flex, t.flexCol, t.itemsCenter]} onPress={()=>{getPosts(); setPageIndex(1)}}>
-					<MaterialCommunityIcons name="post-outline" size={24} color="black" />
-					<Text style={[{fontFamily: "Kodchasan_light"}]}>Posts</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={[t.flex, t.flexCol, t.itemsCenter]} onPress={()=>{setPageIndex(2)}}>
-					<AntDesign name="staro" size={24} color="black" />
-					<Text style={[{fontFamily: "Kodchasan_light"}]}>Saved</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={[t.flex, t.flexCol, t.itemsCenter]} onPress={()=>{setPageIndex(3)}}>
-					<Ionicons name="person-outline" size={24} color="black" />
-					<Text style={[{fontFamily: "Kodchasan_light"}]}>Profile</Text>
-				</TouchableOpacity>
-			</BlurView>
+			<Animatable.View animation={(pageSearch) ? "slideOutDown" : "fadeInUp"} style={[{height: 90}, t.wFull, t.absolute, t.bottom0, t.z40]}>
+				<BlurView intensity={90} tint="light" style={[t.wFull, {height: 90}, t.absolute, t.bottom0, t.z40, {backgroundColor: "#ffffffe6"}, t.flex, t.flexRow, t.itemsCenter, t.justifyEvenly]}>
+					<TouchableOpacity style={[t.flex, t.flexCol, t.itemsCenter]} onPress={()=>{setPageIndex(0)}}>
+						<Octicons name="home" size={24} color="black" />
+						<Text style={[{fontFamily: "Kodchasan_light"}]}>Home</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={[t.flex, t.flexCol, t.itemsCenter]} onPress={()=>{getPosts(); setPageIndex(1)}}>
+						<MaterialCommunityIcons name="post-outline" size={24} color="black" />
+						<Text style={[{fontFamily: "Kodchasan_light"}]}>Posts</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={[t.flex, t.flexCol, t.itemsCenter]} onPress={()=>{setPageIndex(2)}}>
+						<AntDesign name="staro" size={24} color="black" />
+						<Text style={[{fontFamily: "Kodchasan_light"}]}>Saved</Text>
+					</TouchableOpacity>
+					<TouchableOpacity style={[t.flex, t.flexCol, t.itemsCenter]} onPress={()=>{setPageIndex(3)}}>
+						<Ionicons name="person-outline" size={24} color="black" />
+						<Text style={[{fontFamily: "Kodchasan_light"}]}>Profile</Text>
+					</TouchableOpacity>
+				</BlurView>
+			</Animatable.View>
 
 			{flow()}
 

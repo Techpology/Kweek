@@ -51,6 +51,8 @@ from customer.views import get_fave_stores
 from customer.views import get_posts
 from customer.views import like_post
 
+from customer.views import change_city
+
 # Store
 from store.views import get_store_details
 from store.views import set_store_details
@@ -112,6 +114,8 @@ urlpatterns = [
     path("customer/like/post/", like_post),
     
     path("customer/set/expo_notification_token/", setExpoNoticationToken),
+
+    path("customer/set/city/", change_city),
 
     # Store
     path("store/details", get_store_details),
